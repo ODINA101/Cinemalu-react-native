@@ -4,17 +4,30 @@ import TabNav from "./TabNav"
 import MainScreen from "./MainScreen"
 import CalendarPage from "./CalendarComponents"
 import Account from "./Account"
-export default class HomeScreen extends Component {
- constructor() {
-   super()
+import {connect} from "react-redux"
+import * as Actions from "./Actions"
+import { bindActionCreators } from 'redux';
+
+class HomeScreen extends Component {
+ constructor(props) {
+   super(props)
 
 this.state = {
-  page:"Account"
+  page:"Movies"
 }
  this.tabChange = this.tabChange.bind(this)
-
+//this.props.red();
+console.log(this.props)
+this.props.actions.GetAllMovies()
  }
 
+
+ // componentWillReceiveProps(nextProps) {
+ //   if (nextProps.nowPlayingMovies && nextProps.popularMovies) {
+ //     this.setState({ isLoading: false });
+ //   }
+ // }
+ //
  tabChange(item) {
    this.setState({page:item.name})
  console.log(item.name)
@@ -44,7 +57,7 @@ switch (this.state.page) {
        <View style={{flex:1}}>
  {
     this.rend()
-}
+ }
       <TabNav onTabClick={(item)=> this.tabChange(item)} />
 
 
@@ -52,3 +65,18 @@ switch (this.state.page) {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    redux:state
+  }
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions:bindActionCreators(Actions,dispatch)
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomeScreen)

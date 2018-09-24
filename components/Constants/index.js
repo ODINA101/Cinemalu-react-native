@@ -1,0 +1,3 @@
+export const TEST = "TEST";
+export const GETALLMOVIES = "GETALLMOVIES";
+export const GETALLMOVIESSUCCESS = "GETALLMOVIESSUCCESS";
