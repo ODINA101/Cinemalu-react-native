@@ -1,15 +1,29 @@
-import {TEST,GETALLMOVIESSUCCESS} from "../Constants"
+import {TEST,REGISTERSUCCESS,REGISTERINVALID,LOADER} from "../Constants"
 
 const InitialState = {
+  msg:"",
+  loading:false
 }
 
 
 
 export default (state=InitialState,action) => {
  switch (action.type) {
- case TEST:
-   console.log(TEST)
-   return state;
+ case REGISTERSUCCESS:
+   return {
+     ...state,
+     msg:"success"
+   }
+ case LOADER:
+   return {
+     ...state,
+     loading:action.payload
+   }
+ case REGISTERINVALID:
+   return {
+     ...state,
+     msg:action.payload.data.message
+   };
 
  default:
   return state;

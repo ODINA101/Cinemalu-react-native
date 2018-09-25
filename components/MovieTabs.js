@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableHighlight  } from 'react-native';
+import { Text, View,  } from 'react-native';
+import Touchable from 'react-native-platform-touchable';
 
 
 
@@ -38,11 +39,11 @@ export default class MovieTabs extends Component {
 
             ):(
 
-        <TouchableHighlight  style={{flex:1,flexDirection:"row",alignItems:"center",justifyContent:"center"}} onPress={() => { this.onValueChange("key0")}}>
+        <Touchable  style={{flex:1,flexDirection:"row",alignItems:"center",justifyContent:"center"}} onPress={() => { this.onValueChange("key0")}}>
         <Text>
         All movies
         </Text>
-        </TouchableHighlight >
+        </Touchable>
 
 
       )
@@ -55,9 +56,9 @@ export default class MovieTabs extends Component {
           <Text  style={{color:"#FFF"}}>My movies</Text>
            </View>
             ):(
-                <TouchableHighlight  onPress={() => this.onValueChange("key1") } style={{flex:1,flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                <Touchable  onPress={() => this.onValueChange("key1") } style={{flex:1,flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
         <Text>My movies</Text>
-        </TouchableHighlight >
+        </Touchable>
               )
         }
 

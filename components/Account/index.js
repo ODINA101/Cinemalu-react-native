@@ -53,7 +53,7 @@ export default class Account extends Component {
     </View>
     );
   }else{
-   return <Reg />
+   return <Reg  back={() => this.setState({loginPage:true})}/>
   }
 
   }

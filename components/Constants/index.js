@@ -1,3 +1,14 @@
 export const TEST = "TEST";
+export const LOGIN = "LOGIN";
+export const LOGINSUCCESS = "LOGINSUCCESS";
+export const LOGININVALID = "LOGININVALID";
+
+export const REGISTER = "REGISTER";
+export const REGISTERSUCCESS = "REGISTERSUCCESS";
+export const REGISTERINVALID = "REGISTERINVALID";
+
+
 export const GETALLMOVIES = "GETALLMOVIES";
 export const GETALLMOVIESSUCCESS = "GETALLMOVIESSUCCESS";
+
+export const LOADER = "LOADER";

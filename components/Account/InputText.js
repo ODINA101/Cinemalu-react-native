@@ -14,7 +14,7 @@ export default class InputText extends Component {
 
     return (
       <View style={[{borderBottomWidth:1,borderColor:"#B9B9B9"},this.props.style]}>
-      <TextInput placeholder={placeholder} style={{padding:8}} secureTextEntry={secureTextEntry}/>
+      <TextInput onChangeText={(e) => this.props.onTextChange(e)} placeholder={placeholder} style={{padding:8}} secureTextEntry={secureTextEntry}/>
      </View>
     );
   }
