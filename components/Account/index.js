@@ -9,30 +9,71 @@ import {
 import Reg from "./reg"
 import Touchable from "react-native-platform-touchable"
 import InputText from "./InputText"
-export default class Account extends Component {
+import {connect} from "react-redux"
+import {bindActionCreators} from 'redux';
+import * as Actions from "../Actions";
+import Loader from "react-native-modal-loader"
+import EmailConfirm from "./EmailConfirm"
+
+
+class Account extends Component {
 
   constructor() {
    super()
 
    this.state = {
-     loginPage:false
+     loginPage:true,
+     username:'',
+     password:''
    }
 
   }
 
+Login() {
+this.props.actions.Login(this.state.username,this.state.password)
+}
+
+EmailConfirm() {
+console.log("confirm")
+}
+
 
   render() {
+    const {redux,actions} = this.props;
     if(this.state.loginPage) {
     return (
       <View style={styles.container}>
       <View style={{padding:20}}>
       <Text style={{paddingLeft:8,color:"#6A6A6A",fontSize:20}}>Sign in</Text>
       </View>
-      <View style={{flex:1,height:350,paddingLeft:20,paddingRight:20}}>
-      <InputText placeholder="Email"  />
-      <InputText placeholder="Password"  secureTextEntry={true}/>
+      {
+      redux.Auth.loading?(
+        <Loader loading={true} color="#ff66be" />
+      ):(<View />)
+    }
 
-    <Touchable style={{marginTop:20,height:50,backgroundColor: "#4B4B4B",justifyContent: 'center',alignItems: 'center'}}>
+      <View style={{flex:1,height:350,paddingLeft:20,paddingRight:20}}>
+      <InputText onTextChange={(e) => this.setState({username:e})} placeholder="Email"  />
+      <InputText onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
+      {
+           redux.Auth.loginMsg?(
+             <Text style={{color:"#F35682",fontWeight: 'bold'}}>{redux.Auth.loginMsg}</Text>
+
+           ):(
+            <View/>
+           )
+         }
+       {
+
+         redux.Auth.loginMsg == "Account is not verified"?(
+           <View>
+           <Text style={{color:"#F35682",fontWeight: 'bold'}}>Account need verification, click </Text> <Touchable onPress={()=> this.EmailConfirm()}> <Text style={{color:"#3850C9"}}>here</Text></Touchable><Text> to resend email</Text>
+           </View>
+         ):(<View/>)
+
+       }
+
+    <Touchable onPress={() => this.Login()} style={{marginTop:20,height:50,backgroundColor: "#4B4B4B",justifyContent: 'center',alignItems: 'center'}}>
     <Text style={{color:"#FFF"}}>Sign In</Text>
     </Touchable>
 
@@ -56,7 +97,8 @@ export default class Account extends Component {
    return <Reg  back={() => this.setState({loginPage:true})}/>
   }
 
-  }
+
+}
 }
 
 const styles = StyleSheet.create({
@@ -65,3 +107,20 @@ const styles = StyleSheet.create({
     paddingTop:10
   },
 });
+
+
+
+function mapStateToProps(state) {
+  return {
+    redux:state
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions:bindActionCreators(Actions,dispatch)
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Account)

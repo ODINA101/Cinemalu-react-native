@@ -68,9 +68,9 @@ register() {
   render() {
 
     const {redux,actions} = this.props;
-    if(redux.Auth.msg !== "success") {
+    if(redux.Auth.msg == "success") {
        return (
-         <EmailConfirm />
+         <EmailConfirm email={this.state.email} password={this.state.password}  back={() => this.props.back()}/>
        )
     }else{
     return (

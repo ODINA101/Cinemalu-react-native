@@ -1,4 +1,13 @@
-import {TEST,GETALLMOVIES,GETALLMOVIESSUCCESS,REGISTER,REGISTERSUCCESS,REGISTERINVALID,LOADER} from "../Constants"
+import {TEST,
+	GETALLMOVIES,
+	GETALLMOVIESSUCCESS,
+	REGISTER,
+	REGISTERSUCCESS,
+	REGISTERINVALID,
+	LOADER,
+  LOGININVALID,
+  LOGINSUCCESS
+} from "../Constants"
 import axios from 'axios';
 
 export function testfun(res) {
@@ -34,10 +43,28 @@ export function RegInvalid(res) {
 
 
 
+export function LoginSuccess(res) {
+	console.log(res)
+	return {
+		type:LOGINSUCCESS,
+		payload:res
+	}
+}
+
+
+export function LoginInvalid(res) {
+	return {
+		type:LOGININVALID,
+		payload:res
+	}
+}
+
+
+
+
 export function GetAllMovies() {
 
 return function (dispatch) {
-
   return axios.get("https://api.cinemalu.com/api/movies/search/0/6/")
   .then(res => {
     dispatch(GetAllMoviesSuccess(res))
@@ -48,7 +75,27 @@ return function (dispatch) {
 
 
 
+export function Login(Email,password) {
+	return function(dispatch) {
+		dispatch({type:LOADER,payload:true})
 
+	  return axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/account/login",
+	{
+		username:Email,
+		password
+	}).then(res => {
+		dispatch(LoginSuccess(res))
+		dispatch({type:LOADER,payload:false})
+	}).catch(error => {
+		console.log(error.response)
+		dispatch(LoginInvalid(error.response))
+  dispatch({type:LOADER,payload:false})
+
+	})
+
+
+	}
+}
 
 
 export function Reg(email,firstName,lastName,loginID,password) {
@@ -62,6 +109,7 @@ export function Reg(email,firstName,lastName,loginID,password) {
 		 loginID,
 		 password
 	 }).then(res => {
+		 console.log(res)
 		 dispatch(RegSuccess(res))
 		 dispatch({type:LOADER,payload:false})
 

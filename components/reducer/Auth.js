@@ -1,14 +1,38 @@
-import {TEST,REGISTERSUCCESS,REGISTERINVALID,LOADER} from "../Constants"
+import {TEST,
+  GETALLMOVIES,
+	GETALLMOVIESSUCCESS,
+	REGISTER,
+	REGISTERSUCCESS,
+	REGISTERINVALID,
+	LOADER,
+  LOGININVALID,
+  LOGINSUCCESS} from "../Constants"
 
 const InitialState = {
   msg:"",
-  loading:false
+  loginMsg:"",
+  loading:false,
+  userID:""
 }
 
 
 
 export default (state=InitialState,action) => {
  switch (action.type) {
+ case LOGINSUCCESS:
+   return {
+     ...state,
+     loginMsg:"success"
+   }
+
+case LOGININVALID:
+ return {
+   ...state,
+   loginMsg:action.payload.data.message,
+   userID:action.payload.data.userID
+
+ }
+
  case REGISTERSUCCESS:
    return {
      ...state,
