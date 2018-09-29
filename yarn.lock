@@ -4197,6 +4197,10 @@ react-native-screens@^1.0.0-alpha.10:
   version "1.0.0-alpha.10"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.10.tgz#3e22e57592ad8050a8ebcc789d2d3da4dd5e94d9"
 
+react-native-snackbar@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-0.5.1.tgz#0bacd0a6a1fef6ae3215cac5369d754e273ffdb5"
+
 react-native-super-grid@^2.4.1:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-2.4.3.tgz#ceeaa4515de7bdb2e3cc3f810009e1adbbadd40b"

@@ -21,6 +21,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Entypo from "react-native-vector-icons/Entypo"
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import Icon from "../CustomIcon"
+
 import Ionicons from "react-native-vector-icons/Ionicons"
 class Reg extends Component {
 constructor(props) {
@@ -69,6 +70,7 @@ register() {
 
 
   render() {
+
 
     const {redux,actions} = this.props;
     if(redux.Auth.msg == "success") {
@@ -154,7 +156,8 @@ register() {
     </ScrollView>
     );
   }
-  }
+
+}
 }
 
 const styles = StyleSheet.create({

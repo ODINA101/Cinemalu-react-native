@@ -17,7 +17,7 @@ import EmailConfirm from "./EmailConfirm"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-
+import Forgot from "./Forgot"
 
 
 import Icon from "../CustomIcon"
@@ -29,7 +29,8 @@ class Account extends Component {
    this.state = {
      loginPage:true,
      username:'',
-     password:''
+     password:'',
+     forgot:false
    }
 
   }
@@ -46,6 +47,9 @@ console.log("confirm")
   render() {
     const {redux,actions} = this.props;
     if(this.state.loginPage) {
+      if(this.state.forgot) {
+        return <Forgot back={() => this.setState({forgot:false})}/>
+      }else{
     return (
       <View style={styles.container}>
       <View style={{padding:20}}>
@@ -59,7 +63,7 @@ console.log("confirm")
 
       <View style={{flex:1,height:350,paddingLeft:20,paddingRight:20}}>
       <InputText IconCenter IconType={Icon} size={20} IconName="email" onTextChange={(e) => this.setState({username:e})} placeholder="Email"  />
-      <InputText IconType={EvilIcons} size={30}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
+      <InputText IconType={EvilIcons} size={35}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
       {
            redux.Auth.loginMsg?(
              <Text style={{color:"#F35682",fontWeight: 'bold'}}>{redux.Auth.loginMsg}</Text>
@@ -91,13 +95,16 @@ console.log("confirm")
   <View>
   <Text>|</Text>
   </View>
-  <View>
+  <Touchable onPress={()=>{this.setState({forgot:true})}}>
   <Text style={{fontFamily:"Lato-Medium"}}>Forgot password?</Text>
+  </Touchable>
   </View>
   </View>
-    </View>
-    </View>
+  </View>
     );
+  }
+
+
   }else{
    return <Reg  back={() => this.setState({loginPage:true})}/>
   }

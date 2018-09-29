@@ -43,6 +43,10 @@ componentWillMount() {
     return (
 
             <View style={{flex:1,backgroundColor:"#393636"}}>
+            <View style={{height:50,elevation:5,backgroundColor:"#393636",justifyContent: 'center',paddingLeft:10}}>
+
+              <Feather size={25} color="#FFF" name="search" />
+          </View>
             <ScrollView style={{flex:1}}
 
             onScroll={({nativeEvent}) => {
@@ -71,7 +75,6 @@ componentWillMount() {
              }}
             >
 
-              <Feather size={25} color="#FFF" name="search" style={{marginTop:40,marginLeft:10}}/>
               <View style={{width:SCREEN_WIDTH,height:50,flexDirection:"row",justifyContent:"center",marginTop:20}}>
                <MovieTabs />
              </View>
