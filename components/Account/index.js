@@ -14,8 +14,13 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions";
 import Loader from "react-native-modal-loader"
 import EmailConfirm from "./EmailConfirm"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import EvilIcons from "react-native-vector-icons/EvilIcons"
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 
 
+
+import Icon from "../CustomIcon"
 class Account extends Component {
 
   constructor() {
@@ -44,7 +49,7 @@ console.log("confirm")
     return (
       <View style={styles.container}>
       <View style={{padding:20}}>
-      <Text style={{paddingLeft:8,color:"#6A6A6A",fontSize:20}}>Sign in</Text>
+      <Text style={{paddingLeft:8,color:"#6A6A6A",fontSize:20,fontFamily:"Lato-Medium"}}>Sign in</Text>
       </View>
       {
       redux.Auth.loading?(
@@ -53,8 +58,8 @@ console.log("confirm")
     }
 
       <View style={{flex:1,height:350,paddingLeft:20,paddingRight:20}}>
-      <InputText onTextChange={(e) => this.setState({username:e})} placeholder="Email"  />
-      <InputText onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
+      <InputText IconCenter IconType={Icon} size={20} IconName="email" onTextChange={(e) => this.setState({username:e})} placeholder="Email"  />
+      <InputText IconType={EvilIcons} size={30}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
       {
            redux.Auth.loginMsg?(
              <Text style={{color:"#F35682",fontWeight: 'bold'}}>{redux.Auth.loginMsg}</Text>
@@ -67,27 +72,27 @@ console.log("confirm")
 
          redux.Auth.loginMsg == "Account is not verified"?(
            <View>
-           <Text style={{color:"#F35682",fontWeight: 'bold'}}>Account need verification, click </Text> <Touchable onPress={()=> this.EmailConfirm()}> <Text style={{color:"#3850C9"}}>here</Text></Touchable><Text> to resend email</Text>
+           <Text style={{color:"#F35682",fontWeight: 'bold',fontFamily:"Lato-Medium"}}>Account need verification, click </Text> <Touchable onPress={()=> this.EmailConfirm()}> <Text style={{color:"#3850C9"}}>here</Text></Touchable><Text> to resend email</Text>
            </View>
          ):(<View/>)
 
        }
 
     <Touchable onPress={() => this.Login()} style={{marginTop:20,height:50,backgroundColor: "#4B4B4B",justifyContent: 'center',alignItems: 'center'}}>
-    <Text style={{color:"#FFF"}}>Sign In</Text>
+    <Text style={{color:"#FFF",fontFamily:"Lato-Medium"}}>Sign In</Text>
     </Touchable>
 
   <View style={{height:70,flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center'}}>
   <Touchable onPress={() => {
     this.setState({loginPage:false})
   }}>
-  <Text>Register now</Text>
+  <Text style={{fontFamily:"Lato-Medium"}}>Register now</Text>
   </Touchable>
   <View>
   <Text>|</Text>
   </View>
   <View>
-  <Text>Forgot password?</Text>
+  <Text style={{fontFamily:"Lato-Medium"}}>Forgot password?</Text>
   </View>
   </View>
     </View>

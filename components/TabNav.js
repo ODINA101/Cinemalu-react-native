@@ -53,12 +53,12 @@ constructor(props) {
 rend(icon,iconName) {
   if(icon == "MaterialIcons") {
     return(
-      <MaterialIcons size={35} color="#9B9B9B" name={iconName}/>
+      <MaterialIcons size={30} color="#9B9B9B" name={iconName}/>
 
     )
   }else{
   return(
-    <MaterialCommunityIcons size={35} color="#9B9B9B" name={iconName}/>
+    <MaterialCommunityIcons size={30} color="#9B9B9B" name={iconName}/>
 
   )
 }

@@ -15,10 +15,13 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions";
 import Loader from "react-native-modal-loader"
 import {validate} from "email-validator"
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import EmailConfirm from "./EmailConfirm"
-
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import Entypo from "react-native-vector-icons/Entypo"
+import EvilIcons from "react-native-vector-icons/EvilIcons"
+import Icon from "../CustomIcon"
+import Ionicons from "react-native-vector-icons/Ionicons"
 class Reg extends Component {
 constructor(props) {
   super(props);
@@ -83,25 +86,25 @@ register() {
       <View style={{padding:20}}>
       <View style={{height:50}}>
         <Touchable onPress={() => this.props.back()}>
-      <MaterialIcons size={30} color="#000" name="arrow-back"/>
+      <Ionicons size={30} color="#000" name="ios-arrow-back"/>
       </Touchable>
       </View>
-      <Text style={{paddingLeft:8,color:"#6A6A6A",fontSize:20}}>Register now</Text>
+      <Text style={{paddingLeft:8,color:"#6A6A6A",fontSize:20,fontFamily:"Lato-Medium"}}>Register now</Text>
       </View>
       <View style={{flex:1,height:370,paddingLeft:20,paddingRight:20}}>
-      <InputText placeholder="First name" onTextChange={(e) => this.setState({firstName:e})} />
+      <InputText IconType={EvilIcons} IconName="user" size={30} placeholder="First name" onTextChange={(e) => this.setState({firstName:e})} />
       <View style={{height:20}}/>
-      <InputText placeholder="Last name" onTextChange={(e) => this.setState({lastName:e})}/>
-      <View style={{height:20}}/>
-
-      <InputText onTextChange={(e) => this.setState({loginID:e})} placeholder="Username" />
+      <InputText  IconType={EvilIcons} IconName="user" size={30} placeholder="Last name" onTextChange={(e) => this.setState({lastName:e})}/>
       <View style={{height:20}}/>
 
-      <InputText onTextChange={(e) => this.setState({email:e})} placeholder="Email" />
+      <InputText  IconType={Icon} IconName="at"  onTextChange={(e) => this.setState({loginID:e})} placeholder="Username" />
+      <View style={{height:20}}/>
+
+      <InputText   IconType={Icon} size={20} IconName="email"   onTextChange={(e) => this.setState({email:e})} placeholder="Email" />
        {
          this.state.emailInvalid?(
            <View style={{paddingLeft:8}}>
-<Text style={{color:"#F35682",fontWeight: 'bold'}}>Email is Invalid!</Text>
+<Text style={{color:"#F35682",fontWeight: 'bold',fontFamily:"Lato-Medium"}}>Email is Invalid!</Text>
 </View>
 
 ):(<View/>)
@@ -110,15 +113,15 @@ register() {
 
       <View style={{height:50,flexDirection: 'row'}}>
 
-      <InputText onTextChange={(e) => this.setState({password:e})} placeholder="Password" style={{flex:1,marginRight:5}} secureTextEntry={true}/>
+      <InputText IconType={EvilIcons} size={30} IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password" style={{flex:1,marginRight:5}} secureTextEntry={true}/>
 
-      <InputText onTextChange={(e) => this.setState({passwordConfirm:e})} placeholder="Confirm Password" style={{flex:1,marginLeft:5}}  secureTextEntry={true}/>
+      <InputText IconType={EvilIcons} size={30} IconName="lock"  onTextChange={(e) => this.setState({passwordConfirm:e})} placeholder="Confirm Password" style={{flex:1,marginLeft:5}}  secureTextEntry={true}/>
       </View>
       <View style={{height:4}}/>
     {
       this.state.passwordError?(
         <View style={{paddingLeft:8}}>
-<Text style={{color:"#F35682",fontWeight: 'bold'}}>{this.state.passwordError}</Text>
+<Text style={{color:"#F35682",fontWeight: 'bold',fontFamily:"Lato-Medium"}}>{this.state.passwordError}</Text>
  </View>
 
 ):(
@@ -138,10 +141,12 @@ register() {
      }
 
      <Touchable onPress={() => this.register()} style={{marginTop:20,height:50,backgroundColor: "#4B4B4B",justifyContent: 'center',alignItems: 'center'}}>
-     <Text style={{color:"#FFF"}} >Create a free account</Text>
+     <Text style={{color:"#FFF",fontFamily:"Lato-Medium"}} >Create a free account</Text>
      </Touchable>
      <View style={{height:8}}/>
-     <Text>By clicking 'Create a Free Account',you agree that you are older than 13 yrs and you agree to our Terms and Conditions.</Text>
+     <View style={{alignItems: 'center'}}>
+     <Text style={{fontFamily:"Lato-Medium",textAlign: 'center'}}>By clicking 'Create a Free Account',you agree that you are older than 13 yrs and you agree to our Terms and Conditions.</Text>
+     </View>
     </View>
 
 
