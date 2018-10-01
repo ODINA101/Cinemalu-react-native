@@ -1,12 +1,12 @@
 import {TEST,
-  GETALLMOVIES,
-	GETALLMOVIESSUCCESS,
+  GET_ALL_MOVIES,
+	GET_ALL_MOVIES_SUCCESS,
 	REGISTER,
-	REGISTERSUCCESS,
-	REGISTERINVALID,
+	REGISTER_SUCCESS,
+	REGISTER_INVALID,
 	LOADER,
-  LOGININVALID,
-  LOGINSUCCESS} from "../Constants"
+  LOGIN_INVALID,
+  LOGIN_SUCCESS} from "../Constants"
 
 const InitialState = {
   msg:"",
@@ -19,13 +19,13 @@ const InitialState = {
 
 export default (state=InitialState,action) => {
  switch (action.type) {
- case LOGINSUCCESS:
+ case LOGIN_SUCCESS:
    return {
      ...state,
      loginMsg:"success"
    }
 
-case LOGININVALID:
+case LOGIN_INVALID:
  return {
    ...state,
    loginMsg:action.payload.data.message,
@@ -33,7 +33,7 @@ case LOGININVALID:
 
  }
 
- case REGISTERSUCCESS:
+case REGISTER_SUCCESS:
    return {
      ...state,
      msg:"success"
@@ -43,7 +43,7 @@ case LOGININVALID:
      ...state,
      loading:action.payload
    }
- case REGISTERINVALID:
+ case REGISTER_INVALID:
    return {
      ...state,
      msg:action.payload.data.message

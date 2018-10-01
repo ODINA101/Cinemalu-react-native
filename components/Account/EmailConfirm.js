@@ -9,6 +9,10 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Touchable from 'react-native-platform-touchable';
 import axios from "axios"
+
+
+
+
 export default class EmailConfirm extends Component {
 constructor(props) {
 super(props);

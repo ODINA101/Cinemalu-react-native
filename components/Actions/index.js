@@ -1,12 +1,14 @@
 import {TEST,
-	GETALLMOVIES,
-	GETALLMOVIESSUCCESS,
+	GET_ALL_MOVIES,
+	GET_ALL_MOVIES_SUCCESS,
 	REGISTER,
-	REGISTERSUCCESS,
-	REGISTERINVALID,
+	REGISTER_SUCCESS,
+	REGISTER_INVALID,
 	LOADER,
-  LOGININVALID,
-  LOGINSUCCESS
+  LOGIN_INVALID,
+  LOGIN_SUCCESS,
+	ALL_MOVIES_LOADMORE,
+	ALL_MOVIES_LOAD_MORE_SUCCESS
 } from "../Constants"
 import axios from 'axios';
 
@@ -17,18 +19,24 @@ export function testfun(res) {
 	};
 }
 
+export function getMoreMovies(res) {
+  return {
+    type:ALL_MOVIES_LOAD_MORE_SUCCESS,
+    movies:res.data
+  }
+}
 
 
 export function GetAllMoviesSuccess(res) {
   return {
-    type:GETALLMOVIESSUCCESS,
+    type:GET_ALL_MOVIES_SUCCESS,
     movies:res.data
   }
 }
 
 export function RegSuccess(res) {
 	return {
-		type:REGISTERSUCCESS,
+		type:REGISTER_SUCCESS,
 		payload:res
 	}
 }
@@ -36,7 +44,7 @@ export function RegSuccess(res) {
 
 export function RegInvalid(res) {
 	return {
-		type:REGISTERINVALID,
+		type:REGISTER_INVALID,
 		payload:res
 	}
 }
@@ -46,7 +54,7 @@ export function RegInvalid(res) {
 export function LoginSuccess(res) {
 	console.log(res)
 	return {
-		type:LOGINSUCCESS,
+		type:LOGIN_SUCCESS,
 		payload:res
 	}
 }
@@ -54,7 +62,7 @@ export function LoginSuccess(res) {
 
 export function LoginInvalid(res) {
 	return {
-		type:LOGININVALID,
+		type:LOGIN_INVALID,
 		payload:res
 	}
 }
@@ -72,6 +80,24 @@ return function (dispatch) {
  }
 
 }
+
+
+
+
+export function ALLMOVIESLOADMORE(offsetY,callback) {
+
+return function (dispatch) {
+  return axios.get("https://api.cinemalu.com/api/movies/search/0/" + offsetY + "/")
+  .then(res => {
+    dispatch(getMoreMovies(res))
+		callback()
+  })
+ }
+
+}
+
+
+
 
 
 

@@ -18,6 +18,8 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import Forgot from "./Forgot"
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
+
 
 
 import Icon from "../CustomIcon"
@@ -63,7 +65,7 @@ console.log("confirm")
 
       <View style={{flex:1,height:350,paddingLeft:20,paddingRight:20}}>
       <InputText IconCenter IconType={Icon} size={20} IconName="email" onTextChange={(e) => this.setState({username:e})} placeholder="Email"  />
-      <InputText IconType={EvilIcons} size={35}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
+      <InputText IconType={SimpleLineIcons} size={20}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password"  secureTextEntry={true}/>
       {
            redux.Auth.loginMsg?(
              <Text style={{color:"#F35682",fontWeight: 'bold'}}>{redux.Auth.loginMsg}</Text>

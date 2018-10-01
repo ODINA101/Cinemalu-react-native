@@ -66,7 +66,7 @@ rend(icon,iconName) {
 
   render() {
     return (
-      <View style={{height:80,padding:10,backgroundColor: "#303030",flexDirection:'row'}}>
+      <View style={{height:80,padding:10,backgroundColor: "#303030",flexDirection:'row',elevation:5}}>
  {
      this.state.tabs.map(item => {
        if(Platform.OS == "android") {

@@ -31,13 +31,7 @@ constructor(props) {
 }
 
 
-componentWillMount() {
-  fetch("https://api.cinemalu.com/api/movies/search/0/6/").then(res => res.json())
-  .then(res => {
-    this.setState({items:res})
-  })
 
-}
 
   render() {
     return (
@@ -50,19 +44,17 @@ componentWillMount() {
             <ScrollView style={{flex:1}}
 
             onScroll={({nativeEvent}) => {
-
+              let parent = this;
 
                if (isCloseToBottom(nativeEvent)) {
                  if(!this.state.loading) {
                  this.setState({offsetY:(this.state.offsetY+6),loading:true})
                  setTimeout(() => {
-
-                   fetch("https://api.cinemalu.com/api/movies/search/0/" + this.state.offsetY + "/").then(res => res.json())
-                   .then(res => {
-                     console.log(res)
-                     this.setState({items:res,loading:false})
-
+                   console.log(this.props.actions)
+                   this.props.actions.ALLMOVIESLOADMORE(this.state.offsetY,function() {
+                     parent.setState({loading:false})
                    })
+
 
                  },1000)
                }

@@ -21,6 +21,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Entypo from "react-native-vector-icons/Entypo"
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import Icon from "../CustomIcon"
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 
 import Ionicons from "react-native-vector-icons/Ionicons"
 class Reg extends Component {
@@ -115,9 +116,9 @@ register() {
 
       <View style={{height:50,flexDirection: 'row'}}>
 
-      <InputText IconType={EvilIcons} size={30} IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password" style={{flex:1,marginRight:5}} secureTextEntry={true}/>
+      <InputText  IconType={SimpleLineIcons} size={20}  IconName="lock" onTextChange={(e) => this.setState({password:e})} placeholder="Password" style={{flex:1,marginRight:5}} secureTextEntry={true}/>
 
-      <InputText IconType={EvilIcons} size={30} IconName="lock"  onTextChange={(e) => this.setState({passwordConfirm:e})} placeholder="Confirm Password" style={{flex:1,marginLeft:5}}  secureTextEntry={true}/>
+      <InputText  IconType={SimpleLineIcons} size={20}  IconName="lock" onTextChange={(e) => this.setState({passwordConfirm:e})} placeholder="Confirm Password" style={{flex:1,marginLeft:5}}  secureTextEntry={true}/>
       </View>
       <View style={{height:4}}/>
     {

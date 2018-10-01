@@ -21,7 +21,7 @@ import Icon from "../CustomIcon"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import axios from "axios"
 import Snackbar from 'react-native-snackbar';
-
+ 
 
 class Forgot extends Component {
 
@@ -64,7 +64,7 @@ Snackbar.show({
     <Touchable onPress={() => {this.send()}} style={{marginTop:20,height:50,backgroundColor: "#4B4B4B",justifyContent: 'center',alignItems: 'center'}}>
     <Text style={{color:"#FFF",fontFamily:"Lato-Medium"}}>Send</Text>
     </Touchable>
-
+      <SvgIcon svgs={TESTSVG} />
     </View>
     </View>
     );
