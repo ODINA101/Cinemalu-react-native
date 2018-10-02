@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  View, Dimensions,ScrollView,  ActivityIndicator, } from 'react-native';
+import {  View, Dimensions,ScrollView,TextInput,ActivityIndicator } from 'react-native';
 import Feather from "react-native-vector-icons/Feather"; // Version can be specified in package.json
 import MovieTabs from "./MovieTabs"
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -37,9 +37,12 @@ constructor(props) {
     return (
 
             <View style={{flex:1,backgroundColor:"#393636"}}>
-            <View style={{height:50,elevation:5,backgroundColor:"#393636",justifyContent: 'center',paddingLeft:10}}>
+            <View style={{flexDirection: 'row',height:70,elevation:5,backgroundColor:"#393636",alignItems: 'center',paddingLeft:10}}>
 
               <Feather size={25} color="#FFF" name="search" />
+              <TextInput style={{color:"#FFF"}} onChangeText={(e) => {
+                this.props.actions.Search(e)
+              }} placeholder="Search" placeholderTextColor="#F3F3F3"/>
           </View>
             <ScrollView style={{flex:1}}
 

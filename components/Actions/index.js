@@ -8,7 +8,8 @@ import {TEST,
   LOGIN_INVALID,
   LOGIN_SUCCESS,
 	ALL_MOVIES_LOADMORE,
-	ALL_MOVIES_LOAD_MORE_SUCCESS
+	ALL_MOVIES_LOAD_MORE_SUCCESS,
+	SEARCH_SUCCESS
 } from "../Constants"
 import axios from 'axios';
 
@@ -67,13 +68,20 @@ export function LoginInvalid(res) {
 	}
 }
 
+export function SearchSuccess(res) {
+	return {
+		type:SEARCH_SUCCESS,
+		movies:res.data
+	}
+}
+
 
 
 
 export function GetAllMovies() {
 
 return function (dispatch) {
-  return axios.get("https://api.cinemalu.com/api/movies/search/0/6/")
+  return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/")
   .then(res => {
     dispatch(GetAllMoviesSuccess(res))
   })
@@ -81,13 +89,22 @@ return function (dispatch) {
 
 }
 
+export function Search(query) {
 
+return function (dispatch) {
+	return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/" + query)
+	.then(res => {
+		dispatch(SearchSuccess(res))
+	})
+}
+
+}
 
 
 export function ALLMOVIESLOADMORE(offsetY,callback) {
 
 return function (dispatch) {
-  return axios.get("https://api.cinemalu.com/api/movies/search/0/" + offsetY + "/")
+  return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/" + offsetY + "/")
   .then(res => {
     dispatch(getMoreMovies(res))
 		callback()
