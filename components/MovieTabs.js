@@ -19,6 +19,7 @@ export default class MovieTabs extends Component {
 
     console.log(data)
     this.setState({selected:data})
+    this.props.selected(data)
   }
 
 

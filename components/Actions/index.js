@@ -9,7 +9,8 @@ import {TEST,
   LOGIN_SUCCESS,
 	ALL_MOVIES_LOADMORE,
 	ALL_MOVIES_LOAD_MORE_SUCCESS,
-	SEARCH_SUCCESS
+	SEARCH_SUCCESS,
+	GET_POSTS
 } from "../Constants"
 import axios from 'axios';
 
@@ -56,7 +57,7 @@ export function LoginSuccess(res) {
 	console.log(res)
 	return {
 		type:LOGIN_SUCCESS,
-		payload:res
+		payload:res.data
 	}
 }
 
@@ -77,12 +78,41 @@ export function SearchSuccess(res) {
 
 
 
+export function GetPosts(MovieId,isMakersTab,callback) {
+
+	return function (dispatch) {
+		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/59d16ab8fc2c1a74b302926d/0/6/" + isMakersTab)
+		.then(res => {
+        callback(res.data)
+				 dispatch({type:GET_POSTS,payload:res.data})
+		}).catch(error => {
+			console.log(error)
+		})
+	}
+}
+
+
+
+
+export function MovieFollow(MovieId) {
+	console.log(MovieId)
+	return function (dispatch) {
+	return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/interested/" + MovieId,{},{
+		headers:{
+			'Authorization':'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM4NTcwODc5NjA1LCJleHAiOjE1Mzg1ODg4Nzk2MDV9.pftMktSDTc9l6B6NkHNfmtf6B7Jqha1bIL0bUdV1IbA'
+		}
+	}).then(res => {
+		console.log(res)
+	}).catch(error => console.log(error.response))
+}
+}
 
 export function GetAllMovies() {
 
 return function (dispatch) {
   return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/")
   .then(res => {
+		console.log(res.data)
     dispatch(GetAllMoviesSuccess(res))
   })
  }

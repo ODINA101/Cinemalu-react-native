@@ -37,13 +37,13 @@ this.props.actions.GetAllMovies()
 
 switch (this.state.page) {
   case "Movies":
-    return <MainScreen />
+    return <MainScreen nav={this.props.navigation}/>
   case "Calendar":
-    return <CalendarPage />
+    return <CalendarPage   nav={this.props.navigation}/>
   case "Account":
-    return <Account />
+    return <Account  nav={this.props.navigation}/>
   default:
-    return <MainScreen />
+    return <MainScreen  nav={this.props.navigation}/>
 }
 
 

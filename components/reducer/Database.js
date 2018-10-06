@@ -1,7 +1,9 @@
-import {TEST,GET_ALL_MOVIES_SUCCESS,ALL_MOVIES_LOAD_MORE_SUCCESS,SEARCH_SUCCESS} from "../Constants"
+import {TEST,GET_ALL_MOVIES_SUCCESS,ALL_MOVIES_LOAD_MORE_SUCCESS,SEARCH_SUCCESS,
+GET_POSTS} from "../Constants"
 
 const InitialState = {
- allMovies:[]
+ allMovies:[],
+ MoviePosts:[]
 }
 
 
@@ -12,13 +14,10 @@ export default (state=InitialState,action) => {
  case "TST":
   return state;
 case SEARCH_SUCCESS:
-
   return {
     ...state,
     allMovies:action.movies
   }
-  
-
 case GET_ALL_MOVIES_SUCCESS:
    return {
     ...state,
@@ -29,8 +28,12 @@ case GET_ALL_MOVIES_SUCCESS:
      ...state,
      allMovies:action.movies
     };
-
- default:
+ case GET_POSTS:
+   return {
+     ...state,
+     MoviePosts:action.payload
+   }
+default:
   return state;
  }
 }

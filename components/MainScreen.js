@@ -8,6 +8,7 @@ import GridView from 'react-native-super-grid';
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import * as Actions from "./Actions"
+import MyMovies from "./MyMovies"
 
 
 
@@ -25,7 +26,8 @@ constructor(props) {
   this.state = {
    items:[],
    offsetY:6,
-   loading:false
+   loading:false,
+   selected:"key0"
  }
 
 }
@@ -71,9 +73,11 @@ constructor(props) {
             >
 
               <View style={{width:SCREEN_WIDTH,height:50,flexDirection:"row",justifyContent:"center",marginTop:20}}>
-               <MovieTabs />
+               <MovieTabs selected={(data)=>{ this.setState({selected:data}) }}/>
              </View>
              {
+               this.state.selected=="key0"?(
+
                this.props.redux.Database.allMovies.length?(
                  <View style={{marginTop:50}}>
 
@@ -82,7 +86,7 @@ constructor(props) {
                    items={this.props.redux.Database.allMovies}
                    renderItem={item => (
                      <View style={{justifyContent: 'center',alignItems:"center"}}>
-                     <SingleMovie item={item} />
+                     <SingleMovie onFollow={() => this.props.actions.MovieFollow(item._id)} nav={this.props.nav} item={item} />
                      </View>
                    )}
                  />
@@ -102,6 +106,8 @@ constructor(props) {
                  <ActivityIndicator size="large" color="#00ff00" />
                  </View>
                )
+             ):(<MyMovies/>)
+
              }
 
          </ScrollView>

@@ -9,6 +9,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import bookmark1 from "./assets/bookmark1.png"
+import Touchable from "react-native-platform-touchable"
 export default class SingleMovie extends Component {
   constructor(props) {
     super(props)
@@ -17,19 +18,21 @@ export default class SingleMovie extends Component {
   }
   render() {
     return (
-      <View style={{width:120,height:250}}>
+      <Touchable onPress={()=>{this.props.nav.navigate("MoviePage")}}>
+        <View  style={{width:120,height:250}}>
         <ImageBackground source={{uri:this.props.item.media.url}} style={{flex:1}}>
-        <TouchableHighlight onPress={() => alert("its woooorks :DDDDDD")}>
+        <Touchable onPress={() => this.props.onFollow()}>
 
         <Image source={bookmark1} style={{alignSelf: 'flex-end'}}/>
-        </TouchableHighlight>
+        </Touchable>
         </ImageBackground>
         <View style={{flex:0.3,alignItems: "center"}}>
         <Text  maxLineNumber={1}  style={{color:"#FFF",fontWeight:"bold"}}>{this.props.item.name}</Text>
 
         <Text maxLineNumber={1} style={{color:"#FFF"}}>{this.props.item.tagLine}</Text>
        </View>
-      </View>
+       </View>
+      </Touchable>
     );
   }
 }

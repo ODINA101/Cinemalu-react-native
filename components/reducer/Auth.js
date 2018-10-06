@@ -12,7 +12,9 @@ const InitialState = {
   msg:"",
   loginMsg:"",
   loading:false,
-  userID:""
+  userID:"",
+  UserIsLogged:false,
+  access_token:""
 }
 
 
@@ -22,7 +24,9 @@ export default (state=InitialState,action) => {
  case LOGIN_SUCCESS:
    return {
      ...state,
-     loginMsg:"success"
+     loginMsg:"success",
+     UserIsLogged:true,
+     access_token:action.payload.access_token
    }
 
 case LOGIN_INVALID:
