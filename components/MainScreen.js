@@ -86,7 +86,7 @@ constructor(props) {
                    items={this.props.redux.Database.allMovies}
                    renderItem={item => (
                      <View style={{justifyContent: 'center',alignItems:"center"}}>
-                     <SingleMovie onFollow={() => this.props.actions.MovieFollow(item._id)} nav={this.props.nav} item={item} />
+                     <SingleMovie onFollow={(data) => this.props.actions.MovieFollow(item._id,data)} nav={this.props.nav} item={item} />
                      </View>
                    )}
                  />

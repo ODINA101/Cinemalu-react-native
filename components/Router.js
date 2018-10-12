@@ -2,12 +2,13 @@ import { createStackNavigator } from 'react-navigation'; // Version can be speci
 import HomeScreen from "./HomeScreen"
 import MoviePage from "./MoviePage"
 export default createStackNavigator({
-  MoviePage:{
-  screen:MoviePage
-},
   Home: {
     screen: HomeScreen
 
   },
+  MoviePage:{
+screen:MoviePage
+},
+
 
 },{   headerMode: 'none',});

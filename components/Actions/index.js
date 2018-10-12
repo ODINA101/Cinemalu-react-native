@@ -77,6 +77,22 @@ export function SearchSuccess(res) {
 }
 
 
+export function GetMovieInfo(movieId,callback) {
+
+ return function (dispatch) {
+	 return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/" + movieId).
+	 then(res => {
+		 console.log(res.data)
+		 callback(res.data)
+	 }).catch(error => {
+		 console.log(error)
+	 })
+ }
+
+}
+
+
+
 
 export function GetPosts(MovieId,isMakersTab,callback) {
 
@@ -94,23 +110,38 @@ export function GetPosts(MovieId,isMakersTab,callback) {
 
 
 
-export function MovieFollow(MovieId) {
+export function MovieFollow(MovieId,followed) {
 	console.log(MovieId)
 	return function (dispatch) {
+
 	return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/interested/" + MovieId,{},{
 		headers:{
-			'Authorization':'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM4NTcwODc5NjA1LCJleHAiOjE1Mzg1ODg4Nzk2MDV9.pftMktSDTc9l6B6NkHNfmtf6B7Jqha1bIL0bUdV1IbA'
+			'Authorization':'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5MzY3ODYzOTIzLCJleHAiOjE1MzkzODU4NjM5MjN9.wyJu6Oc14-X1dgq3A1relZg2l0Wx76omY_n5OtyjvuY'
 		}
 	}).then(res => {
 		console.log(res)
+		axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/",{
+		headers:{
+			'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5MzY3ODYzOTIzLCJleHAiOjE1MzkzODU4NjM5MjN9.wyJu6Oc14-X1dgq3A1relZg2l0Wx76omY_n5OtyjvuY'
+		}
+	})
+  .then(res => {
+		console.log(res.data)
+    dispatch(GetAllMoviesSuccess(res))
+  })
 	}).catch(error => console.log(error.response))
 }
+
 }
 
 export function GetAllMovies() {
 
 return function (dispatch) {
-  return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/")
+  return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/search/0/6/",{
+		headers:{
+			'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5MzY3ODYzOTIzLCJleHAiOjE1MzkzODU4NjM5MjN9.wyJu6Oc14-X1dgq3A1relZg2l0Wx76omY_n5OtyjvuY'
+		}
+	})
   .then(res => {
 		console.log(res.data)
     dispatch(GetAllMoviesSuccess(res))

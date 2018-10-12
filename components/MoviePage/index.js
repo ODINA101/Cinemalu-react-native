@@ -20,18 +20,28 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions"
 import Post from "./Post"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-
+import R from "ramda"
 
 class MoviePage extends Component {
 constructor(props) {
   super(props)
 
   this.state = {
-    data:[]
+    data:[],
+    info:{},
+    cover:""
   }
 
 
+let item = this.props.navigation.state.params.info;
 let p = this;
+console.log(item.id)
+this.props.actions.GetMovieInfo(item._id,function(details) {
+  p.setState({info:details,cover:details.media.url})
+  console.log(details.media.url)
+
+})
+
 
 this.props.actions.GetPosts("test",false,function(data) {
   p.setState({data})
@@ -43,34 +53,46 @@ this.props.actions.GetPosts("test",false,function(data) {
 
 
   render() {
+if(R.isEmpty(this.state.info)) {
+  return (
+    <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+    <ActivityIndicator size="large" color="#393636" />
+
+
+    </View>
+  )
+}else{
     return (
       <View style={styles.container}>
       <Toolbar />
       <ScrollView>
-      <ImageBackground style={{height:250,flexDirection: 'row'}} source={{uri:"https://s3.amazonaws.com/cinemalu-user-uploaded-contents/48336b3c-c2ea-49c7-8b86-db9994075651.jpeg"}}>
-   <View style={{flex:5,justifyContent: 'flex-end'}}>
-        <View style={{paddingLeft:16,paddingBottom:40}}>
-      <Text style={{color:"#FFF",fontSize:18,fontWeight: 'bold'}}>MAHANATI</Text>
-      <View style={{height:5}}/>
-      <Text style={{color:"#FFF",fontSize:18,fontWeight: '400'}}>BE A PART OF HISTORY</Text>
 
-       </View>
-      </View>
-  <View style={{flex:1,justifyContent: 'flex-end',alignItems: 'flex-end'}}>
-  <View style={{backgroundColor:"#f5a623",width:37,height:30,justifyContent: 'center',alignItems: 'center'}}>
-  <MaterialCommunityIcons size={20} color="#FFF" name="information-outline" />
-  </View>
-  <View style={{height:10}}/>
-  <View style={{backgroundColor:"#f5a623",width:37,height:30,justifyContent: 'center',alignItems: 'center'}}>
+  <ImageBackground style={{height:250,flexDirection: 'row'}} source={{uri:this.state.cover}}>
+<View style={{flex:5,justifyContent: 'flex-end'}}>
+  <View style={{paddingLeft:16,paddingBottom:40}}>
+<Text style={{color:"#FFF",fontSize:18,fontWeight: 'bold'}}>{this.state.info.name}</Text>
+<View style={{height:5}}/>
+<Text style={{color:"#FFF",fontSize:18,fontWeight: '400'}}>{this.state.info.metaName}</Text>
+
+ </View>
+</View>
+<View style={{flex:1,justifyContent: 'flex-end',alignItems: 'flex-end'}}>
+<View style={{backgroundColor:"#f5a623",width:37,height:30,justifyContent: 'center',alignItems: 'center'}}>
+<MaterialCommunityIcons size={20} color="#FFF" name="information-outline" />
+</View>
+<View style={{height:10}}/>
+<View style={{backgroundColor:"#f5a623",width:37,height:30,justifyContent: 'center',alignItems: 'center'}}>
 <MaterialCommunityIcons size={20} color="#FFF" name="movie" />
 </View>
 <View style={{height:50}}/>
 
-  </View>
+</View>
 
 
 
-      </ImageBackground>
+</ImageBackground>
+
+
    <Tabs />
 
 
@@ -131,6 +153,8 @@ this.props.actions.GetPosts("test",false,function(data) {
       </View>
     );
   }
+  }
+
 }
 
 const styles = StyleSheet.create({
