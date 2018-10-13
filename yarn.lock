@@ -4388,6 +4388,12 @@ react-native-tab-view@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
+react-native-textarea@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-textarea/-/react-native-textarea-1.0.2.tgz#1d42249dbac2693a242620d44dbd1001ee826323"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-vector-icons@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-5.0.0.tgz#d0bd6fdda01159db409810718dd04904951a98f5"

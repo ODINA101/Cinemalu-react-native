@@ -8,7 +8,8 @@ import {
   ImageBackground,
   ScrollView,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import Toolbar from "./toolbar"
 import Ionicons from "react-native-vector-icons/Ionicons"
@@ -20,8 +21,14 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions"
 import Post from "./Post"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import R from "ramda"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import Touchable from "react-native-platform-touchable"
 
+
+
+import R from "ramda"
+import Textarea from 'react-native-textarea';
 class MoviePage extends Component {
 constructor(props) {
   super(props)
@@ -29,7 +36,8 @@ constructor(props) {
   this.state = {
     data:[],
     info:{},
-    cover:""
+    cover:"",
+    myComment:""
   }
 
 
@@ -43,13 +51,31 @@ this.props.actions.GetMovieInfo(item._id,function(details) {
 })
 
 
-this.props.actions.GetPosts("test",false,function(data) {
+this.props.actions.GetPosts(item._id,false,function(data) {
   p.setState({data})
 })
 
 }
 
 
+
+send() {
+  let formData = new FormData();
+  formData.append("text",this.state.myComment);
+  console.log(formData)
+  this.setState({myComment:""})
+  axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + this.state.info._id,formData,{
+    headers:{
+			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+		}
+
+  }).
+  then(res => {
+    console.log(res)
+  })
+
+
+}
 
 
   render() {
@@ -67,7 +93,7 @@ if(R.isEmpty(this.state.info)) {
       <Toolbar />
       <ScrollView>
 
-  <ImageBackground style={{height:250,flexDirection: 'row'}} source={{uri:this.state.cover}}>
+  <ImageBackground style={{height:230,flexDirection: 'row'}} source={{uri:this.state.cover}}>
 <View style={{flex:5,justifyContent: 'flex-end'}}>
   <View style={{paddingLeft:16,paddingBottom:40}}>
 <Text style={{color:"#FFF",fontSize:18,fontWeight: 'bold'}}>{this.state.info.name}</Text>
@@ -93,7 +119,7 @@ if(R.isEmpty(this.state.info)) {
 </ImageBackground>
 
 
-   <Tabs />
+   <Tabs info={this.state.info}/>
 
 
 {
@@ -107,6 +133,49 @@ if(R.isEmpty(this.state.info)) {
 
 <TabsT />
 
+<View style={{height:300,backgroundColor:"#FFF"}}>
+<View style={{flex:0.3,padding:20}}>
+<Image style={{width:35,height:35}} source={{uri:"https://s3.us-east-2.amazonaws.com/cinemalu-stage/45e394c5-bc0b-483b-9fa6-da23fbffaba4.jpeg"}}/>
+
+</View>
+
+
+<View style={{flex:2,padding:20}}>
+<Textarea
+ containerStyle={{height:150,borderWidth: 1,borderColor:"#bababa"}}
+ onChangeText={(t) => { this.setState({myComment:t})}}
+defaultValue={this.state.myComment}
+ maxLength={150}
+ placeholder={'Comment on this movie...'}
+ placeholderTextColor={'#c7c7c7'}
+ underlineColorAndroid={'transparent'}
+/>
+
+
+<View style={{flexDirection: 'row',paddingTop:5}}>
+<View style={{flex:1,flexDirection: 'row'}}>
+<Touchable>
+<MaterialIcons size={25} name="photo" color="#6F6F6F"/>
+</Touchable>
+
+<Touchable style={{marginLeft:10}}>
+<FontAwesome size={25} name="smile-o" color="#6F6F6F"/>
+</Touchable>
+</View>
+<View style={{flex:1,justifyContent: 'flex-end',alignItems: 'flex-end'}}>
+
+<Touchable onPress={() => {this.send()}} style={{width:60,height:30,backgroundColor: "#ebedee",color:"#4a4a4a",justifyContent: 'center',borderWidth:1,borderColor:"6f6f70",alignItems: 'center'}}>
+<Text>Send</Text>
+</Touchable>
+
+</View>
+
+
+</View>
+</View>
+
+
+</View>
 
 
 

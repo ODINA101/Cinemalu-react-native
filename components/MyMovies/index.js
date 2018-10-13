@@ -20,7 +20,7 @@ export default class MyMovies extends Component {
 
     axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/load/my-movies",{
       headers:{
-        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5MzY3ODYzOTIzLCJleHAiOjE1MzkzODU4NjM5MjN9.wyJu6Oc14-X1dgq3A1relZg2l0Wx76omY_n5OtyjvuY'
+        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk'
       }
     })
     .then(res => {
@@ -37,12 +37,12 @@ export default class MyMovies extends Component {
     return (
       <View style={styles.container}>
 
-      <GridView
+                  <GridView
                    itemDimension={150}
                    items={this.state.data}
                    renderItem={item => (
                      <View style={{justifyContent: 'center',alignItems:"center"}}>
-                     <SingleMovie onFollow={() => this.props.actions.MovieFollow(item._id)} nav={this.props.nav} item={item} />
+                     <SingleMovie  onFollow={() => this.props.actions.MovieFollow(item._id)} nav={this.props.nav} item={item} />
                      </View>
                    )}
                  />

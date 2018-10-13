@@ -7,18 +7,36 @@ import MaterialCommunityIcons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Post extends Component {
+  constructor(props) {
+    super(props)
+
+    console.log(props)
+
+  }
+
   render() {
     return (
       <View style={{padding: 10, flexDirection: 'column', minHeight: 100}}>
         <View style={{flexDirection: 'row', flex: 1}}>
 
           <View style={{flex: 1}}>
-            <ImageBackground
-              source={{
-                uri: 'https://s3.us-east-2.amazonaws.com/cinemalu-stage/45e394c5-bc0b-483b-9fa6-da23fbffaba4.jpeg',
-              }}
-              style={{width: 35, height: 35}}
-            />
+          {
+            this.props.item.createdBy.profilePictureUrl?(
+              <ImageBackground
+  source={{
+    uri: this.props.item.createdBy.profilePictureUrl,
+  }}
+  style={{width: 35, height: 35}}
+/>
+
+):(
+  <View style={{width:35,height:35,backgroundColor:"#f1a61f",justifyContent: 'center',alignItems: 'center'}}>
+
+  <Text style={{color:"#FFF",fontWeight: 'bold',fontSize:18}}>{this.props.item.createdBy.firstName.charAt(0)}{this.props.item.createdBy.lastName.charAt(0)}</Text>
+
+  </View>
+)
+          }
           </View>
 
           <View style={{flex: 5}}>
@@ -28,7 +46,6 @@ export default class Post extends Component {
                 {this.props.item.createdBy.firstName}
               </Text>
               {' '}
-              Kasuahl said barking like dogs, they all proved again that they are all really barking like dogs.
               {' '}
               {this.props.item.text}
             </Text>
