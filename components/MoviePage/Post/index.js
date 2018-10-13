@@ -5,7 +5,13 @@ import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { MenuProvider } from 'react-native-popup-menu';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 export default class Post extends Component {
   constructor(props) {
     super(props)
@@ -16,6 +22,7 @@ export default class Post extends Component {
 
   render() {
     return (
+      <MenuProvider>
       <View style={{padding: 10, flexDirection: 'column', minHeight: 100}}>
         <View style={{flexDirection: 'row', flex: 1}}>
 
@@ -51,13 +58,23 @@ export default class Post extends Component {
             </Text>
           </View>
           <View style={{flex: 0.6, alignItems: 'flex-end'}}>
-            <View style={{paddingRight: 15}}>
-              <MaterialCommunityIcons
-                size={25}
-                color="#B2B2B2"
-                name="dots-vertical"
-              />
-            </View>
+
+            <Menu onSelect={value => {
+              this.props.action(value)  
+            }}>
+              <MenuTrigger children={
+                <View style={{paddingRight: 15}}>
+                <MaterialCommunityIcons
+                  size={25}
+                  color="#B2B2B2"
+                  name="dots-vertical"
+                />
+              </View>} />
+              <MenuOptions>
+                <MenuOption value={1} text='Edit' />
+                <MenuOption value={2} text='Delete' />
+              </MenuOptions>
+            </Menu>
           </View>
 
         </View>
@@ -97,6 +114,7 @@ export default class Post extends Component {
 
         </View>
       </View>
+      </MenuProvider>
     );
   }
 }

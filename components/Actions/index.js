@@ -97,7 +97,12 @@ export function GetMovieInfo(movieId,callback) {
 export function GetPosts(MovieId,isMakersTab,callback) {
 
 	return function (dispatch) {
-		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/"+ MovieId + "/0/6/" + isMakersTab)
+		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/"+ MovieId + "/0/6/" + isMakersTab,
+	  {
+			headers:{
+				'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+			}
+		})
 		.then(res => {
         callback(res.data)
 				 dispatch({type:GET_POSTS,payload:res.data})

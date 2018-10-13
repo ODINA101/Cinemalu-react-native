@@ -37,13 +37,17 @@ constructor(props) {
     data:[],
     info:{},
     cover:"",
-    myComment:""
+    myComment:"",
+    editing:false,
+    postId:"",
+    itemId:""
   }
 
 
 let item = this.props.navigation.state.params.info;
 let p = this;
 console.log(item.id)
+this.state.itemId = item.id;
 this.props.actions.GetMovieInfo(item._id,function(details) {
   p.setState({info:details,cover:details.media.url})
   console.log(details.media.url)
@@ -55,28 +59,78 @@ this.props.actions.GetPosts(item._id,false,function(data) {
   p.setState({data})
 })
 
+
+this.send = this.send.bind(this)
+
+
 }
 
 
 
 send() {
+  let p = this;
+  let item = this.props.navigation.state.params.info;
+
   let formData = new FormData();
   formData.append("text",this.state.myComment);
   console.log(formData)
   this.setState({myComment:""})
+
+  if(this.state.editing) {
+    axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,formData,{
+      headers:{
+     'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+    }
+ }).then(res => {
+   console.log(res)
+   console.log(res)
+   console.log(res)
+   console.log(res)
+
+}).catch(err => console.log(err))
+
+
+
+  }else{
   axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + this.state.info._id,formData,{
     headers:{
 			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
 		}
-
-  }).
-  then(res => {
+   }).then(res => {
     console.log(res)
   })
+}
 
+this.props.actions.GetPosts(item._id,false,function(data) {
+p.setState({data})
+})
 
 }
 
+
+onPostAction(n,item) {
+let p = this;
+if(n==1) { //Edit
+   this.setState({myComment:item.text,editing:true,postId:item._id})
+}else{ //Delete
+ console.log(this.state.postId)
+  axios.delete("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,{
+    headers:{
+  'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+   }
+ }).then(res =>
+    {
+       console.log(this.state.postId)
+       let item = this.props.navigation.state.params.info;
+       this.props.actions.GetPosts(item._id,false,function(data) {
+         p.setState({data})
+       })
+    }
+).catch(error => console.log(error.response))
+
+}
+
+}
 
   render() {
 if(R.isEmpty(this.state.info)) {
@@ -90,7 +144,7 @@ if(R.isEmpty(this.state.info)) {
 }else{
     return (
       <View style={styles.container}>
-      <Toolbar />
+      <Toolbar nav={this.props.navigation}/>
       <ScrollView>
 
   <ImageBackground style={{height:230,flexDirection: 'row'}} source={{uri:this.state.cover}}>
@@ -188,7 +242,7 @@ defaultValue={this.state.myComment}
   this.state.data.map(item => {
     return(
       <View>
-      <Post item={item}/>
+      <Post action={(e) => this.onPostAction(e,item)} item={item}/>
       <View style={{backgroundColor:"#B0AFB2",height:2}}/>
       </View>
 

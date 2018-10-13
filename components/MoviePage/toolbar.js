@@ -7,13 +7,17 @@ import {
   StyleSheet,
 } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons"
-
+import Touchable from 'react-native-platform-touchable';
 export default class Toolbar extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <View style={styles.container}>
-      <Ionicons size={40} color="#FFF"  name="ios-arrow-back"/>
-
+      <Touchable onPress={() => this.props.nav.pop()}>
+      <Ionicons size={30} color="#FFF"  name="ios-arrow-back"/>
+      </Touchable>
       </View>
     );
   }
@@ -21,7 +25,7 @@ export default class Toolbar extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height:70,
+    height:60,
     backgroundColor:"#3E3E3E",
     elevation:5,
     flexDirection: 'row',
