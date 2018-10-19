@@ -24,8 +24,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Touchable from "react-native-platform-touchable"
-
-
+import EmojiSelector from 'react-native-emoji-selector'
+import ImagePicker from 'react-native-image-picker';
 
 import R from "ramda"
 import Textarea from 'react-native-textarea';
@@ -40,7 +40,9 @@ constructor(props) {
     myComment:"",
     editing:false,
     postId:"",
-    itemId:""
+    itemId:"",
+    emojies:false,
+    image:null
   }
 
 
@@ -70,16 +72,17 @@ this.send = this.send.bind(this)
 send() {
   let p = this;
   let item = this.props.navigation.state.params.info;
-
   let formData = new FormData();
   formData.append("text",this.state.myComment);
   console.log(formData)
+  formData.append("file",this.state.image)
+
   this.setState({myComment:""})
 
   if(this.state.editing) {
     axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,formData,{
       headers:{
-     'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+     'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
     }
  }).then(res => {
    console.log(res)
@@ -87,14 +90,14 @@ send() {
    console.log(res)
    console.log(res)
 
-}).catch(err => console.log(err))
+}).catch(err => console.log(err.response))
 
 
 
   }else{
   axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + this.state.info._id,formData,{
     headers:{
-			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
 		}
    }).then(res => {
     console.log(res)
@@ -116,7 +119,7 @@ if(n==1) { //Edit
  console.log(this.state.postId)
   axios.delete("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,{
     headers:{
-  'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5NDIzMTgzODUzLCJleHAiOjE1Mzk0NDExODM4NTN9.DP52LOUFKs3ze6lxT76q-gR7ICVX89Agei71RrvzfQk"
+  'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
    }
  }).then(res =>
     {
@@ -189,7 +192,15 @@ if(R.isEmpty(this.state.info)) {
 
 <View style={{height:300,backgroundColor:"#FFF"}}>
 <View style={{flex:0.3,padding:20}}>
-<Image style={{width:35,height:35}} source={{uri:"https://s3.us-east-2.amazonaws.com/cinemalu-stage/45e394c5-bc0b-483b-9fa6-da23fbffaba4.jpeg"}}/>
+{ /*
+  <Image style={{width:35,height:35}} source={{uri:"https://s3.us-east-2.amazonaws.com/cinemalu-stage/45e394c5-bc0b-483b-9fa6-da23fbffaba4.jpeg"}}/>
+
+*/}
+<View style={{width:35,height:35,backgroundColor:"#f1a61f",justifyContent: 'center',alignItems: 'center'}}>
+
+<Text style={{color:"#FFF",fontWeight: 'bold',fontSize:18}}>BS</Text>
+
+</View>
 
 </View>
 
@@ -208,13 +219,44 @@ defaultValue={this.state.myComment}
 
 <View style={{flexDirection: 'row',paddingTop:5}}>
 <View style={{flex:1,flexDirection: 'row'}}>
-<Touchable>
+<Touchable onPress={() => {
+
+  ImagePicker.showImagePicker((response) => {
+    console.log('Response = ', response);
+
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+    } else {
+      const source = { uri: response.uri };
+      const file = {
+     uri:response.uri,             // e.g. 'file:///path/to/file/image123.jpg'
+     name:response.uri.split("/")[response.uri.split("/").length-1],            // e.g. 'image123.jpg',
+     type:response.type           // e.g. 'image/jpg'
+     }
+
+    this.setState({image:file})
+
+        // You can also display the image using data:
+      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+     console.log(file)
+    //  const body = new FormData()
+    // body.append('file', file)
+
+      this.setState({
+        avatarSource: source,
+      });
+    }
+  });
+
+}}>
 <MaterialIcons size={25} name="photo" color="#6F6F6F"/>
 </Touchable>
 
-<Touchable style={{marginLeft:10}}>
-<FontAwesome size={25} name="smile-o" color="#6F6F6F"/>
-</Touchable>
+
 </View>
 <View style={{flex:1,justifyContent: 'flex-end',alignItems: 'flex-end'}}>
 
@@ -230,9 +272,6 @@ defaultValue={this.state.myComment}
 
 
 </View>
-
-
-
 
 
 

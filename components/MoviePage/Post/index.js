@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, ImageBackground,Dimensions} from 'react-native';
 import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,6 +12,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import AutoHeightImage from 'react-native-auto-height-image';
 export default class Post extends Component {
   constructor(props) {
     super(props)
@@ -56,11 +57,18 @@ export default class Post extends Component {
               {' '}
               {this.props.item.text}
             </Text>
+             {
+               this.props.item.media?(
+                 <AutoHeightImage  width={Dimensions.get("window").width/1.5} source={{uri:this.props.item.media.url}} />
+
+               ):(<View/>)
+             }
+
           </View>
           <View style={{flex: 0.6, alignItems: 'flex-end'}}>
 
             <Menu onSelect={value => {
-              this.props.action(value)  
+              this.props.action(value)
             }}>
               <MenuTrigger children={
                 <View style={{paddingRight: 15}}>
