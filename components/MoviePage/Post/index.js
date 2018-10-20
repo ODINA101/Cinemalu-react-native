@@ -13,15 +13,21 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import AutoHeightImage from 'react-native-auto-height-image';
+import Touchable from 'react-native-platform-touchable';
 export default class Post extends Component {
   constructor(props) {
     super(props)
+  this.state = {
+    likedByMe:this.props.liked,
+    likes:this.props.item.userLikes.length,
+    reported:this.props.reported,
+    reports:this.props.item.userAbuses.length
 
+  }
     console.log(props)
 
   }
-
-  render() {
+ render() {
     return (
       <MenuProvider>
       <View style={{padding: 10, flexDirection: 'column', minHeight: 100}}>
@@ -109,15 +115,54 @@ export default class Post extends Component {
               />
               <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <Ionicons size={20} color="#B2B2B2" name="ios-heart-empty" />
-              <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
-            </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <MaterialCommunityIcons size={20} color="#B2B2B2" name="flag" />
-              <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
-            </View>
+            <Touchable style={{flex:1}} onPress={() => {
+              if(this.state.likedByMe) {
+                this.setState({likes:(this.state.likes-1)})
+              }else{
+                this.setState({likes:(this.state.likes+1)})
 
+              }
+               this.setState({likedByMe:!this.state.likedByMe})
+               this.props.like()
+
+            }}>
+              <View  style={{flex: 1, flexDirection: 'row'}}>
+              {
+                this.state.likedByMe?(
+                  <Ionicons size={20} color="#6F6E6F" name="ios-heart" />
+                ):(
+                  <Ionicons size={20} color="#B2B2B2" name="ios-heart-empty" />
+
+                )
+              }
+              <Text style={{color: '#B2B2B2', paddingLeft: 5}}>{this.state.likes}</Text>
+              </View>
+            </Touchable>
+            <Touchable onPress={() => {
+              if(this.state.reported) {
+                this.setState({reports:(this.state.reports-1)})
+              }else{
+                this.setState({reports:(this.state.reports+1)})
+              }
+               this.setState({reported:!this.state.reported})
+               this.props.report()
+
+
+            }} style={{flex:1}}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+            {
+              this.state.reported?(
+                <MaterialCommunityIcons size={20} color="#6F6E6F" name="flag" />
+
+              ):(
+                <MaterialCommunityIcons size={20} color="#B2B2B2" name="flag" />
+
+
+              )
+            }
+              <Text style={{color: '#B2B2B2', paddingLeft: 5}}>{this.state.reports}</Text>
+            </View>
+            </Touchable>
           </View>
 
         </View>

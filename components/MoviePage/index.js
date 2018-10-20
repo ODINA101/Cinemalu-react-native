@@ -26,6 +26,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Touchable from "react-native-platform-touchable"
 import EmojiSelector from 'react-native-emoji-selector'
 import ImagePicker from 'react-native-image-picker';
+import Loader from "react-native-modal-loader"
 
 import R from "ramda"
 import Textarea from 'react-native-textarea';
@@ -42,7 +43,8 @@ constructor(props) {
     postId:"",
     itemId:"",
     emojies:false,
-    image:null
+    image:null,
+    isLoading:false
   }
 
 
@@ -70,6 +72,7 @@ this.send = this.send.bind(this)
 
 
 send() {
+  this.setState({isLoading:true})
   let p = this;
   let item = this.props.navigation.state.params.info;
   let formData = new FormData();
@@ -82,13 +85,14 @@ send() {
   if(this.state.editing) {
     axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,formData,{
       headers:{
-     'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
+     'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTQwMDM1OTczOTc5LCJleHAiOjE1NDAwNTM5NzM5Nzl9.8ytiez8xN32h79BdakbWMpgbvawuqEdjQcEUQyWMrKY"
     }
  }).then(res => {
    console.log(res)
    console.log(res)
    console.log(res)
    console.log(res)
+   p.setState({isLoading:false})
 
 }).catch(err => console.log(err.response))
 
@@ -97,39 +101,64 @@ send() {
   }else{
   axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + this.state.info._id,formData,{
     headers:{
-			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
+			'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTQwMDM1OTczOTc5LCJleHAiOjE1NDAwNTM5NzM5Nzl9.8ytiez8xN32h79BdakbWMpgbvawuqEdjQcEUQyWMrKY"
 		}
    }).then(res => {
     console.log(res)
+    this.props.actions.GetPosts(item._id,false,function(data) {
+        p.setState({data})
+        p.setState({isLoading:false})
+
+      })
+
+
   })
 }
 
 this.props.actions.GetPosts(item._id,false,function(data) {
 p.setState({data})
+p.setState({isLoading:false})
+
 })
 
 }
 
+postReport(id,isReported) {
+this.props.actions.ReportPost(id,isReported,function() {
+})
+}
+postLike(id) {
+this.props.actions.LikePost(id,function() {
+})
+
+}
 
 onPostAction(n,item) {
 let p = this;
 if(n==1) { //Edit
    this.setState({myComment:item.text,editing:true,postId:item._id})
 }else{ //Delete
- console.log(this.state.postId)
-  axios.delete("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/" + item._id,{
-    headers:{
-  'Authorization':'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTM5OTgyNTIyNDEwLCJleHAiOjE1NDAwMDA1MjI0MTB9.1JxIbRxJLmmSBpVAatcaVYFON0qP_4oJY1nu4SgUk30"
-   }
- }).then(res =>
+ console.log(this.state.postId);
+axios
+  .delete(
+    'http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' +
+      item._id,
     {
-       console.log(this.state.postId)
-       let item = this.props.navigation.state.params.info;
-       this.props.actions.GetPosts(item._id,false,function(data) {
-         p.setState({data})
-       })
-    }
-).catch(error => console.log(error.response))
+      headers: {
+        Authorization: 'Bearer ' +
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTQwMDM1OTczOTc5LCJleHAiOjE1NDAwNTM5NzM5Nzl9.8ytiez8xN32h79BdakbWMpgbvawuqEdjQcEUQyWMrKY',
+      },
+    },
+  )
+  .then(res => {
+    console.log(this.state.postId);
+    let item = this.props.navigation.state.params.info;
+    this.props.actions.GetPosts(item._id, false, function(data) {
+      p.setState({data});
+    });
+  })
+  .catch(error => console.log(error.response));
+
 
 }
 
@@ -279,19 +308,26 @@ defaultValue={this.state.myComment}
 
 {
   this.state.data.map(item => {
-    return(
-      <View>
-      <Post action={(e) => this.onPostAction(e,item)} item={item}/>
-      <View style={{backgroundColor:"#B0AFB2",height:2}}/>
-      </View>
 
-   )
+      return(
+    <View>
+    <Post liked={item.userLikes.includes("5babc3e0a7f76013867020ce")}
+    reported={item.userAbuses.includes("5babc3e0a7f76013867020ce")}
+    like={()=> this.postLike(item._id)}
+    report={()=> this.postReport(item._id,item.userAbuses.includes("5babc3e0a7f76013867020ce"))}
+     action={(e) => this.onPostAction(e,item)} item={item}/>
+    <View style={{backgroundColor:"#B0AFB2",height:2}}/>
+    </View>
+
+ )
+
+
   })
 }
 
 
 {
- this.state.data ==[]?(
+ this.state.data == []?(
   <View />
 ):(
 
@@ -312,6 +348,13 @@ defaultValue={this.state.myComment}
 
 
       </ScrollView>
+      {
+  this.state.isLoading?(
+    <Loader loading={true} color="#ff66be" />
+  ):(<View />)
+}
+
+
       </View>
     );
   }
