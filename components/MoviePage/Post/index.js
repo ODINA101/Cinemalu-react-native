@@ -48,6 +48,36 @@ export default class Post extends Component {
               {' '}
               {this.props.item.text}
             </Text>
+
+              {
+                this.props.item.shared?(
+                  <View style={{flexDirection: 'row', flex: 1,paddingTop:10}}>
+                  <View style={{flex: 1}}>
+                 <ProfilePic item={this.props.item} />
+                  </View>
+                  <View style={{flex:5}}>
+                  <Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                      {this.props.item.shared.createdBy.firstName}
+                    </Text>
+                    {' '}
+                    {' '}
+                    {this.props.item.shared.text}
+                  </Text>
+                  {
+                    this.props.item.shared.media?(
+                      <AutoHeightImage  width={Dimensions.get("window").width/1.5} source={{uri:this.props.item.shared.media.url}} />
+
+                    ):(<View/>)
+                  }
+
+                  </View>
+
+                  </View>
+                ):(<View />)
+              }
+
+
              {
                this.props.item.media?(
                  <AutoHeightImage  width={Dimensions.get("window").width/1.5} source={{uri:this.props.item.media.url}} />
@@ -90,18 +120,25 @@ export default class Post extends Component {
               />
               <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
             </View>
-            <Touchable style={{flex:1}} onPress={() => this.props.share()}>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <MaterialCommunityIcons
-                size={20}
-                color="#B2B2B2"
-                name="reply"
-                style={{transform: [{scaleX: -1}]}}
-                flip={'horizontal'}
-              />
-              <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
-            </View>
-            </Touchable>
+            {
+              this.props.item.shared?(
+                <View/>
+              ):(
+                <Touchable style={{flex:1}} onPress={() => this.props.share()}>
+<View style={{flex: 1, flexDirection: 'row'}}>
+  <MaterialCommunityIcons
+    size={20}
+    color="#B2B2B2"
+    name="reply"
+    style={{transform: [{scaleX: -1}]}}
+    flip={'horizontal'}
+  />
+  <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
+</View>
+</Touchable>
+
+              )
+            }
             <Touchable style={{flex:1}} onPress={() => {
               if(this.state.likedByMe) {
                 this.setState({likes:(this.state.likes-1)})

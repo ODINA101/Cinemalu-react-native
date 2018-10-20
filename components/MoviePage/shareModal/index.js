@@ -12,6 +12,7 @@ import {
   TextInput,
   Dimensions,
   StatusBar,
+  KeyboardAvoidingView
 } from 'react-native';
 import Modal from 'react-native-modal';
 import ProfilePic from '../profilePic';
@@ -35,11 +36,12 @@ export default class ShareModal extends Component {
         animationOut="zoomOutUp"
         onBackdropPress={() => this.props.dismiss()}
         onBackButtonPress={() => this.props.dismiss()}
+        style={{justifyContent: 'flex-start'}}
       >
         <View style={{alignItems: 'center'}}>
           <View
             style={{
-              marginBottom: Dimensions.get('window').width / 1.5,
+              marginTop: Dimensions.get('window').width / 5,
               height: 440,
               width: Dimensions.get('window').width / 1.1,
               borderRadius: 12,
@@ -62,6 +64,7 @@ export default class ShareModal extends Component {
             </View>
             <View style={{flex: 1, padding: 12}}>
             <ScrollView >
+            <KeyboardAvoidingView enabled={false}>
 
               <Textarea
                 containerStyle={{
@@ -78,6 +81,8 @@ export default class ShareModal extends Component {
                 placeholderTextColor={'#c7c7c7'}
                 underlineColorAndroid={'transparent'}
               />
+              </KeyboardAvoidingView>
+
               <View style={{zIndex:9999,position: 'absolute', top: 130, left: 20}}>
                 <ProfilePic item={this.props.item} />
               </View>
@@ -121,7 +126,7 @@ export default class ShareModal extends Component {
                                 </Touchable>
               <Touchable
                                   onPress={() => {
-                                    this.send();
+                                    this.props.share(this.props.item._id,this.state.myComment);
                                   }}
                                   style={{
                                     width: 60,
