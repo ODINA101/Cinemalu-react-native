@@ -6,6 +6,7 @@ import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MenuProvider } from 'react-native-popup-menu';
+import ProfilePic from "../profilePic"
 import {
   Menu,
   MenuOptions,
@@ -34,24 +35,8 @@ export default class Post extends Component {
         <View style={{flexDirection: 'row', flex: 1}}>
 
           <View style={{flex: 1}}>
-          {
-            this.props.item.createdBy.profilePictureUrl?(
-              <ImageBackground
-  source={{
-    uri: this.props.item.createdBy.profilePictureUrl,
-  }}
-  style={{width: 35, height: 35}}
-/>
-
-):(
-  <View style={{width:35,height:35,backgroundColor:"#f1a61f",justifyContent: 'center',alignItems: 'center'}}>
-
-  <Text style={{color:"#FFF",fontWeight: 'bold',fontSize:18}}>{this.props.item.createdBy.firstName.charAt(0)}{this.props.item.createdBy.lastName.charAt(0)}</Text>
-
-  </View>
-)
-          }
-          </View>
+           <ProfilePic item={this.props.item} />
+                  </View>
 
           <View style={{flex: 5}}>
 
@@ -105,6 +90,7 @@ export default class Post extends Component {
               />
               <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
             </View>
+            <Touchable style={{flex:1}} onPress={() => this.props.share()}>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <MaterialCommunityIcons
                 size={20}
@@ -115,6 +101,7 @@ export default class Post extends Component {
               />
               <Text style={{color: '#B2B2B2', paddingLeft: 5}}>0</Text>
             </View>
+            </Touchable>
             <Touchable style={{flex:1}} onPress={() => {
               if(this.state.likedByMe) {
                 this.setState({likes:(this.state.likes-1)})
@@ -149,6 +136,7 @@ export default class Post extends Component {
 
 
             }} style={{flex:1}}>
+
             <View style={{flex: 1, flexDirection: 'row'}}>
             {
               this.state.reported?(

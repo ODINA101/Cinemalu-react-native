@@ -10,6 +10,8 @@ import {
   Image,
   ActivityIndicator,
   TextInput,
+  Dimensions,
+  StatusBar
 } from 'react-native';
 import Toolbar from "./toolbar"
 import Ionicons from "react-native-vector-icons/Ionicons"
@@ -27,6 +29,9 @@ import Touchable from "react-native-platform-touchable"
 import EmojiSelector from 'react-native-emoji-selector'
 import ImagePicker from 'react-native-image-picker';
 import Loader from "react-native-modal-loader"
+import Modal from "react-native-modal";
+import ShareModal from "./shareModal"
+
 
 import R from "ramda"
 import Textarea from 'react-native-textarea';
@@ -44,7 +49,9 @@ constructor(props) {
     itemId:"",
     emojies:false,
     image:null,
-    isLoading:false
+    isLoading:false,
+    showShareModal:false,
+    sharingItem:""
   }
 
 
@@ -176,6 +183,7 @@ if(R.isEmpty(this.state.info)) {
 }else{
     return (
       <View style={styles.container}>
+
       <Toolbar nav={this.props.navigation}/>
       <ScrollView>
 
@@ -311,7 +319,9 @@ defaultValue={this.state.myComment}
 
       return(
     <View>
-    <Post liked={item.userLikes.includes("5babc3e0a7f76013867020ce")}
+    <Post
+    share={()=> this.setState({sharingItem:item,showShareModal:true})}
+    liked={item.userLikes.includes("5babc3e0a7f76013867020ce")}
     reported={item.userAbuses.includes("5babc3e0a7f76013867020ce")}
     like={()=> this.postLike(item._id)}
     report={()=> this.postReport(item._id,item.userAbuses.includes("5babc3e0a7f76013867020ce"))}
@@ -343,10 +353,6 @@ defaultValue={this.state.myComment}
 
 
 
-
-
-
-
       </ScrollView>
       {
   this.state.isLoading?(
@@ -354,7 +360,7 @@ defaultValue={this.state.myComment}
   ):(<View />)
 }
 
-
+<ShareModal item={this.state.sharingItem} dismiss={()=> this.setState({showShareModal:false})} showShareModal={this.state.showShareModal}/>
       </View>
     );
   }
