@@ -33,7 +33,6 @@ import ImagePicker from 'react-native-image-picker';
 import Loader from 'react-native-modal-loader';
 import Modal from 'react-native-modal';
 import ShareModal from './shareModal';
-
 import R from 'ramda';
 import Textarea from 'react-native-textarea';
 class MoviePage extends Component {

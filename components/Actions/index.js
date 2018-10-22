@@ -14,7 +14,51 @@ import {TEST,
 } from "../Constants"
 import axios from 'axios';
 
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTQwMDU5MzY2ODQ3LCJleHAiOjE1NDAwNzczNjY4NDd9.QYhzNBXtrE3HA9hcgdBzC-8AQ4rzERlHVoQ1nell_WY"
+import { AsyncStorage } from 'react-native';
+
+
+//const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YmFiYzNlMGE3Zjc2MDEzODY3MDIwY2UiLCJyb2xlIjoidXNlciIsImVtYWlsIjoia2luZ29mYXBwczEyM0BnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWR6aW5hIiwibGFzdE5hbWUiOiJTYXhhcmFzaHZpbGkiLCJsb2dpbklEIjoiU2F4YXJpY2hpIiwiaWF0IjoxNTQwMDU5MzY2ODQ3LCJleHAiOjE1NDAwNzczNjY4NDd9.QYhzNBXtrE3HA9hcgdBzC-8AQ4rzERlHVoQ1nell_WY"
+
+
+
+
+
+// export function getUserToken(cb) {
+// 	return function (dispatch) {
+// 		AsyncStorage.getItem('userToken')
+//         .then((data) => {
+// 					console.log(data)
+// 					cb(data)
+//         })
+//         .catch((err) => {
+// 					console.log(err)
+//         })
+//
+// 	}
+
+
+
+
+export function getUserToken(cb) {
+	return function (dispatch) {
+		AsyncStorage.getItem('userToken')
+        .then((data) => {
+					console.log(data)
+					dispatch({type:"ACCESS_TOKEN",token:data})
+					cb(data)
+        })
+        .catch((err) => {
+					console.log(err)
+        })
+
+	}
+}
+
+
+
+
+
+
 
 export function testfun(res) {
 	return {
@@ -79,7 +123,7 @@ export function SearchSuccess(res) {
 }
 
 
-export function GetMovieInfo(movieId, callback) {
+export function GetMovieInfo(movieId,token, callback) {
   return function(dispatch) {
     return axios
       .get(
@@ -96,7 +140,7 @@ export function GetMovieInfo(movieId, callback) {
   };
 }
 
-export function SharePost(id,comment,cb) {
+export function SharePost(id,comment,token,cb) {
 	return function (dispatch) {
 		return axios.put(" http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/share/" + id,{text:comment},	{
 				headers: {
@@ -111,7 +155,7 @@ export function SharePost(id,comment,cb) {
 	}
 }
 
-export function DeletePost(id,cb) {
+export function DeletePost(id,token,cb) {
 	return function (dispatch) {
 	return	axios.delete('http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' + id,
 				{
@@ -133,7 +177,7 @@ export function DeletePost(id,cb) {
 
 
 
-export function AddPost(id,formData,cb) {
+export function AddPost(id,formData,token,cb) {
 	return function (dispatch) {
 	return	axios
 			.post(
@@ -156,7 +200,7 @@ export function AddPost(id,formData,cb) {
 
 
 
-export function EditPost(id,formData,cb) {
+export function EditPost(id,formData,token,cb) {
 	return function (dispatch) {
 		return axios.put('http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' +
 					id,
@@ -175,7 +219,7 @@ export function EditPost(id,formData,cb) {
 	}
 }
 
-export function GetPosts(MovieId,isMakersTab,callback) {
+export function GetPosts(MovieId,isMakersTab,token,callback) {
 
 	return function (dispatch) {
 		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/"+ MovieId + "/0/6/" + isMakersTab,
@@ -194,7 +238,7 @@ export function GetPosts(MovieId,isMakersTab,callback) {
 }
 
 
-export function ReportPost(postId, AlreadyReported, cb) {
+export function ReportPost(postId, AlreadyReported,token, cb) {
   return function(dispatch) {
     return axios
       .put(
@@ -221,7 +265,7 @@ export function ReportPost(postId, AlreadyReported, cb) {
 
 
 
-export function LikePost(postId, cb) {
+export function LikePost(postId, cb,token) {
   return function(dispatch) {
     return axios
       .put(
@@ -243,7 +287,7 @@ export function LikePost(postId, cb) {
   };
 }
 
-export function MovieFollow(MovieId, followed) {
+export function MovieFollow(MovieId, followed,token) {
   console.log(MovieId);
   return function(dispatch) {
     return axios
@@ -279,7 +323,7 @@ export function MovieFollow(MovieId, followed) {
   };
 }
 
-export function GetAllMovies() {
+export function GetAllMovies(token) {
   return function(dispatch) {
     return axios
       .get(
@@ -344,6 +388,7 @@ export function Login(Email, password) {
       )
       .then(res => {
         dispatch(LoginSuccess(res));
+				AsyncStorage.setItem('userToken', res.data.access_token)
         dispatch({type: LOADER, payload: false});
       })
       .catch(error => {
