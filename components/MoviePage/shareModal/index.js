@@ -15,7 +15,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import Modal from 'react-native-modal';
-import ProfilePic from '../profilePic';
+import ProfilePic from '../../_GLOBAL/profilePic';
 import Textarea from 'react-native-textarea';
 import AutoHeightImage from 'react-native-auto-height-image';
 import Touchable from 'react-native-platform-touchable';
@@ -23,7 +23,7 @@ export default class ShareModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      myComment: '',
+      myComment: ''
     };
   }
   render() {

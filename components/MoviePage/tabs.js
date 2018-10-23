@@ -80,12 +80,30 @@ constructor(props) {
 
       </View>
       <View style={{width:1,backgroundColor:"#B0AFB2"}}/>
-       <View style={{flex:1,backgroundColor:"#E8A73D",flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
-       <View style={{paddingRight:5}}>
-        <MaterialCommunityIcons size={20} color="#FFF" name="check" />
-        </View>
-        <Text style={{color:"#fff",fontSize:17}}>Following</Text>
-       </View>
+      {
+
+          this.props.followed?(
+            <View style={{flex:1,backgroundColor:"#E8A73D",flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+            <View style={{paddingRight:5}}>
+             <MaterialCommunityIcons size={20} color="#FFF" name="check" />
+             </View>
+
+                 <Text style={{color:"#fff",fontSize:17}}>Following</Text>
+
+
+            </View>
+
+          ):(
+            <View style={{flex:1,backgroundColor:"#f8f8f8",flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+
+
+                 <Text style={{color:"#4C4C4C",fontSize:17}}>Follow</Text>
+
+
+            </View>
+
+          )
+      }
 
       </View>
     );

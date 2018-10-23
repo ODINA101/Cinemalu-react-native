@@ -14,7 +14,7 @@ import {
   StatusBar,
   KeyboardAvoidingView
 } from 'react-native';
-import Toolbar from './toolbar';
+import Toolbar from '../_GLOBAL/toolbar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import Tabs from './tabs';
@@ -22,7 +22,7 @@ import TabsT from './tabs2';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from '../Actions';
-import Post from './Post';
+import Post from '../_GLOBAL/Post';
 import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -58,12 +58,13 @@ class MoviePage extends Component {
     let p = this;
     console.log(item.id);
     this.state.itemId = item.id;
-    this.props.actions.GetMovieInfo(item._id, function(details) {
+    this.props.actions.GetMovieInfo(item._id,this.props.redux.Auth.token,function(details) {
       p.setState({info: details, cover: details.media.url});
       console.log(details.media.url);
     });
 
-    this.props.actions.GetPosts(item._id, false, function(data) {
+
+    this.props.actions.GetPosts(item._id, false,this.props.redux.Auth.token,function(data) {
       p.setState({data});
     });
 
@@ -202,7 +203,7 @@ class MoviePage extends Component {
 
             </ImageBackground>
 
-            <Tabs info={this.state.info} />
+            <Tabs info={this.state.info} followed={this.props.navigation.state.params.followed} />
 
             {// <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',backgroundColor:"#FFF",height:80,paddingLeft:50,paddingRight:50}}>
             // <Text style={{color:"black",fontSize:18}}>CAST & PRODUCTION</Text>
@@ -337,6 +338,7 @@ class MoviePage extends Component {
               return (
                 <View>
                   <Post
+                    nav={this.props.navigation}
                     share={() =>
                       this.setState({sharingItem: item, showShareModal: true})}
                     liked={item.userLikes.includes('5babc3e0a7f76013867020ce')}

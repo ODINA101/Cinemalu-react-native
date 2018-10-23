@@ -27,7 +27,16 @@ export default class SingleMovie extends Component {
 
   render() {
     return (
-      <Touchable onPress={()=>{this.props.nav.navigate("MoviePage",{info:this.props.item})}}>
+      <Touchable onPress={()=>{
+         if(this.props.ProfilePage) {
+           this.props.nav.push("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser})
+
+         }else{
+           this.props.nav.navigate("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser})
+
+         }
+
+      }}>
         <View  style={{width:120,height:250}}>
         <ImageBackground source={{uri:this.props.item.media.url}} style={{flex:1}}>
         <Touchable onPress={() => {
@@ -37,10 +46,8 @@ export default class SingleMovie extends Component {
         {
           this.state.followed?(
             <Image source={bookmark2} style={{alignSelf: 'flex-end'}}/>
-
           ):(
             <Image source={bookmark1} style={{alignSelf: 'flex-end'}}/>
-
           )
         }
 
@@ -48,7 +55,6 @@ export default class SingleMovie extends Component {
         </ImageBackground>
         <View style={{flex:0.3,alignItems: "center"}}>
         <Text  maxLineNumber={1}  style={{color:"#FFF",fontWeight:"bold"}}>{this.props.item.name}</Text>
-
         <Text maxLineNumber={1} style={{color:"#FFF"}}>{this.props.item.tagLine}</Text>
        </View>
        </View>

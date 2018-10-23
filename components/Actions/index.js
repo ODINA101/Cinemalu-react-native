@@ -265,7 +265,7 @@ export function ReportPost(postId, AlreadyReported,token, cb) {
 
 
 
-export function LikePost(postId, cb,token) {
+export function LikePost(postId, token,cb) {
   return function(dispatch) {
     return axios
       .put(
