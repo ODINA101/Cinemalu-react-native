@@ -23,9 +23,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from '../Actions';
 import Post from '../_GLOBAL/Post';
+import Reply from '../_GLOBAL/Post/reply';
+
 import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import {MenuProvider} from 'react-native-popup-menu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Touchable from 'react-native-platform-touchable';
 import EmojiSelector from 'react-native-emoji-selector';
@@ -34,6 +38,11 @@ import Loader from 'react-native-modal-loader';
 import Modal from 'react-native-modal';
 import ShareModal from './shareModal';
 import R from 'ramda';
+import Makers from "./Makers"
+
+
+
+
 import Textarea from 'react-native-textarea';
 class MoviePage extends Component {
   constructor(props) {
@@ -52,6 +61,7 @@ class MoviePage extends Component {
       isLoading: false,
       showShareModal: false,
       sharingItem: '',
+      Tab:"Fans"
     };
 
     let item = this.props.navigation.state.params.info;
@@ -83,7 +93,7 @@ class MoviePage extends Component {
     this.setState({myComment: ''});
 
     if (this.state.editing) {
-      p.props.actions.EditPost(item._id,formData,function() {
+      p.props.actions.EditPost(item._id,formData,this.props.redux.Auth.token,function() {
         p.setState({isLoading: false});
       })
 
@@ -101,14 +111,14 @@ class MoviePage extends Component {
 
   postReport(id, isReported) {
     let p = this;
-    this.props.actions.ReportPost(id, isReported, function() {
+    this.props.actions.ReportPost(id, isReported,this.props.redux.Auth.token,function() {
       p.setState({data});
       p.setState({isLoading: false});
 
     });
   }
   postLike(id) {
-    this.props.actions.LikePost(id, function() {});
+    this.props.actions.LikePost(id, this.props.redux.Auth.token,function() {});
   }
 
   onPostAction(n, item) {
@@ -138,6 +148,8 @@ class MoviePage extends Component {
       );
     } else {
       return (
+        <MenuProvider>
+
         <View style={styles.container}>
 
           <Toolbar nav={this.props.navigation} />
@@ -205,176 +217,83 @@ class MoviePage extends Component {
 
             <Tabs info={this.state.info} followed={this.props.navigation.state.params.followed} />
 
-            {// <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',backgroundColor:"#FFF",height:80,paddingLeft:50,paddingRight:50}}>
+            {
+            // <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',backgroundColor:"#FFF",height:80,paddingLeft:50,paddingRight:50}}>
             // <Text style={{color:"black",fontSize:18}}>CAST & PRODUCTION</Text>
             // <Ionicons size={40} color="#000"  name="ios-arrow-forward"/>
             // </View>
-          }
+            }
 
-            <TabsT />
+            <TabsT onTabClick={(tab) => this.setState({Tab:tab})}/>
 
-            <View style={{height: 300, backgroundColor: '#FFF'}}>
-              <View style={{flex: 0.3, padding: 20}}>
-                {/*
-  <Image style={{width:35,height:35}} source={{uri:"https://s3.us-east-2.amazonaws.com/cinemalu-stage/45e394c5-bc0b-483b-9fa6-da23fbffaba4.jpeg"}}/>
 
-*/}
-                <View
-                  style={{
-                    width: 35,
-                    height: 35,
-                    backgroundColor: '#f1a61f',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
+      {
 
-                  <Text
-                    style={{color: '#FFF', fontWeight: 'bold', fontSize: 18}}
-                  >
-                    BS
-                  </Text>
+        this.state.Tab=="Makers"?(
+           <Makers navigation={this.props.navigation} postLike={(id)=> {
+             this.postLike(id)
+           }} postReport={(id,abuses)=>this.postReport(id,abuses)} onPostAction={(e,item)=>this.onPostAction(e,item)} movieId={this.props.navigation.state.params.info._id}/>
+        ):(<View/>)
 
-                </View>
+      }
 
-              </View>
 
-              <View style={{flex: 2, padding: 20}}>
-                <Textarea
-                  containerStyle={{
-                    height: 150,
-                    borderWidth: 1,
-                    borderColor: '#bababa',
-                  }}
-                  onChangeText={t => {
-                    this.setState({myComment: t});
-                  }}
-                  defaultValue={this.state.myComment}
-                  maxLength={150}
-                  placeholder={'Comment on this movie...'}
-                  placeholderTextColor={'#c7c7c7'}
-                  underlineColorAndroid={'transparent'}
-                />
-
-                <View style={{flexDirection: 'row', paddingTop: 5}}>
-                  <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Touchable
-                      onPress={() => {
-                        ImagePicker.showImagePicker(response => {
-                          console.log('Response = ', response);
-
-                          if (response.didCancel) {
-                            console.log('User cancelled image picker');
-                          } else if (response.error) {
-                            console.log('ImagePicker Error: ', response.error);
-                          } else if (response.customButton) {
-                            console.log(
-                              'User tapped custom button: ',
-                              response.customButton,
-                            );
-                          } else {
-                            const source = {uri: response.uri};
-                            const file = {
-                              uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
-                              name: response.uri.split('/')[
-                                response.uri.split('/').length - 1
-                              ], // e.g. 'image123.jpg',
-                              type: response.type, // e.g. 'image/jpg'
-                            };
-
-                            this.setState({image: file});
-
-                            // You can also display the image using data:
-                            // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-                            console.log(file);
-                            //  const body = new FormData()
-                            // body.append('file', file)
-
-                            this.setState({
-                              avatarSource: source,
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      <MaterialIcons size={25} name="photo" color="#6F6F6F" />
-                    </Touchable>
-
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      alignItems: 'flex-end',
-                    }}
-                  >
-
-                    <Touchable
-                      onPress={() => {
-                        this.send();
-                      }}
-                      style={{
-                        width: 60,
-                        height: 30,
-                        backgroundColor: '#ebedee',
-                        color: '#4a4a4a',
-                        justifyContent: 'center',
-                        borderWidth: 1,
-                        borderColor: '6f6f70',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Text>Send</Text>
-                    </Touchable>
-
-                  </View>
-
-                </View>
-              </View>
-
-            </View>
-
+       {
+         this.state.Tab=="Fans"?(
+           <View>
+            <Reply send={() => {this.send()}} o={this} myComment={this.state.myComment} />
             {this.state.data.map(item => {
-              return (
-                <View>
-                  <Post
-                    nav={this.props.navigation}
-                    share={() =>
-                      this.setState({sharingItem: item, showShareModal: true})}
-                    liked={item.userLikes.includes('5babc3e0a7f76013867020ce')}
-                    reported={item.userAbuses.includes(
-                      '5babc3e0a7f76013867020ce',
-                    )}
-                    like={() => this.postLike(item._id)}
-                    report={() =>
-                      this.postReport(
-                        item._id,
-                        item.userAbuses.includes('5babc3e0a7f76013867020ce'),
-                      )}
-                    action={e => this.onPostAction(e, item)}
-                    item={item}
-                  />
-                  <View style={{backgroundColor: '#B0AFB2', height: 2}} />
-                </View>
-              );
-            })}
+             return (
+             <View>
+               <Post
+                 nav={this.props.navigation}
+                 share={() =>
+                   this.setState({sharingItem: item, showShareModal: true})}
+                 liked={item.userLikes.includes('5babc3e0a7f76013867020ce')}
+                 reported={item.userAbuses.includes(
+                   '5babc3e0a7f76013867020ce',
+                 )}
+                 like={() => this.postLike(item._id)}
+                 report={() =>
+                   this.postReport(
+                     item._id,
+                     item.userAbuses.includes('5babc3e0a7f76013867020ce'),
+                   )}
+                 action={e => this.onPostAction(e, item)}
+                 item={item}
+               />
+               <View style={{backgroundColor: '#B0AFB2', height: 2}} />
+             </View>
+           );
+         })}
 
-            {this.state.data == []
-              ? <View />
-              : <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 100,
-                  }}
-                >
-                  <ActivityIndicator
-                    size="large"
-                    color="#00ff00"
-                    style={{paddingTop: 50}}
-                  />
+         {this.state.data == []
+           ? <View />
+           : <View
+               style={{
+                 justifyContent: 'center',
+                 alignItems: 'center',
+                 height: 100,
+               }}
+             >
+               <ActivityIndicator
+                 size="large"
+                 color="#00ff00"
+                 style={{paddingTop: 50}}
+               />
 
-                </View>}
+             </View>}
+           </View>
+         ):(<View />)
+       }
+
+
+
+
+
+
+
+
 
           </ScrollView>
           {this.state.isLoading
@@ -389,11 +308,14 @@ class MoviePage extends Component {
                 p.setState({isLoading:false})
                })
              }}
+             addComment={(t) => this.setState({myComment:t})}
             item={this.state.sharingItem}
             dismiss={() => this.setState({showShareModal: false})}
             showShareModal={this.state.showShareModal}
           />
         </View>
+        </MenuProvider>
+
       );
     }
   }

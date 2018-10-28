@@ -125,7 +125,7 @@ class MainScreen extends Component {
                         >
                           <SingleMovie
                             onFollow={data =>
-                              this.props.actions.MovieFollow(item._id, data)}
+                              this.props.actions.MovieFollow(item._id, data,this.props.redux.Auth.token)}
                             nav={this.props.nav}
                             item={item}
                           />

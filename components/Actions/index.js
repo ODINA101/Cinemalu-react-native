@@ -174,6 +174,52 @@ export function DeletePost(id,token,cb) {
 }
 
 
+export function getReplies(postId, page, token, cb) {
+  return function(dispatch) {
+    return axios
+      .put(
+        'http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/replies/' +
+          postId +
+          '/' +
+          page + "/" +
+          '5',
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+        cb(res.data);
+      })
+      .catch(err => console.log(err.response));
+  };
+}
+export function AddReply(id,formData,token,cb) {
+	console.log(id)
+	console.log(formData)
+
+	return function (dispatch) {
+	return	axios
+			.post(
+				'http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/reply/' +
+					id,
+				formData,
+				{
+					headers: {
+						Authorization: 'Bearer ' +
+							token,
+					},
+				},
+			)
+			.then(res => {
+				console.log(res);
+			  cb()
+			}).catch((err) => console.log(err.response));
+	}
+}
+
 
 
 
@@ -230,12 +276,18 @@ export function GetPosts(MovieId,isMakersTab,token,callback) {
 		})
 		.then(res => {
         callback(res.data)
-			  dispatch({type:GET_POSTS,payload:res.data})
+				if(!isMakersTab) {
+					dispatch({type:GET_POSTS,payload:res.data})
+	
+				}
 		}).catch(error => {
-			console.log(error)
+			console.log(error.response)
 		})
 	}
 }
+
+
+
 
 
 export function ReportPost(postId, AlreadyReported,token, cb) {
