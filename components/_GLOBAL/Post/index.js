@@ -87,7 +87,7 @@ if(verifiedURL) {
 
   getReplies() {
     let p = this;
-  this.props.actions.getReplies(this.props.item._id,1,this.props.redux.Auth.token,function(data) {
+  this.props.actions.getReplies(this.props.item._id,0,this.props.redux.Auth.token,function(data) {
     p.setState({replies:data})
   })
 
