@@ -4,6 +4,8 @@ import TabNav from './TabNav';
 import MainScreen from './MainScreen';
 import CalendarPage from './CalendarComponents';
 import Account from './Account';
+import MyAccount from './MyAccount';
+
 import {connect} from 'react-redux';
 import * as Actions from './Actions';
 import {bindActionCreators} from 'redux';
@@ -13,7 +15,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      page: 'Movies',
+      page: 'Account',
       loggedIn:false
     };
     this.tabChange = this.tabChange.bind(this);
@@ -47,8 +49,8 @@ class HomeScreen extends Component {
         return <CalendarPage nav={this.props.navigation} />;
       case 'Account':
          if(this.state.loggedIn) {
-           return <Account nav={this.props.navigation} />;
-         
+           return <MyAccount nav={this.props.navigation} />;
+
          }else{
            return <Account nav={this.props.navigation} />;
 

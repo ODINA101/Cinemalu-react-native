@@ -122,7 +122,17 @@ export function SearchSuccess(res) {
 	}
 }
 
-
+export function getProfileData(token,callback) {
+	return function(dispatch) {
+		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
+			headers: {
+				Authorization: 'Bearer ' +
+					token,
+			},
+		})
+		.then(res =>{callback(res.data) })
+	}
+}
 export function GetMovieInfo(movieId,token, callback) {
   return function(dispatch) {
     return axios
@@ -278,7 +288,7 @@ export function GetPosts(MovieId,isMakersTab,token,callback) {
         callback(res.data)
 				if(!isMakersTab) {
 					dispatch({type:GET_POSTS,payload:res.data})
-	
+
 				}
 		}).catch(error => {
 			console.log(error.response)
