@@ -122,6 +122,23 @@ export function SearchSuccess(res) {
 	}
 }
 
+
+export function Logout(cb) {
+	return async function(dispatch) {
+		try {
+						await AsyncStorage.setItem('userToken',"")
+           cb()
+          dispatch({type:"REMOVE_TOKEN"})
+
+						}catch(error) {
+							console.log(error)
+						}
+
+	}
+
+}
+
+
 export function getProfileData(token,callback) {
 	return function(dispatch) {
 		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
@@ -436,7 +453,7 @@ export function ALLMOVIESLOADMORE(offsetY, callback) {
 
 
 
-export function Login(Email, password) {
+export function Login(Email, password,cb) {
   return function(dispatch) {
     dispatch({type: LOADER, payload: true});
 
@@ -448,12 +465,16 @@ export function Login(Email, password) {
           password,
         },
       )
-      .then(res => {
-        dispatch(LoginSuccess(res));
-				AsyncStorage.setItem('userToken', res.data.access_token)
-        dispatch({type: LOADER, payload: false});
+      .then(async (res) => {
+				await AsyncStorage.setItem('userToken', res.data.access_token)
+				dispatch(LoginSuccess(res));
+				dispatch({type: LOADER, payload: false});
+				
+					cb(res.data)
+
       })
       .catch(error => {
+				cb(null)
         console.log(error.response);
         dispatch(LoginInvalid(error.response));
         dispatch({type: LOADER, payload: false});

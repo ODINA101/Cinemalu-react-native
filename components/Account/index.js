@@ -38,7 +38,12 @@ class Account extends Component {
   }
 
 Login() {
-this.props.actions.Login(this.state.username,this.state.password)
+  let p= this;
+this.props.actions.Login(this.state.username,this.state.password,function(access) {
+  if(access) {
+    p.props.onLogSuccess();
+  }
+})
 }
 
 EmailConfirm() {

@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 import axios from 'axios';
 import Toolbar from '../_GLOBAL/toolbar';
@@ -19,7 +20,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
-
+import Ionicons from "react-native-vector-icons/Ionicons"
 
  class UploadPhoto extends Component {
    render() {
@@ -79,7 +80,6 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
   render() {
     return (
       <View style={styles.container}>
-        <Toolbar nav={this.props.navigation} />
         <ScrollView style={{flex: 1}}>
           <View style={{height: 400, backgroundColor: '#f8f8f8'}}>
             <View
@@ -277,8 +277,75 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 
 
 
+                  <View style={{padding:15,flexDirection: 'row'}}>
+                  <View style={{flex:1,flexDirection: 'column'}}>
+               <View style={{flex:1,alignItems: 'flex-start',flexDirection: 'row'}}>
+              <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Languages</Text>
+               </View>
+
+                 <View style={{flexDirection: 'row',marginTop:20}}>
+                  <View style={{flex:1,justifyContent: 'center'}}>
+                  <Text style={{fontSize:14,color:'#989da7',fontWeight: '700'}}>Spanish</Text>
+
+                  </View>
+                  <View style={{flex:1,justifyContent: 'center'}}>
+                  <Ionicons name="ios-checkmark-circle" color="#efa533" size={30}/>
+                  </View>
+                 </View>
 
 
+
+
+                </View>
+
+                  <View style={{flex:1,flexDirection: 'column'}}>
+                     <View style={{flex:1,alignItems: 'flex-start',flexDirection: 'row'}}>
+                    <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Notifications</Text>
+                    </View>
+                    <View style={{flexDirection: 'row',marginTop:20}}>
+                    <View style={{flex:4,justifyContent: 'center'}}>
+                    <Text style={{color:'#989da7',fontSize:14}}> Email me when someone responds to my posts </Text>
+                    </View>
+
+                    <View style={{flex:1,paddingLeft:5,justifyContent: 'center'}}>
+                       <Ionicons name="ios-checkmark-circle" color="#efa533" size={30}/>
+                   </View>
+
+                    </View>
+                   </View>
+
+
+
+
+
+
+
+
+
+
+                  </View>
+
+
+
+                  <Touchable
+                    onPress={() => {
+                        let p = this;
+                        this.props.actions.Logout(function() {
+                          			p.props.onLogout()
+                        });
+                      } }
+
+                                  style={{
+                                    height: 45,
+                                    backgroundColor: '#4a4a4a',
+                                    justifyContent: 'center',
+                                    alignItems:'center'
+                                  }}
+                                >
+                                  <Text style={{color: '#FFF', fontSize: 15, padding: 20}}>
+                                  LOGOUT
+                                  </Text>
+                                </Touchable>
 
 
 

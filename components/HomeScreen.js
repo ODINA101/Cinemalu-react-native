@@ -49,10 +49,10 @@ class HomeScreen extends Component {
         return <CalendarPage nav={this.props.navigation} />;
       case 'Account':
          if(this.state.loggedIn) {
-           return <MyAccount nav={this.props.navigation} />;
+           return <MyAccount onLogout={()=>this.setState({loggedIn:false})} nav={this.props.navigation} />;
 
          }else{
-           return <Account nav={this.props.navigation} />;
+           return <Account onLogSuccess={() => this.setState({loggedIn:true})} nav={this.props.navigation} />;
 
          }
       default:

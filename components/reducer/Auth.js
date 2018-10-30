@@ -22,6 +22,8 @@ const InitialState = {
 
 export default (state = InitialState, action) => {
   switch (action.type) {
+  case 'REMOVE_TOKEN':
+      return {...state,token:''};
   case 'ACCESS_TOKEN':
       return {...state, token: action.token};
 
@@ -30,7 +32,7 @@ export default (state = InitialState, action) => {
         ...state,
         loginMsg: 'success',
         UserIsLogged: true,
-        access_token: action.payload.access_token,
+        token: action.payload.access_token,
       };
 
     case LOGIN_INVALID:
