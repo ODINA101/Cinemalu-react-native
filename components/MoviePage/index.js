@@ -98,8 +98,8 @@ class MoviePage extends Component {
       })
 
     } else {
-    this.props.actions.AddPost(this.state.info._id,formData,function(){
-      p.props.actions.GetPosts(item._id, false, function(data) {
+    this.props.actions.AddPost(this.state.info._id,formData,this.props.redux.Auth.token,function(){
+      p.props.actions.GetPosts(item._id, false, this.props.redux.Auth.token,function(data) {
         p.setState({data});
         p.setState({isLoading: false});
       });
@@ -129,7 +129,7 @@ class MoviePage extends Component {
     } else {
       //Delete
       console.log(this.state.postId);
-      this.props.actions.DeletePost(item._id,function() {
+      this.props.actions.DeletePost(item._id,this.props.redux.Auth.token,function() {
         let item = this.props.navigation.state.params.info;
         p.props.actions.GetPosts(item._id, false, function(data) {
           p.setState({data});
@@ -143,7 +143,6 @@ class MoviePage extends Component {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="large" color="#393636" />
-
         </View>
       );
     } else {
@@ -156,7 +155,10 @@ class MoviePage extends Component {
           <ScrollView>
 
             <ImageBackground
-              style={{height: 230, flexDirection: 'row'}}
+              imageStyle={{
+               height:"190%"
+              }}
+              style={{height: 250, flexDirection: 'row'}}
               source={{uri: this.state.cover}}
             >
               <View style={{flex: 5, justifyContent: 'flex-end'}}>
@@ -215,7 +217,7 @@ class MoviePage extends Component {
 
             </ImageBackground>
 
-            <Tabs info={this.state.info} followed={this.props.navigation.state.params.followed} />
+            <Tabs info={this.state.info} followed={this.state.info.interestedByCurrentUser} />
 
             {
             // <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',backgroundColor:"#FFF",height:80,paddingLeft:50,paddingRight:50}}>
@@ -241,7 +243,7 @@ class MoviePage extends Component {
        {
          this.state.Tab=="Fans"?(
            <View>
-            <Reply send={() => {this.send()}} o={this} myComment={this.state.myComment} />
+            <Reply send={() => {this.send()}} o={this} addComment={(t) => this.setState({myComment:t})} myComment={this.state.myComment} />
             {this.state.data.map(item => {
              return (
              <View>

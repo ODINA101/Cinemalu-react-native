@@ -42,6 +42,7 @@ Login() {
 this.props.actions.Login(this.state.username,this.state.password,function(access) {
   if(access) {
     p.props.onLogSuccess();
+    p.props.actions.GetAllMovies(access)
   }
 })
 }

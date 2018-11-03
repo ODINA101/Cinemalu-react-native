@@ -123,6 +123,130 @@ export function SearchSuccess(res) {
 }
 
 
+
+export function getReleasingMovies(date,cb) {
+	return function (dispatch) {
+		return axios.get("https://api.cinemalu.com/api/calendar/" + date)
+		.then(res => {
+			cb(res.data)
+		})
+	}
+}
+
+
+export function UpdateProfilePhoto(userId,photo,token,cb) {
+	return function(dispatch) {
+		return axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/admin/users/upload/" +
+		userId,
+		photo,
+		{
+	 headers: {
+			 Authorization: 'Bearer ' + token,
+	   },
+		 }).then(res => {
+			 console.log(res)
+			 cb()
+		 }).catch(err => console.log(err.response))
+
+	}
+}
+
+
+
+
+
+export function ChangePassword(password,token) {
+	return function(dispatch) {
+		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile/password",
+	{
+		password
+	},
+	{
+	 headers: {
+			 Authorization: 'Bearer ' + token,
+			    },
+		 }
+	 ).then(res => {
+		 console.log(res)
+	 }).catch(error => console.log(error.response))
+
+
+
+	}
+}
+
+export function UpdateProfile(firstName,lastName,token) {
+ return function(dispatch) {
+	 return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
+		 firstName:firstName,
+		 lastName:lastName,
+	 },{
+			 headers: {
+				 Authorization: 'Bearer ' + token,
+			 },
+		 },).then(res => {
+		 console.log(res.data)
+	 }).catch(error => {
+		 console.log(error.response)
+	 })
+ }
+
+}
+
+export function UpdatePersonalInfo(data,token) {
+console.log(data)
+ return function(dispatch) {
+	 return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
+		 firstName:data.pinfo.firstName,
+		 lastName: data.pinfo.lastName,
+		 country: data.country,
+		 phone:data.mobile,
+		 state:data.state,
+		 languages:data.pinfo.languages,
+		 emailWhenSomeoneBlocksMe: data.pinfo.emailWhenSomeoneBlocksMe, //Email me when someone blocks me
+		 emailWhenSomeoneRespondsMyPost:data.pinfo.emailWhenSomeoneRespondsMyPost, //Email me when someone responds to my posts
+		 subscribeMonthlyNewsletter:data.pinfo.subscribeMonthlyNewsletter, //Receive the monthly cinemalu newsletter
+		 subscribeNewReleases:data.pinfo.subscribeNewReleases
+	 },{
+			 headers: {
+				 Authorization: 'Bearer ' + token,
+			 },
+		 },).then(res => {
+		 console.log(res.data)
+	 }).catch(error => {
+		 console.log(error.response)
+	 })
+ }
+
+}
+
+export function UpdateAccountInfo(data,token) {
+ console.log(data.pinfo.firstName)
+ return function(dispatch) {
+	 return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
+		 firstName:data.pinfo.firstName,
+		 lastName: data.pinfo.lastName,
+		 country: data.pinfo.country,
+		 phone: data.pinfo.phone,
+		 state: data.pinfo.state,
+		 languages:data.languages,
+		 emailWhenSomeoneBlocksMe: data.pinfo.emailWhenSomeoneBlocksMe, //Email me when someone blocks me
+		 emailWhenSomeoneRespondsMyPost:data.pinfo.emailWhenSomeoneRespondsMyPost, //Email me when someone responds to my posts
+		 subscribeMonthlyNewsletter:data.pinfo.subscribeMonthlyNewsletter, //Receive the monthly cinemalu newsletter
+		 subscribeNewReleases:data.pinfo.subscribeNewReleases
+	 },{
+			 headers: {
+				 Authorization: 'Bearer ' + token,
+			 },
+		 },).then(res => {
+		 console.log(res.data)
+	 }).catch(error => {
+		 console.log(error.response)
+	 })
+ }
+
+}
+
 export function Logout(cb) {
 	return async function(dispatch) {
 		try {
@@ -139,6 +263,21 @@ export function Logout(cb) {
 }
 
 
+export function ProfileLookups(token,callback) {
+
+	return function(dispatch) {
+		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/admin/lookups",{
+			headers: {
+				Authorization: 'Bearer ' +
+					token,
+			},
+		})
+		.then(res =>{callback(res.data) })
+	}
+
+
+}
+
 export function getProfileData(token,callback) {
 	return function(dispatch) {
 		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile",{
@@ -147,7 +286,10 @@ export function getProfileData(token,callback) {
 					token,
 			},
 		})
-		.then(res =>{callback(res.data) })
+		.then(res =>{callback(res.data) }).catch(err => {
+			callback("",err.response)
+			console.log(err.response)
+		})
 	}
 }
 export function GetMovieInfo(movieId,token, callback) {
@@ -156,13 +298,19 @@ export function GetMovieInfo(movieId,token, callback) {
       .get(
         'http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/' +
           movieId,
-      )
+					{
+						headers: {
+							Authorization: 'Bearer ' +
+								token,
+						},
+					}
+        )
       .then(res => {
         console.log(res.data);
         callback(res.data);
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.response);
       });
   };
 }
@@ -469,8 +617,7 @@ export function Login(Email, password,cb) {
 				await AsyncStorage.setItem('userToken', res.data.access_token)
 				dispatch(LoginSuccess(res));
 				dispatch({type: LOADER, payload: false});
-				
-					cb(res.data)
+					cb(res.data.access_token)
 
       })
       .catch(error => {

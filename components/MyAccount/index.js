@@ -8,7 +8,8 @@ import {
   ImageBackground,
   ScrollView,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  TextInput
 } from 'react-native';
 import axios from 'axios';
 import Toolbar from '../_GLOBAL/toolbar';
@@ -21,11 +22,56 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../Actions"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Ionicons from "react-native-vector-icons/Ionicons"
+import AccountInfo from "./AccountInfo"
+import PersonalInfo from "./PersonalInfo"
+import InfoTabs from "./InfoTabs"
+import ImagePicker from 'react-native-image-picker';
+import EvilIcons from "react-native-vector-icons/EvilIcons"
+
 
  class UploadPhoto extends Component {
+   constructor(props) {
+     super(props)
+   }
+
    render() {
+
      return(
-       <View style={{justifyContent:'center',alignItems: 'center',flex:1,backgroundColor:"rgba(0,0,0,0.5)"}}>
+       <Touchable onPress={() => {
+         ImagePicker.showImagePicker(response => {
+           console.log('Response = ', response);
+
+           if (response.didCancel) {
+             console.log('User cancelled image picker');
+           } else if (response.error) {
+             console.log('ImagePicker Error: ', response.error);
+           } else if (response.customButton) {
+             console.log(
+               'User tapped custom button: ',
+               response.customButton,
+             );
+           } else {
+             const source = {uri: response.uri};
+             const file = {
+               uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
+               name: response.uri.split('/')[
+                 response.uri.split('/').length - 1
+               ], // e.g. 'image123.jpg',
+               type: response.type, // e.g. 'image/jpg'
+             };
+
+
+             // You can also display the image using data:
+             // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+              let formData = new FormData()
+              formData.append('file', file)
+               this.props.onSelectPhoto(formData)
+
+
+           }
+         });
+       }}
+        style={{justifyContent:'center',alignItems: 'center',flex:1,backgroundColor:"rgba(0,0,0,0.5)"}}>
 
          <View style={{alignItems: 'center'}}>
 
@@ -34,7 +80,8 @@ import Ionicons from "react-native-vector-icons/Ionicons"
          </View>
 
 
-       </View>
+
+       </Touchable>
      )
    }
  }
@@ -55,32 +102,94 @@ import Ionicons from "react-native-vector-icons/Ionicons"
       firstName:"",
       lastName:"",
       thoughtsCount:"",
-      followedCount:""
+      followedCount:"",
+      languages:[],
+      selectedLangs:[],
+      AccountInfo:{
+      },
+      AccountEditing:false,
+      PersonalEditing:false,
+      ProfileEditing:false,
+      isLoading:true
     };
 
   let p = this;
-  this.props.actions.getProfileData(this.props.redux.Auth.token,function(data){
+  this.props.actions.getProfileData(this.props.redux.Auth.token,function(data,err){
+    if(data) {
+      p.setState({isLoading:false})
+    }
      console.log(data)
      console.log(data.sharesCount)
-     p.setState({followedCount:data.interestedMovies.length,
+     if(err) {
+            p.props.actions.Logout(function() {
+                    p.props.onLogout()
+                    p.props.actions.GetAllMovies("")
+            });
+
+     }
+     p.setState({
+       followedCount:data.interestedMovies.length,
        thoughtsCount:data.thoughtsCount,
        sharesCount:data.sharesCount,
        firstName:data.firstName,
        lastName:data.lastName,
-      loginID:data.loginID})
+       loginID:data.loginID,
+       languages:data.languages,
+       AccountInfo:data,
+       userId:data._id
+       })
+       p.accountInfo.setInfo(data,"general")
+       p.personalInfo.setAccountInfo(data)
+
+
   })
 
 
+this.props.actions.ProfileLookups(this.props.redux.Auth.token,function(data) {
+  console.log(data)
+  p.setState({selectedLangs:data.languages})
+  p.accountInfo.setInfo(data,"spec")
+  p.personalInfo.setInfo(data)
 
+})
 
   }
+ updateProfile() {
 
+this.props.actions.UpdateProfile(this.state.firstName,this.state.lastName,this.props.redux.Auth.token)
+  this.setState({ProfileEditing:false})
+ }
 
 
   render() {
+    if(this.state.isLoading) {
+      return (
+        <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="#00ff00" />
+
+        </View>
+      )
+    }else{
     return (
       <View style={styles.container}>
+
         <ScrollView style={{flex: 1}}>
+        <View
+          style={{
+            height: 45,
+            backgroundColor: '#4a4a4a',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Text style={{color: '#FFF', fontSize: 15, padding: 20}}>
+        Profile
+          </Text>
+          <Touchable onPress={()=> {this.setState({ProfileEditing:!this.state.ProfileEditing})}} style={{padding:20}}>
+          <MaterialIcons size={30} color="#FFF" name="mode-edit" />
+          </Touchable>
+        </View>
           <View style={{height: 400, backgroundColor: '#f8f8f8'}}>
             <View
               style={{
@@ -99,7 +208,11 @@ import Ionicons from "react-native-vector-icons/Ionicons"
                       backgroundColor: '#C6C6C6',
                     }}
                   >
-                  <UploadPhoto />
+                  <UploadPhoto onSelectPhoto={(file) =>{
+                    this.props.actions.UpdateProfilePhoto(this.state.loginID,file,this.props.redux.Auth.token,function(){
+                      console.log("uploaded")
+                    })
+                  }}/>
                   </ImageBackground>
                 : <ImageBackground
                     source={{
@@ -111,15 +224,47 @@ import Ionicons from "react-native-vector-icons/Ionicons"
                       backgroundColor: '#C6C6C6',
                     }}
                   >
-                  <UploadPhoto />
+                  <UploadPhoto onSelectPhoto={(file) =>{
+                    this.props.actions.UpdateProfilePhoto(this.state.userId,file,this.props.redux.Auth.token,function(){
+                      console.log("uploaded")
+                    })
+                  }}/>
 
                   </ImageBackground>}
 
             </View>
             <View style={{flex: 1}}>
-              <Text style={{fontSize: 26, color: '#354052', paddingLeft: 35}}>
-                {this.state.firstName} {this.state.lastName}
+             {
+               this.state.ProfileEditing?(
+                 <View style={{flex:1,padding:20}}>
+                 <View style={{flexDirection: 'row'}}>
+                    <View style={{flex:1,justifyContent: 'center'}}>
+                    <EvilIcons size={30} color="#000" name="user"/>
+                    </View>
+                    <View style={{flex:7}}>
+                   <TextInput value={this.state.firstName} onChangeText={(t) => this.setState({firstName:t})} style={{alignSelf: 'stretch',height:40,borderBottomWidth:1,borderBottomColor:"#e1e3e6"}} placeholder="First Name"/>
+                   </View>
+                  </View>
+
+                 <View style={{flexDirection: 'row',marginTop:10}}>
+                    <View style={{flex:1,justifyContent: 'center'}}>
+                    <EvilIcons size={30} color="#000" name="user"/>
+                    </View>
+                    <View style={{flex:7}}>
+                   <TextInput value={this.state.lastName} onChangeText={(t) => this.setState({lastName:t})} style={{alignSelf: 'stretch',height:40,borderBottomWidth:1,borderBottomColor:"#e1e3e6"}} placeholder="Last Name"/>
+                   </View>
+                  </View>
+                  <Touchable  onPress={()=> this.updateProfile()} style={{height:40,backgroundColor: "#f1a61f",justifyContent: 'center',alignItems: 'center',marginTop:15,borderRadius:4,borderWidth:1,borderColor:"rgba(0,0,0,.1)"}}>
+                  <Text style={{color:"inherit"}}>Save Changes</Text>
+                  </Touchable>
+                 </View>
+               ):(
+                 <View style={{flex:1}}>
+                <Text style={{fontSize: 26, color: '#354052', paddingLeft: 35}}>
+                 {this.state.firstName} {this.state.lastName}
               </Text>
+
+
               <Text
                 style={{
                   fontSize: 18,
@@ -130,200 +275,93 @@ import Ionicons from "react-native-vector-icons/Ionicons"
               >
                 @{this.state.loginID}
               </Text>
-
-            </View>
-
-            <View style={{flex: 1, flexDirection: 'row'}}>
-
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{color: '#f1a61f', fontSize: 30, fontWeight: '500'}}
-                  >
-                    {this.state.sharesCount}
-                  </Text>
-                  <Text style={{color: '#bababa', fontSize: 14}}>Shares</Text>
-                </View>
-
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
+               )
+             }
+           </View>
+           {
+             this.state.ProfileEditing?(<View />):(
+               <InfoTabs sharesCount={this.state.sharesCount} thoughtsCount={this.state.thoughtsCount}    followedCount={this.state.followedCount}/>
 
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{color: '#f1a61f', fontSize: 30, fontWeight: '500'}}
-                  >
-                    {this.state.thoughtsCount}
-                  </Text>
-                  <Text style={{color: '#bababa', fontSize: 14}}>Thoughts</Text>
-                </View>
-
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{color: '#f1a61f', fontSize: 30, fontWeight: '500'}}
-                  >
-                    {this.state.followedCount}
-                  </Text>
-                  <Text style={{color: '#bababa', fontSize: 14}}>
-                    Following
-                  </Text>
-                </View>
-
-              </View>
-
-            </View>
-
+             )
+           }
           </View>
 
           <View
             style={{
               height: 45,
               backgroundColor: '#4a4a4a',
-              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between'
             }}
           >
             <Text style={{color: '#FFF', fontSize: 15, padding: 20}}>
               PERSONAL INFORMATION
             </Text>
+            <Touchable onPress={()=> {this.setState({PersonalEditing:!this.state.PersonalEditing})}} style={{padding:20}}>
+            <MaterialIcons size={30} color="#FFF" name="mode-edit" />
+            </Touchable>
           </View>
-          <View style={{padding:15}}>
-
-             <View style={{alignItems: 'flex-start',flexDirection: 'row'}}>
-             <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Email & Password</Text>
-             </View>
-
-
-            <View style={{flexDirection: 'row',marginTop:30}}>
-             <View style={{flex:1}}>
-             <Text style={{fontSize:16,color:'#6f6f70',fontWeight: '700'}}>Email</Text>
-             </View>
-             <View style={{flex:1.3,alignItems: 'flex-end'}}>
-             <Text style={{color:"#6f6f70",fontSize:16,fontWeight: '400'}}>Iraklisamsdasd...</Text>
-             </View>
-            </View>
-
-             <View style={{flexDirection: 'row',marginTop:10}}>
-                    <Text style={{fontSize:16,color:'#6f6f70',fontWeight: '700'}}>Password</Text>
-           <View style={{flex:1.3,alignItems: 'flex-end'}}>
-           <Text style={{color:"#6f6f70",fontSize:17,fontWeight: '400'}}>********</Text>
-          </View>
-          </View>
-
-          <View style={{alignItems: 'flex-start',flexDirection: 'row',marginTop:30}}>
-          <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Contact details</Text>
-          </View>
-
-          <View style={{flexDirection: 'row',marginTop:30}}>
-           <View style={{flex:1}}>
-           <Text style={{fontSize:16,color:'#6f6f70',fontWeight: '700'}}>Phone</Text>
-           </View>
-           <View style={{flex:1.3,alignItems: 'flex-end'}}>
-           <Text style={{color:"#6f6f70",fontSize:16,fontWeight: '400'}}></Text>
-           </View>
-          </View>
-          <View style={{flexDirection: 'row',marginTop:10}}>
-           <View style={{flex:1}}>
-           <Text style={{fontSize:16,color:'#6f6f70',fontWeight: '700'}}>Cointry</Text>
-           </View>
-           <View style={{flex:1.3,alignItems: 'flex-end'}}>
-           <Text style={{color:"#6f6f70",fontSize:16,fontWeight: '400'}}></Text>
-           </View>
-          </View>
-          <View style={{flexDirection: 'row',marginTop:10}}>
-           <View style={{flex:1}}>
-           <Text style={{fontSize:16,color:'#6f6f70',fontWeight: '700'}}>State</Text>
-           </View>
-           <View style={{flex:1.3,alignItems: 'flex-end'}}>
-           <Text style={{color:"#6f6f70",fontSize:16,fontWeight: '400'}}></Text>
-           </View>
-          </View>
-
-
-
-
-          </View>
+         <PersonalInfo closeEdit={(passwordChanged)=> {
+           this.setState({PersonalEditing:false})
+            if(passwordChanged) {
+              let p = this;
+              this.props.actions.Logout(function() {
+                      p.props.onLogout()
+                      p.props.actions.GetAllMovies("")
+              });
+            }
+         }} onRef={ref => (this.personalInfo = ref)}
+          editing={this.state.PersonalEditing}/>
           <View
                     style={{
                       height: 45,
                       backgroundColor: '#4a4a4a',
-                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <Text style={{color: '#FFF', fontSize: 15, padding: 20}}>
                     ACCOUNT INFORMATION
                     </Text>
+                    <Touchable onPress={()=>this.setState({AccountEditing:!this.state.AccountEditing})} style={{padding:20}}>
+                    <MaterialIcons size={30} color="#FFF" name="mode-edit" />
+                    </Touchable>
                   </View>
 
 
+     <AccountInfo closeEdit={() => this.setState({AccountEditing:false})} onRef={ref => (this.accountInfo = ref)}
+     AccountEditing={this.state.AccountEditing}
+     lan={this.state.selectedLangs}
+    info={this.state.AccountInfo} />
+     <View style={{height:50,alignItems: 'center'}}>
+     {
+       this.state.AccountEditing?(
 
-                  <View style={{padding:15,flexDirection: 'row'}}>
-                  <View style={{flex:1,flexDirection: 'column'}}>
-               <View style={{flex:1,alignItems: 'flex-start',flexDirection: 'row'}}>
-              <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Languages</Text>
-               </View>
+         <Touchable
+        onPress={() => {
+          this.accountInfo.UpdateInfo()
+          } }
 
-                 <View style={{flexDirection: 'row',marginTop:20}}>
-                  <View style={{flex:1,justifyContent: 'center'}}>
-                  <Text style={{fontSize:14,color:'#989da7',fontWeight: '700'}}>Spanish</Text>
+                      style={{
+                        height: 35,
+                        width:170,
+                        backgroundColor: '#f1a61f',
+                        justifyContent: 'center',
+                        alignItems:'center'
+                      }}
+                    >
+                      <Text style={{color: '#FFF', fontSize: 15, padding: 20}}>
+                      Save Changes
+                      </Text>
+                    </Touchable>
 
-                  </View>
-                  <View style={{flex:1,justifyContent: 'center'}}>
-                  <Ionicons name="ios-checkmark-circle" color="#efa533" size={30}/>
-                  </View>
-                 </View>
+       ):(<View />)
+     }
 
-
-
-
-                </View>
-
-                  <View style={{flex:1,flexDirection: 'column'}}>
-                     <View style={{flex:1,alignItems: 'flex-start',flexDirection: 'row'}}>
-                    <Text style={{color:"#000",fontWeight: '700',fontSize:17}}>Notifications</Text>
-                    </View>
-                    <View style={{flexDirection: 'row',marginTop:20}}>
-                    <View style={{flex:4,justifyContent: 'center'}}>
-                    <Text style={{color:'#989da7',fontSize:14}}> Email me when someone responds to my posts </Text>
-                    </View>
-
-                    <View style={{flex:1,paddingLeft:5,justifyContent: 'center'}}>
-                       <Ionicons name="ios-checkmark-circle" color="#efa533" size={30}/>
-                   </View>
-
-                    </View>
-                   </View>
-
-
-
-
-
-
-
-
-
-
-                  </View>
+</View>
 
 
 
@@ -332,6 +370,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
                         let p = this;
                         this.props.actions.Logout(function() {
                           			p.props.onLogout()
+                                p.props.actions.GetAllMovies("")
                         });
                       } }
 
@@ -355,6 +394,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
         </ScrollView>
       </View>
     );
+  }
   }
 }
 

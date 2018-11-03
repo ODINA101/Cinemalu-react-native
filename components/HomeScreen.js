@@ -15,7 +15,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      page: 'Account',
+      page: 'Calendar',
       loggedIn:false
     };
     this.tabChange = this.tabChange.bind(this);
@@ -24,7 +24,7 @@ class HomeScreen extends Component {
     let p = this;
     this.props.actions.getUserToken(function(data) {
       p.props.actions.GetAllMovies(data);
-      if(data !== null) {
+      if(data !== null && data !== "") {
         p.setState({loggedIn:true})
       }
     });
