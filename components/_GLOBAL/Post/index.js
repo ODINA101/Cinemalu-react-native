@@ -139,7 +139,7 @@ if(verifiedURL) {
 
   render() {
     return (
-      <View style={{padding: 10, flexDirection: 'column', minHeight: 100}}>
+      <View style={{padding: 10, flexDirection: 'column', minHeight: 100,backgroundColor:"#EBEBEC"}}>
         <View style={{flexDirection: 'row', flex: 1}}>
 
           <View style={{flex: 1}}>

@@ -9,13 +9,12 @@ import MyAccount from './MyAccount';
 import {connect} from 'react-redux';
 import * as Actions from './Actions';
 import {bindActionCreators} from 'redux';
-
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      page: 'Calendar',
+      page: 'Movies',
       loggedIn:false
     };
     this.tabChange = this.tabChange.bind(this);
@@ -50,10 +49,8 @@ class HomeScreen extends Component {
       case 'Account':
          if(this.state.loggedIn) {
            return <MyAccount onLogout={()=>this.setState({loggedIn:false})} nav={this.props.navigation} />;
-
          }else{
            return <Account onLogSuccess={() => this.setState({loggedIn:true})} nav={this.props.navigation} />;
-
          }
       default:
         return <MainScreen nav={this.props.navigation} />;

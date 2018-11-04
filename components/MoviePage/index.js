@@ -28,6 +28,7 @@ import Reply from '../_GLOBAL/Post/reply';
 import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import picker from "react-native-picker-select"
 
 import {MenuProvider} from 'react-native-popup-menu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -39,7 +40,7 @@ import Modal from 'react-native-modal';
 import ShareModal from './shareModal';
 import R from 'ramda';
 import Makers from "./Makers"
-
+import Events from "./events"
 
 
 
@@ -158,7 +159,7 @@ class MoviePage extends Component {
               imageStyle={{
                height:"190%"
               }}
-              style={{height: 250, flexDirection: 'row'}}
+              style={{height:250, flexDirection: 'row'}}
               source={{uri: this.state.cover}}
             >
               <View style={{flex: 5, justifyContent: 'flex-end'}}>
@@ -228,6 +229,14 @@ class MoviePage extends Component {
 
             <TabsT onTabClick={(tab) => this.setState({Tab:tab})}/>
 
+            {
+
+              this.state.Tab=="Events"?(
+                 <Events events={this.state.info.events} navigation={this.props.navigation}
+                 movieId={this.props.navigation.state.params.info._id}/>
+              ):(<View/>)
+
+            }
 
       {
 

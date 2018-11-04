@@ -42,7 +42,7 @@ class Makers extends Component {
       {
         this.state.data.map(item => {
        return (
-       <View>
+       <View >
          <Post
           nav={this.props.navigation}
            share={() =>
@@ -92,6 +92,7 @@ function mapDispatchToProps(dispatch) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:"#EBEBEC"
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Makers);
