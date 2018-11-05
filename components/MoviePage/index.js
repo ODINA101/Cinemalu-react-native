@@ -41,7 +41,7 @@ import ShareModal from './shareModal';
 import R from 'ramda';
 import Makers from "./Makers"
 import Events from "./events"
-
+import Ad from "./Ads"
 
 
 import Textarea from 'react-native-textarea';
@@ -64,23 +64,99 @@ class MoviePage extends Component {
       sharingItem: '',
       Tab:"Fans"
     };
-
+    this.AdsToPosts = this.AdsToPosts.bind(this)
     let item = this.props.navigation.state.params.info;
     let p = this;
     console.log(item.id);
     this.state.itemId = item.id;
     this.props.actions.GetMovieInfo(item._id,this.props.redux.Auth.token,function(details) {
       p.setState({info: details, cover: details.media.url});
-      console.log(details.media.url);
+      //console.log(details.media.url);
     });
 
 
+
+
     this.props.actions.GetPosts(item._id, false,this.props.redux.Auth.token,function(data) {
+
       p.setState({data});
+      p.props.actions.getAds(function(dat) {
+
+          p.AdsToPosts(dat)
+
+       })
+
     });
 
     this.send = this.send.bind(this);
   }
+
+
+
+
+
+
+AdsToPosts(adss) {
+
+  const integrateAdsToPosts = (posts,ads) => {
+ let res = [];
+ let adsPerf = [];
+  let num = -1;
+  for(var i =0;i<posts.length;i++) {
+         num++;
+        if(ads[num] == undefined) {
+        num = 0;
+         adsPerf.push(ads[num])
+
+         }else{
+          adsPerf.push(ads[num])
+         }
+
+  }
+
+
+
+   posts.forEach((item,ind) => {
+       // console.log(ind%5)
+       if(ind == 0) {
+
+             res.push(item)
+       }else{
+        if((ind%5) == 0) {
+             res.push(adsPerf[ind/5])
+             res.push(item)
+        }else{
+             res.push(item)
+        }
+       }
+
+ })
+
+ return res;
+}
+
+
+let posts = this.state.data;
+let ads = adss;
+
+
+console.log(integrateAdsToPosts(posts,ads))
+console.log(integrateAdsToPosts(posts,ads))
+this.setState({data:integrateAdsToPosts(posts,ads)})
+//console.log(posts)
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
   send() {
     this.setState({isLoading: true});
@@ -129,7 +205,7 @@ class MoviePage extends Component {
       this.setState({myComment: item.text, editing: true, postId: item._id});
     } else {
       //Delete
-      console.log(this.state.postId);
+      //console.log(this.state.postId);
       this.props.actions.DeletePost(item._id,this.props.redux.Auth.token,function() {
         let item = this.props.navigation.state.params.info;
         p.props.actions.GetPosts(item._id, false, function(data) {
@@ -257,6 +333,7 @@ class MoviePage extends Component {
            <View>
             <Reply send={() => {this.send()}} o={this} addComment={(t) => this.setState({myComment:t})} myComment={this.state.myComment} />
             {this.state.data.map(item => {
+              if(!item.displayDevice) {
              return (
              <View>
                <Post
@@ -279,6 +356,11 @@ class MoviePage extends Component {
                <View style={{backgroundColor: '#B0AFB2', height: 2}} />
              </View>
            );
+         }else{
+           return(
+             <Ad item={item} />
+           )
+         }
          })}
 
          {this.state.data == []

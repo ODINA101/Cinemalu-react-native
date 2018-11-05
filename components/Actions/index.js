@@ -124,6 +124,18 @@ export function SearchSuccess(res) {
 
 
 
+export function getAds(callback) {
+	return function (dispatch) {
+		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/ads/Pc/true")
+		.then(res => {
+			console.log("ads :")
+			console.log(res.data)
+			callback(res.data)
+
+		}).catch(err => console.log(err.response))
+	}
+}
+
 export function getReleasingMovies(date,cb) {
 	return function (dispatch) {
 		return axios.get("https://api.cinemalu.com/api/calendar/" + date)
@@ -365,15 +377,15 @@ export function getReplies(postId, page, token, cb) {
         },
       )
       .then(res => {
-        console.log(res);
+  //    console.log(res);
         cb(res.data);
       })
       .catch(err => console.log(err.response));
   };
 }
 export function AddReply(id,formData,token,cb) {
-	console.log(id)
-	console.log(formData)
+	//console.log(id)
+	//console.log(formData)
 
 	return function (dispatch) {
 	return	axios

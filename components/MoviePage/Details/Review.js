@@ -17,7 +17,7 @@ export default class Review extends Component {
                 <Text
                   style={{color: '#212529', fontSize: 18, fontWeight: '700'}}
                 >
-                  GreatAndhra
+                  {item.sourceName}
                 </Text>
 
               </View>

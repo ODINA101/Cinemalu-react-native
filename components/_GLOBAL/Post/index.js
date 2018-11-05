@@ -44,7 +44,7 @@ class Post extends Component {
       youtubeURL:''
 
     };
-    console.log(props);
+    //console.log(props);
 
  this.getReplies = this.getReplies.bind(this)
  this.urlify = this.urlify.bind(this)
