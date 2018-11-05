@@ -35,6 +35,9 @@ class MainScreen extends Component {
     };
 
     let p = this;
+ 
+
+
 
     // this.props.actions.getUserToken(function(data) {
     //   console.log(data);

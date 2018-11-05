@@ -201,7 +201,10 @@ class MoviePage extends Component {
                   />
                 </View>
                 <View style={{height: 10}} />
-                <View
+                <Touchable
+                  onPress={() => {
+                    this.props.navigation.push("MovieDetails",{info:this.state.info})
+                  }}
                   style={{
                     backgroundColor: '#f5a623',
                     width: 37,
@@ -211,7 +214,7 @@ class MoviePage extends Component {
                   }}
                 >
                   <MaterialCommunityIcons size={20} color="#FFF" name="movie" />
-                </View>
+                </Touchable>
                 <View style={{height: 50}} />
 
               </View>

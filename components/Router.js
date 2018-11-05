@@ -2,11 +2,17 @@ import {createStackNavigator} from 'react-navigation'; // Version can be specifi
 import HomeScreen from './HomeScreen';
 import MoviePage from './MoviePage';
 import Profile from './Profile';
+import Details from "./MoviePage/Details"
 export default createStackNavigator(
   {
     Home: {
-      screen: HomeScreen,
+      screen:HomeScreen,
     },
+    MovieDetails:{
+      screen:Details
+    },
+
+
     MoviePage: {
       screen: MoviePage,
     },
