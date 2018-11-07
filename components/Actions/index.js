@@ -59,7 +59,6 @@ export function getUserToken(cb) {
 
 
 
-
 export function testfun(res) {
 	return {
 		type: TEST,
@@ -120,6 +119,34 @@ export function SearchSuccess(res) {
 		type:SEARCH_SUCCESS,
 		movies:res.data
 	}
+}
+
+export function viewNotifications(token,callback) {
+	return function (dispatch) {
+		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications/viewed", {
+		headers: {
+	  Authorization: 'Bearer ' + token,
+	  },
+    }).then(res => {
+      console.log(res.data)
+			callback(res.data)
+		}).catch(error => console.log(error.response))
+	}
+}
+
+export function getNotifications(token,callback) {
+	   return function (dispatch) {
+			 return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications",{
+	 	   headers: {
+	 			 Authorization: 'Bearer ' + token,
+	 	   },
+	 		 })
+			 .then(res => {
+        console.log(res.data)
+				callback(res.data)
+
+			}).catch(error => console.log(error.response))
+		 }
 }
 
 

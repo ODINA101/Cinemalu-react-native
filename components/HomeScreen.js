@@ -5,18 +5,29 @@ import MainScreen from './MainScreen';
 import CalendarPage from './CalendarComponents';
 import Account from './Account';
 import MyAccount from './MyAccount';
-
+import Notifications from "./Notifications"
 import {connect} from 'react-redux';
 import * as Actions from './Actions';
 import {bindActionCreators} from 'redux';
+import date from 'date-and-time';
+
+
+
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       page: 'Movies',
-      loggedIn:false
+      loggedIn:false,
+      notifications:[],
+      notRead:0
     };
+
+
+
+
     this.tabChange = this.tabChange.bind(this);
     //this.props.red();
     console.log(this.props);
@@ -25,6 +36,15 @@ class HomeScreen extends Component {
       p.props.actions.GetAllMovies(data);
       if(data !== null && data !== "") {
         p.setState({loggedIn:true})
+        setInterval(()=>{
+          p.props.actions.getNotifications(p.props.redux.Auth.token,function(notdata) {
+            //alert(notdata[0])
+             p.setState({notifications:notdata})
+             p.notComp.getAllNots(notdata)
+            })
+
+        },2000)
+
       }
     });
   }
@@ -46,6 +66,8 @@ class HomeScreen extends Component {
         return <MainScreen nav={this.props.navigation} />;
       case 'Calendar':
         return <CalendarPage nav={this.props.navigation} />;
+      case 'Notification':
+        return <Notifications onRef={(ref)=> this.notComp = ref} nots={this.state.notifications} nav={this.props.navigation}/>
       case 'Account':
          if(this.state.loggedIn) {
            return <MyAccount onLogout={()=>this.setState({loggedIn:false})} nav={this.props.navigation} />;
@@ -60,7 +82,7 @@ class HomeScreen extends Component {
     return (
       <View style={{flex: 1}}>
         {this.rend()}
-        <TabNav onTabClick={item => this.tabChange(item)} />
+        <TabNav onRef={(ref) => this.Tabs = ref} nots={this.state.notifications} onTabClick={item => this.tabChange(item)} />
 
       </View>
     );
