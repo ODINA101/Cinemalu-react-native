@@ -25,8 +25,8 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import Icon from "../CustomIcon"
 class Account extends Component {
 
-  constructor() {
-   super()
+  constructor(props) {
+   super(props)
 
    this.state = {
      loginPage:true,
@@ -34,6 +34,10 @@ class Account extends Component {
      password:'',
      forgot:false
    }
+
+ if(this.props.registering) {
+   this.state.loginPage = false;
+ }
 
   }
 
@@ -114,7 +118,11 @@ console.log("confirm")
 
 
   }else{
-   return <Reg  back={() => this.setState({loginPage:true})}/>
+   return <Reg  back={() => {
+     this.setState({loginPage:true})
+     this.props.onLoginPage()
+
+ }}/>
   }
 
 

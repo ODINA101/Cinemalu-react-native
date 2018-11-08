@@ -28,7 +28,7 @@ export default (state = InitialState, action) => {
   case 'REMOVE_TOKEN':
       return {...state,token:'',loggedInUserId:''};
   case 'ACCESS_TOKEN':
-      return {...state, token: action.token,loggedInUser:jwt_decode(action.token)};
+      return {...state, token: action.token,loggedInUser:action.token?(jwt_decode(action.token)):(false)};
 
     case LOGIN_SUCCESS:
       return {

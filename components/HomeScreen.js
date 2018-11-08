@@ -22,7 +22,8 @@ class HomeScreen extends Component {
       page: 'Movies',
       loggedIn:false,
       notifications:[],
-      notRead:0
+      notRead:0,
+      registering:false
     };
 
 
@@ -63,16 +64,19 @@ class HomeScreen extends Component {
   rend() {
     switch (this.state.page) {
       case 'Movies':
-        return <MainScreen nav={this.props.navigation} />;
+        return <MainScreen gotoLoginPage={() => this.setState({page:"Account"})} gotoRegPage={() => {
+          this.setState({registering:true})
+          this.setState({page:"Account"})
+         }} loggedIn={this.state.loggedIn} nav={this.props.navigation} />;
       case 'Calendar':
         return <CalendarPage nav={this.props.navigation} />;
       case 'Notification':
         return <Notifications onRef={(ref)=> this.notComp = ref} nots={this.state.notifications} nav={this.props.navigation}/>
       case 'Account':
          if(this.state.loggedIn) {
-           return <MyAccount onLogout={()=>this.setState({loggedIn:false})} nav={this.props.navigation} />;
+           return <MyAccount  onLogout={()=>this.setState({loggedIn:false})} nav={this.props.navigation} />;
          }else{
-           return <Account onLogSuccess={() => this.setState({loggedIn:true})} nav={this.props.navigation} />;
+           return <Account onLoginPage={()=>{this.setState({registering:false})}} registering={this.state.registering} onLogSuccess={() => this.setState({loggedIn:true})} nav={this.props.navigation} />;
          }
       default:
         return <MainScreen nav={this.props.navigation} />;

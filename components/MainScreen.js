@@ -38,13 +38,6 @@ class MainScreen extends Component {
 
 
 
-
-    // this.props.actions.getUserToken(function(data) {
-    //   console.log(data);
-    //   if (data !== null) {
-    //     p.setState({loggedIn: true});
-    //   }
-    // });
   }
 
   render() {
@@ -127,6 +120,8 @@ class MainScreen extends Component {
                           }}
                         >
                           <SingleMovie
+                          gotoLoginPage={() => this.props.gotoLoginPage()}
+                          gotoRegPage={() => this.props.gotoRegPage()}
                             onFollow={data =>
                               this.props.actions.MovieFollow(item._id, data,this.props.redux.Auth.token)}
                             nav={this.props.nav}
@@ -150,7 +145,7 @@ class MainScreen extends Component {
                   >
                     <ActivityIndicator size="large" color="#00ff00" />
                   </View>
-            : <MyMovies />}
+            : <MyMovies gotoLoginPage={() => this.props.gotoLoginPage()} loggedIn={this.props.loggedIn} />}
 
         </ScrollView>
       </View>

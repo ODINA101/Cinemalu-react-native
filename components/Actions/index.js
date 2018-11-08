@@ -122,6 +122,25 @@ export function SearchSuccess(res) {
 }
 
 
+
+export function getMyMovies(token,cb) {
+	return function (dispatch) {
+    	return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/load/my-movies",{
+      headers:{
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(res => {
+       console.log(res.data)
+			 cb(res.data)
+    }).catch(error => console.log(error.response))
+
+
+	}
+}
+
+
+
 export function openNotification(token,data,callback) {
 	return function (dispatch) {
 		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications/opened",data,{
@@ -364,9 +383,13 @@ export function GetMovieInfo(movieId,token, callback) {
         )
       .then(res => {
         console.log(res.data);
-        callback(res.data);
+        callback(res.data,"");
       })
       .catch(error => {
+				 if(error.response.status == 401) {
+					 callback("",error.response.status)
+
+				 }
         console.log(error.response);
       });
   };

@@ -38,6 +38,8 @@ export default class Ad extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height:200
+    height:200,
+    paddingLeft:40,
+    paddingRight:40
   },
 });

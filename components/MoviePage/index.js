@@ -61,16 +61,21 @@ class MoviePage extends Component {
       isLoading: false,
       showShareModal: false,
       sharingItem: '',
-      Tab:"Fans"
+      Tab:"Fans",
+      loggedIn:props.redux.Auth.loggedInUser?(true):(false)
     };
     this.AdsToPosts = this.AdsToPosts.bind(this)
     let item = this.props.navigation.state.params.info;
     let p = this;
     console.log(item.id);
     this.state.itemId = item.id;
-    this.props.actions.GetMovieInfo(item._id,this.props.redux.Auth.token,function(details) {
-      p.setState({info: details, cover: details.media.url});
+    this.props.actions.GetMovieInfo(item._id,this.props.redux.Auth.token,function(details,err) {
       //console.log(details.media.url);
+
+      p.setState({info: details, cover: details.media.url});
+
+
+
     });
    console.log(this.props.navigation.state.params.postID)
       console.log(this.props.navigation.state.params.postID)
@@ -235,7 +240,6 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
         <MenuProvider>
 
         <View style={styles.container}>
-
           <Toolbar nav={this.props.navigation} />
           <ScrollView  ref={(scroller) => {this.scroller = scroller}}>
 
@@ -339,7 +343,12 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
        {
          this.state.Tab=="Fans"?(
            <View>
-            <Reply send={() => {this.send()}} o={this} addComment={(t) => this.setState({myComment:t})} myComment={this.state.myComment} />
+           {
+             this.state.loggedIn?(
+               <Reply send={() => {this.send()}} o={this} addComment={(t) => this.setState({myComment:t})} myComment={this.state.myComment} />
+
+             ):(<View />)
+           }
             {this.state.data.map(item => {
               if(!item.displayDevice) {
              return (
@@ -435,6 +444,35 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
             showShareModal={this.state.showShareModal}
           />
         </View>
+        {
+          this.state.loggedIn?(
+            <View />
+          ):(
+            <View style={{padding:30,alignItems: 'center',position:'absolute',width:Dimensions.get("window").width,height:200,backgroundColor:"#4a4a4a",top:Dimensions.get("window").width/2,left:0}} >
+            <Text style={{color:"#FFF"}}>
+              Join the cinemalu community and participate in all conversations !!
+            </Text>
+
+            <Touchable onPress={()=>{
+              this.props.navigation.pop();
+              this.props.navigation.state.params.gotoRegPage()
+            }} style={{width:200,height:50,marginTop:10,alignItems: 'center',justifyContent: 'center',backgroundColor:"#f5a623",borderWidth:0.5,borderColor:"#ea8409"}}>
+            <Text style={{fontSize:13,color:"#FFF"}}>REGISTER NOW</Text>
+            </Touchable>
+            <Text style={{color:"#FFF",marginTop:10}}>
+            Already Registered? Sign in <Text onPress={()=> {
+              this.props.navigation.pop()
+              this.props.navigation.state.params.gotoLoginPage()}} style={{
+                textDecorationLine: "underline",
+                textDecorationStyle: "solid",
+                textDecorationColor: "#FFF"
+            }}>here</Text>
+            </Text>
+
+            </View>
+          )
+        }
+
         </MenuProvider>
 
       );

@@ -29,10 +29,10 @@ export default class SingleMovie extends Component {
     return (
       <Touchable onPress={()=>{
          if(this.props.ProfilePage) {
-           this.props.nav.push("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser})
+           this.props.nav.push("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser,gotoLoginPage:this.props.gotoLoginPage,gotoRegPage:this.props.gotoRegPage})
 
          }else{
-           this.props.nav.navigate("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser})
+           this.props.nav.navigate("MoviePage",{info:this.props.item,followed:this.props.item.followedByCurrentUser,gotoLoginPage:this.props.gotoLoginPage,gotoRegPage:this.props.gotoRegPage})
 
          }
 
