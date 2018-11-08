@@ -9,28 +9,17 @@ import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
-
-export default class Reply extends Component {
+import {connect} from 'react-redux';
+import * as Actions from '../../Actions';
+import {bindActionCreators} from 'redux';
+import ProfilePic from "../profilePic"
+ class Reply extends Component {
   render() {
     return (
       <View style={{height: 300, backgroundColor: '#FFF'}}>
         <View style={{flex: 0.3, padding: 20}}>
 
-          <View
-            style={{
-              width: 35,
-              height: 35,
-              backgroundColor: '#f1a61f',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-
-            <Text style={{color: '#FFF', fontWeight: 'bold', fontSize: 18}}>
-              BS
-            </Text>
-
-          </View>
+          <ProfilePic item={this.props.redux.Auth.loggedInUser}/>
 
         </View>
 
@@ -137,3 +126,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
+
+
+function mapStateToProps(state) {
+  return {
+    redux: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch),
+  };
+}
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reply);

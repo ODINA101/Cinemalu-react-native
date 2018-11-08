@@ -9,6 +9,7 @@ import {
   LOGIN_INVALID,
   LOGIN_SUCCESS,
 } from '../Constants';
+import jwt_decode from "jwt-decode"
 
 const InitialState = {
   msg: '',
@@ -17,15 +18,17 @@ const InitialState = {
   userID: '',
   UserIsLogged: false,
   access_token: '',
-  token:''
+  token:'',
+  loggedInUser:'',
+
 };
 
 export default (state = InitialState, action) => {
   switch (action.type) {
   case 'REMOVE_TOKEN':
-      return {...state,token:''};
+      return {...state,token:'',loggedInUserId:''};
   case 'ACCESS_TOKEN':
-      return {...state, token: action.token};
+      return {...state, token: action.token,loggedInUser:jwt_decode(action.token)};
 
     case LOGIN_SUCCESS:
       return {
@@ -33,6 +36,7 @@ export default (state = InitialState, action) => {
         loginMsg: 'success',
         UserIsLogged: true,
         token: action.payload.access_token,
+        loggedInUser:jwt_decode(action.payload.access_token)
       };
 
     case LOGIN_INVALID:

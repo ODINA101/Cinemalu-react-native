@@ -42,13 +42,12 @@ import R from 'ramda';
 import Makers from "./Makers"
 import Events from "./events"
 import Ad from "./Ads"
-
+let kku = 0;
 
 import Textarea from 'react-native-textarea';
 class MoviePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       data: [],
       info: {},
@@ -73,9 +72,10 @@ class MoviePage extends Component {
       p.setState({info: details, cover: details.media.url});
       //console.log(details.media.url);
     });
+   console.log(this.props.navigation.state.params.postID)
+      console.log(this.props.navigation.state.params.postID)
 
-
-
+    this.handleLayoutChange = this.handleLayoutChange.bind(this);
 
     this.props.actions.GetPosts(item._id, false,this.props.redux.Auth.token,function(data) {
 
@@ -94,7 +94,25 @@ class MoviePage extends Component {
 
 
 
+  handleLayoutChange() {
 
+      this.feedPost.measure( (fx, fy, width, height, px, py) => {
+  console.log('Component width is: ' + width)
+  console.log('Component height is: ' + height)
+  console.log('X offset to page: ' + px)
+  console.log('Y offset to page: ' + py)
+  if(kku == 0) {
+    kku = py;
+    this.scroller.scrollTo({x: 0, y:py});
+
+  }else{
+    this.scroller.scrollTo({x: 0, y:kku});
+
+  }
+  })
+
+
+    }
 
 AdsToPosts(adss) {
 
@@ -149,15 +167,6 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
 
 
 
-
-
-
-
-
-
-
-
-
   send() {
     this.setState({isLoading: true});
     let p = this;
@@ -182,7 +191,6 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
       });
     })
     }
-
 
   }
 
@@ -229,7 +237,7 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
         <View style={styles.container}>
 
           <Toolbar nav={this.props.navigation} />
-          <ScrollView>
+          <ScrollView  ref={(scroller) => {this.scroller = scroller}}>
 
             <ImageBackground
               imageStyle={{
@@ -335,20 +343,37 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
             {this.state.data.map(item => {
               if(!item.displayDevice) {
              return (
-             <View>
+             <View  onLayout={(event) =>{
+               if(this.props.navigation.state.params.fromNot) {
+
+                if(item._id == this.props.navigation.state.params.postID) {
+                  this.handleLayoutChange(event)
+
+                }
+              }
+
+                }}
+              ref={view => {
+               if(this.props.navigation.state.params.fromNot) {
+                 if(item._id==this.props.navigation.state.params.postID){this.feedPost = view;}
+               }
+               }}>
                <Post
+                 replyId={this.props.navigation.state.params.replyId?(this.props.navigation.state.params.replyId):("")}
+                 fromNotType={this.props.navigation.state.params.type?(this.props.navigation.state.params.type):("")}
+                 fromNotId={this.props.navigation.state.params.postID?(this.props.navigation.state.params.postID):("")}
                  nav={this.props.navigation}
                  share={() =>
                    this.setState({sharingItem: item, showShareModal: true})}
-                 liked={item.userLikes.includes('5babc3e0a7f76013867020ce')}
+                 liked={item.userLikes.includes(this.props.redux.Auth.loggedInUser._id)}
                  reported={item.userAbuses.includes(
-                   '5babc3e0a7f76013867020ce',
+                    this.props.redux.Auth.loggedInUser._id,
                  )}
                  like={() => this.postLike(item._id)}
                  report={() =>
                    this.postReport(
                      item._id,
-                     item.userAbuses.includes('5babc3e0a7f76013867020ce'),
+                     item.userAbuses.includes(this.props.redux.Auth.loggedInUser._id),
                    )}
                  action={e => this.onPostAction(e, item)}
                  item={item}

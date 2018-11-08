@@ -121,14 +121,32 @@ export function SearchSuccess(res) {
 	}
 }
 
-export function viewNotifications(token,callback) {
+
+export function openNotification(token,data,callback) {
 	return function (dispatch) {
-		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications/viewed", {
+		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications/opened",data,{
 		headers: {
 	  Authorization: 'Bearer ' + token,
 	  },
     }).then(res => {
-      console.log(res.data)
+      console.log(res)
+      console.log(res)
+			callback(res.data)
+		}).catch(error => console.log(error.response))
+	}
+}
+
+
+
+export function viewNotifications(token,data,callback) {
+	return function (dispatch) {
+		return axios.put("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/notifications/viewed",data,{
+		headers: {
+	  Authorization: 'Bearer ' + token,
+	  },
+    }).then(res => {
+      console.log(res)
+      console.log(res)
 			callback(res.data)
 		}).catch(error => console.log(error.response))
 	}

@@ -16,7 +16,7 @@ import {MenuProvider} from 'react-native-popup-menu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Touchable from 'react-native-platform-touchable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import jwtDecode from "jwt-decode"
 import ProfilePic from '../profilePic';
 
 
@@ -34,7 +34,12 @@ export default class SingleReply extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{
+    flex: 1,
+    borderLeftWidth:this.props.marked?(3):(1),
+    borderColor:this.props.marked?("#f5a623"):("#B0AFB2")
+
+}}>
        <View style={{flex:1,padding:30}}>
        <View style={{flexDirection: 'row'}}>
        <ProfilePic item={this.props.item}/>
@@ -127,12 +132,3 @@ export default class SingleReply extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderLeftWidth:2,
-    borderColor:"#B0AFB2"
-
-  },
-});

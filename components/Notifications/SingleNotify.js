@@ -7,11 +7,46 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
+import Touchable from 'react-native-platform-touchable';
+import {connect} from 'react-redux';
+import * as Actions from '../Actions';
+import {bindActionCreators} from 'redux';
 
-export default class SingleNotify extends Component {
+
+class SingleNotify extends Component {
   constructor(props) {
     super(props)
   }
+
+
+  getPostId() {
+    if(typeof this.props.item.post.parent === 'undefined') {
+
+       return this.props.item.post._id;
+    }else{
+      return this.props.item.post.parent;
+    }
+  }
+  getReplyId() {
+  if(typeof this.props.item.post.parent === 'undefined') {
+
+     return "";
+  }else{
+    return this.props.item.post._id;
+  }
+}
+
+
+ onOpen() {
+   let p = this;
+   let opened = [];
+   opened.push(this.props.item._id)
+  this.props.actions.openNotification(this.props.redux.Auth.token,opened,function(data) {
+    console.log(data)
+  })
+  p.props.nav.push("MoviePage",{info:this.props.item.post.movie,fromNot:true,postID:this.getPostId(),type:this.props.item.type,replyId:this.getReplyId()})
+
+ }
 
   timeago(date) {
     var seconds = Math.floor((new Date() - date) / 1000);
@@ -48,7 +83,17 @@ getPastSimple(word) {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Touchable onPress={() => {this.onOpen()}} style={{
+
+        height:70,
+        backgroundColor:this.props.item.opened?("#EEEFF0"):("#E0E2E5"),
+
+      }}>
+      <View style={{
+        flex:1,
+        flexDirection: 'row',
+        paddingLeft:10
+      }}>
       <View style={{flex:1,justifyContent: 'center'}}>
       {
   this.props.item.fromUser.profilePictureUrl?(
@@ -66,16 +111,28 @@ getPastSimple(word) {
 
 
        </View>
-      </View>
+       </View>
+      </Touchable>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height:70,
-    backgroundColor:"#E0E2E5",
-    flexDirection: 'row',
-    paddingLeft:10
-  },
-});
+
+
+
+function mapStateToProps(state) {
+  return {
+    redux: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch),
+  };
+}
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleNotify);

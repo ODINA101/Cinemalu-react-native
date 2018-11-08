@@ -45,6 +45,13 @@ class Post extends Component {
 
     };
     //console.log(props);
+    if(props.fromNotId == props.item._id) {
+
+      if(props.fromNotType !== "") {
+     this.state.replying = true;
+    }
+
+    }
 
  this.getReplies = this.getReplies.bind(this)
  this.urlify = this.urlify.bind(this)
@@ -363,16 +370,18 @@ if(verifiedURL) {
               <Reply  send={() => {this.send()}} o={this} addComment={(txt) => this.setState({myComment2:txt})} myComment={this.state.myComment2}  />
               {
                 this.state.replies.map(item => {
+
                  return <SingleReply
-                    liked={item.userLikes.includes('5babc3e0a7f76013867020ce')}
+                     marked={item._id == this.props.replyId}
+                    liked={item.userLikes.includes(this.props.redux.Auth.loggedInUser._id)}
                     reported={item.userAbuses.includes(
-                      '5babc3e0a7f76013867020ce',
+                      this.props.redux.Auth.loggedInUser._id,
                     )}
                     like={() => this.postLike(item._id)}
                     report={() =>
                       this.postReport(
                         item._id,
-                        item.userAbuses.includes('5babc3e0a7f76013867020ce'),
+                        item.userAbuses.includes(this.props.redux.Auth.loggedInUser._id),
                       )}
                     action={e => this.onPostAction(e, item)}
        item={item}/>;

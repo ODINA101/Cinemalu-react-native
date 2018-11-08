@@ -14,12 +14,29 @@ class Notifications extends Component {
    this.state= {
      nots:[],
      newNots:[],
-     olds:[]
+     olds:[],
+     notViewed:[]
    }
    this.state.newNots = this.props.nots
   this.getEarlyNots = this.getEarlyNots.bind(this)
   this._refresh = this._refresh.bind(this)
 //this.getEarlyNots()
+
+if(this.state.notViewed !== []) {
+  let notViewed = [];
+     this.props.nots.forEach(item => {
+     if(item.viewed == false) {
+       notViewed.push(item._id)
+       }
+      })
+  this.props.actions.viewNotifications(this.props.redux.Auth.token,notViewed,function(data) {
+  console.log("view")
+})
+
+}
+
+
+
   }
 
 
@@ -31,6 +48,8 @@ class Notifications extends Component {
   getAllNots(data) {
     this.setState({nots:data})
     this.getEarlyNots()
+
+
   }
 
   componentDidMount() {
@@ -113,7 +132,7 @@ _refresh() {
         {
           this.state.newNots.map(item => {
             return (
-              <SingleNotify  item={item} />
+              <SingleNotify nav={this.props.nav} item={item} />
             )
           })
         }
@@ -132,7 +151,7 @@ _refresh() {
       {
   this.state.olds.map(item => {
     return (
-      <SingleNotify  item={item}/>
+      <SingleNotify  nav={this.props.nav} item={item}/>
     )
   })
 }

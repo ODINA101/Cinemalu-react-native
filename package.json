@@ -17,6 +17,7 @@
     "email-validator": "^2.0.4",
     "install": "^0.12.1",
     "javascript-time-ago": "^1.0.32",
+    "jwt-decode": "^2.2.0",
     "node-html-parser": "^1.1.10",
     "ramda": "^0.25.0",
     "react": "16.5.0",
