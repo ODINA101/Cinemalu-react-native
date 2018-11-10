@@ -27,6 +27,7 @@ import PersonalInfo from "./PersonalInfo"
 import InfoTabs from "./InfoTabs"
 import ImagePicker from 'react-native-image-picker';
 import EvilIcons from "react-native-vector-icons/EvilIcons"
+import Loader from "react-native-modal-loader"
 
 
  class UploadPhoto extends Component {
@@ -54,18 +55,16 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
              const source = {uri: response.uri};
              const file = {
                uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
-               name: response.uri.split('/')[
-                 response.uri.split('/').length - 1
-               ], // e.g. 'image123.jpg',
+               name: response.uri, // e.g. 'image123.jpg',
                type: response.type, // e.g. 'image/jpg'
              };
-
 
              // You can also display the image using data:
              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
               let formData = new FormData()
+              //formData.append('key', true)
               formData.append('file', file)
-               this.props.onSelectPhoto(formData)
+               this.props.onSelectPhoto(formData,'data:image/jpeg;base64,' + response.data)
 
 
            }
@@ -110,7 +109,9 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
       AccountEditing:false,
       PersonalEditing:false,
       ProfileEditing:false,
-      isLoading:true
+      isLoading:true,
+      profilePictureUrl:'',
+      loading:false
     };
 
   let p = this;
@@ -136,6 +137,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
        loginID:data.loginID,
        languages:data.languages,
        AccountInfo:data,
+       profilePictureUrl:data.profilePictureUrl,
        userId:data._id
        })
        p.accountInfo.setInfo(data,"general")
@@ -198,9 +200,9 @@ this.props.actions.UpdateProfile(this.state.firstName,this.state.lastName,this.p
                 alignItems: 'center',
               }}
             >
-              {this.state.profilePicture? <ImageBackground
+              {this.state.profilePictureUrl? <ImageBackground
                     source={{
-                      uri: this.state.profilePicture.url,
+                      uri: this.state.profilePictureUrl,
                     }}
                     style={{
                       width: 120,
@@ -208,10 +210,24 @@ this.props.actions.UpdateProfile(this.state.firstName,this.state.lastName,this.p
                       backgroundColor: '#C6C6C6',
                     }}
                   >
-                  <UploadPhoto onSelectPhoto={(file) =>{
-                    this.props.actions.UpdateProfilePhoto(this.state.loginID,file,this.props.redux.Auth.token,function(){
-                      console.log("uploaded")
+                  <UploadPhoto onSelectPhoto={(file,image) =>{
+                    let p = this;
+                    this.setState({
+                      loading:true
                     })
+                    this.props.actions.UpdateProfilePhoto(this.state.userId,file,this.props.redux.Auth.token,function(){
+                      console.log("uploaded")
+                      p.props.actions.getProfileData(p.props.redux.Auth.token)
+
+                      p.setState({
+                       loading:false
+                      })
+                      p.setState({
+                        profilePictureUrl:image
+                      })
+                    });
+
+
                   }}/>
                   </ImageBackground>
                 : <ImageBackground
@@ -224,10 +240,26 @@ this.props.actions.UpdateProfile(this.state.firstName,this.state.lastName,this.p
                       backgroundColor: '#C6C6C6',
                     }}
                   >
-                  <UploadPhoto onSelectPhoto={(file) =>{
+                  <UploadPhoto onSelectPhoto={(file,image) =>{
+                    this.setState({
+                      loading:true
+                    })
+                    let p = this;
+
                     this.props.actions.UpdateProfilePhoto(this.state.userId,file,this.props.redux.Auth.token,function(){
                       console.log("uploaded")
-                    })
+                      p.props.actions.getProfileData(p.props.redux.Auth.token)
+
+                      p.setState({
+                       loading:false
+                      })
+                      p.setState({
+                        profilePictureUrl:image
+                      })
+                    });
+
+
+
                   }}/>
 
                   </ImageBackground>}
@@ -392,6 +424,12 @@ this.props.actions.UpdateProfile(this.state.firstName,this.state.lastName,this.p
 
 
         </ScrollView>
+        {
+    this.state.loading?(
+      <Loader loading={true} color="#ff66be" />
+    ):(<View />)
+  }
+
       </View>
     );
   }

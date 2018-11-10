@@ -19,7 +19,7 @@ import ProfilePic from "../profilePic"
       <View style={{height: 300, backgroundColor: '#FFF'}}>
         <View style={{flex: 0.3, padding: 20}}>
 
-          <ProfilePic item={this.props.redux.Auth.loggedInUser}/>
+          <ProfilePic item={{profilePictureUrl:this.props.redux.Auth.currentUserProfilePicture}}/>
 
         </View>
 
@@ -60,9 +60,7 @@ import ProfilePic from "../profilePic"
                       const source = {uri: response.uri};
                       const file = {
                         uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
-                        name: response.uri.split('/')[
-                          response.uri.split('/').length - 1
-                        ], // e.g. 'image123.jpg',
+                        name: response.uri,
                         type: response.type, // e.g. 'image/jpg'
                       };
 

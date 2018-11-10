@@ -12,7 +12,8 @@ import {
   TextInput,
   Dimensions,
   StatusBar,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+   Animated
 } from 'react-native';
 import Toolbar from '../_GLOBAL/toolbar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -62,7 +63,9 @@ class MoviePage extends Component {
       showShareModal: false,
       sharingItem: '',
       Tab:"Fans",
-      loggedIn:props.redux.Auth.loggedInUser?(true):(false)
+      loggedIn:props.redux.Auth.loggedInUser?(true):(false),
+      visible: true,
+      x: new Animated.Value(120),
     };
     this.AdsToPosts = this.AdsToPosts.bind(this)
     let item = this.props.navigation.state.params.info;
@@ -75,10 +78,9 @@ class MoviePage extends Component {
       p.setState({info: details, cover: details.media.url});
 
 
-
     });
-   console.log(this.props.navigation.state.params.postID)
-      console.log(this.props.navigation.state.params.postID)
+   //console.log(this.props.navigation.state.params.postID)
+    //  console.log(this.props.navigation.state.params.postID)
 
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
 
@@ -189,16 +191,48 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
       })
 
     } else {
+    //  alert(this.state.info._id)
     this.props.actions.AddPost(this.state.info._id,formData,this.props.redux.Auth.token,function(){
-      p.props.actions.GetPosts(item._id, false, this.props.redux.Auth.token,function(data) {
+      //alert("add post works")
+      p.props.actions.GetPosts(p.state.info._id, false,p.props.redux.Auth.token,function(data) {
+        //alert("fuck off")
+
         p.setState({data});
         p.setState({isLoading: false});
+        p.props.actions.getAds(function(dat) {
+
+            p.AdsToPosts(dat)
+
+         })
       });
     })
     }
 
   }
+  slide() {
+    if(this.state.visible) {
+      Animated.timing(this.state.x, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
 
+
+  }else{
+    Animated.timing(this.state.x, {
+toValue:120,
+duration: 500,
+useNativeDriver: true,
+}).start();
+
+  }
+
+
+this.setState({visible:!this.state.visible})
+
+
+
+   }
   postReport(id, isReported) {
     let p = this;
     this.props.actions.ReportPost(id, isReported,this.props.redux.Auth.token,function() {
@@ -213,16 +247,21 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
 
   onPostAction(n, item) {
     let p = this;
-    if (n == 1) {
+    if (n == 0) {
       //Edit
       this.setState({myComment: item.text, editing: true, postId: item._id});
     } else {
       //Delete
       //console.log(this.state.postId);
       this.props.actions.DeletePost(item._id,this.props.redux.Auth.token,function() {
-        let item = this.props.navigation.state.params.info;
-        p.props.actions.GetPosts(item._id, false, function(data) {
+        let item = p.props.navigation.state.params.info;
+        p.props.actions.GetPosts(item._id, false,p.props.redux.Auth.token, function(data) {
           p.setState({data});
+          p.props.actions.getAds(function(dat) {
+
+              p.AdsToPosts(dat)
+
+           })
         });
       })
     }
@@ -273,7 +312,8 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
                   alignItems: 'flex-end',
                 }}
               >
-                <View
+                <Touchable
+                  onPress={() => this.slide()}
                   style={{
                     backgroundColor: '#f5a623',
                     width: 37,
@@ -287,7 +327,7 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
                     color="#FFF"
                     name="information-outline"
                   />
-                </View>
+                </Touchable>
                 <View style={{height: 10}} />
                 <Touchable
                   onPress={() => {
@@ -306,7 +346,32 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
                 <View style={{height: 50}} />
 
               </View>
+             <Animated.View style={{width:120,height:130,backgroundColor:"rgba(74,74,74,.9)",position: 'absolute',right:0,top:0, transform: [
+              {
+                translateX: this.state.x
+              }
+            ]
+          }}>
 
+            <View style={{flex:1,padding:4}}>
+            <View style={{flex:0.8}}>
+            <Text style={{color:"#FFF",fontSize:15}}>{this.state.info.productionCompany}</Text>
+            </View>
+
+            <View style={{flex:0.3}}>
+            <Text style={{color:"#f5a623",fontSize:15}}>U · {this.state.info.duration}</Text>
+            </View>
+
+            <View style={{flex:1}}>
+            <Text style={{color:"#f5a623",fontSize:15,paddingTop:5}}>{this.state.info.genre}</Text>
+
+            </View>
+            </View>
+
+
+
+
+          </Animated.View>
             </ImageBackground>
 
             <Tabs info={this.state.info} followed={this.state.info.interestedByCurrentUser} />

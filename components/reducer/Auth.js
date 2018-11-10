@@ -20,6 +20,7 @@ const InitialState = {
   access_token: '',
   token:'',
   loggedInUser:'',
+  currentUserProfilePicture:''
 
 };
 
@@ -29,7 +30,11 @@ export default (state = InitialState, action) => {
       return {...state,token:'',loggedInUserId:''};
   case 'ACCESS_TOKEN':
       return {...state, token: action.token,loggedInUser:action.token?(jwt_decode(action.token)):(false)};
-
+  case 'currentUserProfilePicture':
+       return {
+         ...state,
+         currentUserProfilePicture:action.payload
+       }
     case LOGIN_SUCCESS:
       return {
         ...state,

@@ -36,7 +36,7 @@ export default class ProfilePic extends Component {
       );
     }
   }else{
-    if (this.props.item.profilePictureUrl) {
+    if (this.props.item.profilePictureUrl !== "" || this.props.item.profilePictureUrl !== undefined || this.props.item.profilePictureUrl !== null) {
       return (
         <ImageBackground
           source={{

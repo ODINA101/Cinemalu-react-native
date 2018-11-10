@@ -30,7 +30,7 @@ if(this.state.notViewed !== []) {
        }
       })
   this.props.actions.viewNotifications(this.props.redux.Auth.token,notViewed,function(data) {
-  console.log("view")
+  //console.log("view")
 })
 
 }

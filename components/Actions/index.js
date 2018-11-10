@@ -164,8 +164,8 @@ export function viewNotifications(token,data,callback) {
 	  Authorization: 'Bearer ' + token,
 	  },
     }).then(res => {
-      console.log(res)
-      console.log(res)
+      // console.log(res)
+      // console.log(res)
 			callback(res.data)
 		}).catch(error => console.log(error.response))
 	}
@@ -179,10 +179,17 @@ export function getNotifications(token,callback) {
 	 	   },
 	 		 })
 			 .then(res => {
-        console.log(res.data)
+        //console.log(res.data)
 				callback(res.data)
 
-			}).catch(error => console.log(error.response))
+			}).catch(error => {
+				if(error) {
+					if(error.response.status == 401) {
+	        callback("",error.response)
+     }
+
+				}
+			 })
 		 }
 }
 
@@ -211,18 +218,24 @@ export function getReleasingMovies(date,cb) {
 
 
 export function UpdateProfilePhoto(userId,photo,token,cb) {
-	return function(dispatch) {
-		return axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/admin/users/upload/" +
-		userId,
-		photo,
-		{
-	 headers: {
+	console.log(userId,photo,token)
+	let config = 	{
+	   headers: {
 			 Authorization: 'Bearer ' + token,
-	   },
-		 }).then(res => {
+
+	   }
+	}
+	return function(dispatch) {
+		return axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile/image",
+		photo,
+		config
+	).then(res => {
 			 console.log(res)
 			 cb()
-		 }).catch(err => console.log(err.response))
+		 }).catch(err => {
+			 console.error(err.response)
+
+		 })
 
 	}
 }
@@ -362,8 +375,18 @@ export function getProfileData(token,callback) {
 					token,
 			},
 		})
-		.then(res =>{callback(res.data) }).catch(err => {
-			callback("",err.response)
+		.then(res =>{
+			if(callback) {
+				callback(res.data)
+			}
+
+	    dispatch({type:"currentUserProfilePicture",payload:res.data.profilePictureUrl})
+
+		}).catch(err => {
+			if(callback) {
+				callback("",err.response)
+
+			}
 			console.log(err.response)
 		})
 	}
@@ -410,21 +433,19 @@ export function SharePost(id,comment,token,cb) {
 	}
 }
 
-export function DeletePost(id,token,cb) {
+export function DeletePost(id,token,callback) {
 	return function (dispatch) {
 	return	axios.delete('http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' + id,
 				{
 					headers: {
-						Authorization: 'Bearer ' +
-							token,
+						Authorization: 'Bearer ' + token,
 					},
 				},
 			)
 			.then(res => {
-				console.log(this.state.postId);
-			  cb()
-			})
-			.catch(error => console.log(error.response));
+				console.log(res)
+			  callback(res.data)
+			}).catch(error => console.log(error.response));
 	}
 }
 
@@ -494,7 +515,7 @@ export function AddPost(id,formData,token,cb) {
 			)
 			.then(res => {
 				console.log(res);
-			  cb()
+			  cb(res)
 			});
 	}
 }
@@ -526,17 +547,17 @@ export function GetPosts(MovieId,isMakersTab,token,callback) {
 		return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/"+ MovieId + "/0/6/" + isMakersTab,
 	  {
 			headers:{
-				'Authorization':'Bearer ' + token
+				Authorization: 'Bearer ' + token
 			}
 		})
 		.then(res => {
         callback(res.data)
 				if(!isMakersTab) {
 					dispatch({type:GET_POSTS,payload:res.data})
-
 				}
 		}).catch(error => {
-			console.log(error.response)
+			console.error(error.response)
+			 callback("error")
 		})
 	}
 }

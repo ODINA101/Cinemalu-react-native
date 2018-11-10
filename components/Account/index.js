@@ -53,6 +53,7 @@ this.props.actions.Login(this.state.username,this.state.password,function(access
 
 EmailConfirm() {
 console.log("confirm")
+
 }
 
 

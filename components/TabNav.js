@@ -65,7 +65,7 @@ unReadNots() {
          vwd++
            }
           })
-          console.log(vwd)
+          //console.log(vwd)
 this.setState({badge:vwd})
 }
 

@@ -4,10 +4,10 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.entria.views.RNViewOverflowPackage;
-import com.imagepicker.ImagePickerPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -29,10 +29,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNViewOverflowPackage(),
-            new ImagePickerPackage(),
+            new VectorIconsPackage(),
             new SvgPackage(),
             new SnackbarPackage(),
-            new VectorIconsPackage()
+            new ImagePickerPackage()
       );
     }
 

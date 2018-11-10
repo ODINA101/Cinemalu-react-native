@@ -33,7 +33,7 @@ class AccountInfo extends Component {
 
 
 
-console.log(this.props.lan)
+//console.log(this.props.lan)
   }
 
 UpdateInfo() {
@@ -107,7 +107,7 @@ if(!this.props.AccountEditing) {
           </View>
           {
             this.state.info.languages.map(item => {
-              console.log(this.state.languages)
+            //  console.log(this.state.languages)
             return (
               <View style={{flexDirection: 'row', marginTop: 20}}>
               {
@@ -116,8 +116,8 @@ if(!this.props.AccountEditing) {
                 <CheckBox value={this.state.languages.includes(item._id)}
                 onValueChange={(e) => {
                   let isChecked = e;
-                  console.log(item.name + e)
-                  console.log(this.state.languages)
+                //  console.log(item.name + e)
+                //  console.log(this.state.languages)
 
                    if(isChecked) {
                      this.state.languages.push(item._id)

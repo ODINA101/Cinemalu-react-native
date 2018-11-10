@@ -37,9 +37,14 @@ class HomeScreen extends Component {
       p.props.actions.GetAllMovies(data);
       if(data !== null && data !== "") {
         p.setState({loggedIn:true})
+        p.props.actions.getProfileData(p.props.redux.Auth.token)
         setInterval(()=>{
-          p.props.actions.getNotifications(p.props.redux.Auth.token,function(notdata) {
+
+          p.props.actions.getNotifications(p.props.redux.Auth.token,function(notdata,err) {
             //alert(notdata[0])
+            if(err) {
+              p.setState({loggedIn:false})
+            }
              p.setState({notifications:notdata})
              p.notComp.getAllNots(notdata)
             })
