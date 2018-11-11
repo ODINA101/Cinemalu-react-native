@@ -122,7 +122,6 @@ class MoviePage extends Component {
     }
 
 AdsToPosts(adss) {
-
   const integrateAdsToPosts = (posts,ads) => {
  let res = [];
  let adsPerf = [];
@@ -219,7 +218,7 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
 
 
   }else{
-    Animated.timing(this.state.x, {
+Animated.timing(this.state.x, {
 toValue:120,
 duration: 500,
 useNativeDriver: true,

@@ -123,6 +123,7 @@ export function SearchSuccess(res) {
 
 
 
+
 export function getMyMovies(token,cb) {
 	return function (dispatch) {
     	return axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/load/my-movies",{
@@ -219,21 +220,21 @@ export function getReleasingMovies(date,cb) {
 
 export function UpdateProfilePhoto(userId,photo,token,cb) {
 	console.log(userId,photo,token)
-	let config = 	{
-	   headers: {
-			 Authorization: 'Bearer ' + token,
-
-	   }
-	}
-	return function(dispatch) {
+ 	return function(dispatch) {
 		return axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/profile/image",
 		photo,
-		config
-	).then(res => {
+		{
+	   headers: {
+			 Authorization: 'Bearer ' + token,
+	   }
+	}).then(res => {
 			 console.log(res)
 			 cb()
 		 }).catch(err => {
-			 console.error(err.response)
+			 if(err.response !== undefined) {
+				 console.error(err.response)
+
+			 }
 
 		 })
 

@@ -16,7 +16,7 @@ import {bindActionCreators} from 'redux';
 import * as Actions from './Actions';
 import MyMovies from './MyMovies';
 import {AsyncStorage} from 'react-native';
-
+import Touchable from 'react-native-platform-touchable';
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >=
@@ -53,9 +53,13 @@ class MainScreen extends Component {
             paddingLeft: 10,
           }}
         >
-
+        <Touchable onPress={()=>{
+           this.search.focus()
+        }}>
           <Feather size={25} color="#FFF" name="search" />
+        </Touchable>
           <TextInput
+          ref={(r) => this.search = r}
             style={{color: '#FFF'}}
             onChangeText={e => {
               this.props.actions.Search(e);

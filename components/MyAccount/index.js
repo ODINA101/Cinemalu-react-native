@@ -55,7 +55,8 @@ import Loader from "react-native-modal-loader"
              const source = {uri: response.uri};
              const file = {
                uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
-               name: response.uri, // e.g. 'image123.jpg',
+               name: response.fileName, // e.g. 'image123.jpg',
+               path:response.path,
                type: response.type, // e.g. 'image/jpg'
              };
 
@@ -64,7 +65,7 @@ import Loader from "react-native-modal-loader"
               let formData = new FormData()
               //formData.append('key', true)
               formData.append('file', file)
-               this.props.onSelectPhoto(formData,'data:image/jpeg;base64,' + response.data)
+               this.props.onSelectPhoto(formData,('data:image/jpeg;base64,' + response.data))
 
 
            }

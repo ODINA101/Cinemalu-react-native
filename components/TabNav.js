@@ -60,13 +60,17 @@ componentDidMount() {
 
 unReadNots() {
   let vwd = 0;
-         this.props.nots.forEach(item => {
-         if(item.viewed == false) {
-         vwd++
-           }
-          })
-          //console.log(vwd)
+  if(this.props.nots) {
+    this.props.nots.forEach(item => {
+  if(item.viewed == false) {
+  vwd++
+    }
+
+   })
+   //console.log(vwd)
 this.setState({badge:vwd})
+  
+  }
 }
 
 rend(icon,iconName) {

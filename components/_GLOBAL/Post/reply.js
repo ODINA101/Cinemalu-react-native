@@ -60,7 +60,8 @@ import ProfilePic from "../profilePic"
                       const source = {uri: response.uri};
                       const file = {
                         uri: response.uri, // e.g. 'file:///path/to/file/image123.jpg'
-                        name: response.uri,
+                        name: response.fileName, // e.g. 'image123.jpg',
+                        path:response.path,
                         type: response.type, // e.g. 'image/jpg'
                       };
 

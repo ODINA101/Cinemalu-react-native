@@ -24,11 +24,14 @@ class Notifications extends Component {
 
 if(this.state.notViewed !== []) {
   let notViewed = [];
-     this.props.nots.forEach(item => {
-     if(item.viewed == false) {
-       notViewed.push(item._id)
-       }
-      })
+  if(this.props.nots) {
+    this.props.nots.forEach(item => {
+if(item.viewed == false) {
+  notViewed.push(item._id)
+  }
+ })
+
+  }
   this.props.actions.viewNotifications(this.props.redux.Auth.token,notViewed,function(data) {
   //console.log("view")
 })

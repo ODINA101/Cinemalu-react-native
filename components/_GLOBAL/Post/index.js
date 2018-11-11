@@ -41,15 +41,19 @@ class Post extends Component {
       myComment2:'',
       editing:false,
       replies:[],
-      youtubeURL:''
+      youtubeURL:'',
+      marked:false
 
     };
     //console.log(props);
     if(props.fromNotId == props.item._id) {
-
-      if(props.fromNotType !== "") {
+    this.state.marked = true;
+      if(props.fromNotType == "reply") {
      this.state.replying = true;
-    }
+   }else{
+     this.state.replying = false;
+
+   }
 
     }
 
@@ -146,7 +150,8 @@ if(verifiedURL) {
 
   render() {
     return (
-      <View style={{padding: 10, flexDirection: 'column', minHeight: 100,backgroundColor:"#EBEBEC"}}>
+      <View style={{padding: 10, flexDirection: 'column', minHeight: 100,backgroundColor:"#EBEBEC",borderLeftWidth:4,
+                   borderColor:this.state.marked?("#f5a623"):("transparent") }}>
         <View style={{flexDirection: 'row', flex: 1}}>
 
           <View style={{flex: 1}}>
@@ -247,7 +252,7 @@ if(verifiedURL) {
           </View>
           <View style={{flex: 0.6}}>
             <View style={{height: 50}}>
-              {!this.props.ProfilePage
+              {!this.props.ProfilePage && this.props.item.createdBy._id!==this.props.redux.Auth.loggedInUser._id
                 ? <Menu
                     rendererProps={{placement: 'top'}}
                     skipInstanceCheck

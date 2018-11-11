@@ -27,7 +27,7 @@ const InitialState = {
 export default (state = InitialState, action) => {
   switch (action.type) {
   case 'REMOVE_TOKEN':
-      return {...state,token:'',loggedInUserId:''};
+      return {...state,token:'',loggedInUser:'',UserIsLogged:false,currentUserProfilePicture:''};
   case 'ACCESS_TOKEN':
       return {...state, token: action.token,loggedInUser:action.token?(jwt_decode(action.token)):(false)};
   case 'currentUserProfilePicture':
