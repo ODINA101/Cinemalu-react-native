@@ -13,7 +13,8 @@ import {
   Dimensions,
   StatusBar,
   KeyboardAvoidingView,
-   Animated
+  Animated,
+
 } from 'react-native';
 import Toolbar from '../_GLOBAL/toolbar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -185,8 +186,18 @@ this.setState({data:integrateAdsToPosts(posts,ads)})
     this.setState({myComment: ''});
 
     if (this.state.editing) {
-      p.props.actions.EditPost(item._id,formData,this.props.redux.Auth.token,function() {
-        p.setState({isLoading: false});
+      p.props.actions.EditPost(this.state.postId,this.state.myComment,this.props.redux.Auth.token,function() {
+        p.props.actions.GetPosts(p.state.info._id, false,p.props.redux.Auth.token,function(data) {
+          //alert("fuck off")
+
+          p.setState({data});
+          p.setState({isLoading: false});
+          p.props.actions.getAds(function(dat) {
+
+              p.AdsToPosts(dat)
+
+           })
+        });
       })
 
     } else {
@@ -246,7 +257,8 @@ this.setState({visible:!this.state.visible})
 
   onPostAction(n, item) {
     let p = this;
-    if (n == 0) {
+    //alert(n)
+    if (n == 1) {
       //Edit
       this.setState({myComment: item.text, editing: true, postId: item._id});
     } else {
@@ -498,8 +510,17 @@ this.setState({visible:!this.state.visible})
              share={(id,comment) => {
                this.setState({isLoading:true})
                let p = this;
-               this.props.actions.SharePost(id,comment,function(){
-                p.setState({isLoading:false})
+               this.props.actions.SharePost(id,comment,this.props.redux.Auth.token,function(){
+                p.setState({isLoading:false,showShareModal:false})
+                let item = p.props.navigation.state.params.info;
+
+                p.props.actions.GetPosts(item._id, false,p.props.redux.Auth.token, function(data) {
+                p.setState({data});
+                p.props.actions.getAds(function(dat) {
+               p.AdsToPosts(dat)
+             })
+           });
+
                })
              }}
              addComment={(t) => this.setState({myComment:t})}
@@ -512,7 +533,7 @@ this.setState({visible:!this.state.visible})
           this.state.loggedIn?(
             <View />
           ):(
-            <View style={{padding:30,alignItems: 'center',position:'absolute',width:Dimensions.get("window").width,height:200,backgroundColor:"#4a4a4a",top:Dimensions.get("window").width/2,left:0}} >
+            <View style={{zIndex:20,padding:30,alignItems: 'center',position:'absolute',width:Dimensions.get("window").width,height:200,backgroundColor:"#4a4a4a",top:Dimensions.get("window").width/2,left:0}} >
             <Text style={{color:"#FFF"}}>
               Join the cinemalu community and participate in all conversations !!
             </Text>
@@ -535,6 +556,11 @@ this.setState({visible:!this.state.visible})
 
             </View>
           )
+        }
+        {
+          !this.state.loggedIn?(
+            <View style={{position:'absolute',zIndex:10,top:60,backgroundColor:"rgba(0,0,0,0.5)",width:Dimensions.get("window").width,height:Dimensions.get("window").height+50}}/>
+          ):(<View />)
         }
 
         </MenuProvider>

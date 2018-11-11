@@ -53,7 +53,7 @@ class MainScreen extends Component {
             paddingLeft: 10,
           }}
         >
-        <Touchable onPress={()=>{
+        <Touchable   style={{borderRadius:25,width:50,height:50,justifyContent: 'center',alignItems: 'center'}}   background={Touchable.Ripple('#fff', true)} onPress={()=>{
            this.search.focus()
         }}>
           <Feather size={25} color="#FFF" name="search" />

@@ -525,9 +525,7 @@ export function AddPost(id,formData,token,cb) {
 
 export function EditPost(id,formData,token,cb) {
 	return function (dispatch) {
-		return axios.put('http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' +
-					id,
-					formData,
+		return axios.put('http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/' + id,{text:formData},
 				{
 					headers: {
 						Authorization: 'Bearer ' + token,

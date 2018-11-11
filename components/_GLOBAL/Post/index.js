@@ -42,7 +42,9 @@ class Post extends Component {
       editing:false,
       replies:[],
       youtubeURL:'',
-      marked:false
+      marked:false,
+      replyEditing:false,
+      editingReplyId:''
 
     };
     //console.log(props);
@@ -131,9 +133,12 @@ if(verifiedURL) {
     formData.append('file', this.state.image);
 
 
-    if (this.state.editing) {
-      p.props.actions.EditPost(this.props.item._idd,formData,function() {
+    if (this.state.replyEditing) {
+      p.props.actions.EditPost(this.state.editingReplyId,this.state.myComment2,this.props.redux.Auth.token,function() {
         p.setState({isLoading: false});
+        p.setState({myComment2: ''});
+        p.getReplies()
+
       })
 
     } else {
@@ -252,7 +257,7 @@ if(verifiedURL) {
           </View>
           <View style={{flex: 0.6}}>
             <View style={{height: 50}}>
-              {!this.props.ProfilePage && this.props.item.createdBy._id!==this.props.redux.Auth.loggedInUser._id
+              {!this.props.ProfilePage && this.props.item.createdBy._id==this.props.redux.Auth.loggedInUser._id
                 ? <Menu
                     rendererProps={{placement: 'top'}}
                     skipInstanceCheck
@@ -377,6 +382,10 @@ if(verifiedURL) {
                 this.state.replies.map(item => {
 
                  return <SingleReply
+                    ProfilePage={this.props.ProfilePage}
+                    refresh={()=> {
+                      this.getReplies()}}
+                     onAction={(prev,id) => this.setState({myComment2:prev,replyEditing:true,editingReplyId:id})}
                      marked={item._id == this.props.replyId}
                     liked={item.userLikes.includes(this.props.redux.Auth.loggedInUser._id)}
                     reported={item.userAbuses.includes(

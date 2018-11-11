@@ -15,9 +15,12 @@ export default class Toolbar extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Touchable onPress={() => this.props.nav.pop()}>
+      <View style={{width:50,height:50,borderRadius:25}}>
+      <Touchable   background={Touchable.Ripple('#fff', true)} 
+      style={{width:50,height:50,borderRadius:25,justifyContent: 'center',alignItems: 'center'}} onPress={() => this.props.nav.pop()}>
       <Ionicons size={30} color="#FFF"  name="ios-arrow-back"/>
       </Touchable>
+      </View>
       </View>
     );
   }

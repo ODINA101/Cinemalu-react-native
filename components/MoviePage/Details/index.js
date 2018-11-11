@@ -28,6 +28,7 @@ export default class Details extends Component {
   render() {
     return (
       <View style={styles.container}>
+
       <View
       style={{
         height: 55,
@@ -37,7 +38,7 @@ export default class Details extends Component {
         justifyContent: 'space-between'
       }}
     >
-    <View />
+
     <View />
       <Text style={{color: '#FFF', fontSize: 16, padding: 20}}>
      Cast & Co.
