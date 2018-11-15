@@ -17,7 +17,10 @@ class Notifications extends Component {
      olds:[],
      notViewed:[]
    }
-   this.state.newNots = this.props.nots
+   if(this.props.nots) {
+     this.state.newNots = this.props.nots
+
+   }
   this.getEarlyNots = this.getEarlyNots.bind(this)
   this._refresh = this._refresh.bind(this)
 //this.getEarlyNots()

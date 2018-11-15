@@ -45,7 +45,7 @@ action(n) {
     this.props.onAction(this.props.item.text,this.props.item._id)
   }else{
    this.props.actions.DeletePost(this.props.item._id,this.props.redux.Auth.token,function() {
-     p.props.refresh()
+     pnprops.refresh()
    })
   }
 }
