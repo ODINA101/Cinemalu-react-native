@@ -4,10 +4,13 @@ import MoviePage from './MoviePage';
 import Profile from './Profile';
 import Details from "./MoviePage/Details"
 import Cast from "./MoviePage/Details/Cast"
+import NewHome from "./Newdesign/main"
 export default createStackNavigator(
   {
 
-
+    newDesign: {
+      screen:NewHome
+    },
     Home: {
       screen:HomeScreen,
     },

@@ -23,14 +23,10 @@ export default class MovieTabs extends Component {
   }
 
 
-
-
   render() {
     return (
-
        <View style={{width:200,height:50,backgroundColor:"#F8F8F8",borderRadius:5,flexDirection:"row"}}>
         {
-
           this.state.selected=="key0"?(
        <View style={{flex:1,backgroundColor:"#F5A623",borderBottomLeftRadius:5,borderTopLeftRadius:5,flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
         <Text style={{color:"#FFF"}}>
@@ -45,12 +41,8 @@ export default class MovieTabs extends Component {
         All movies
         </Text>
         </Touchable>
-
-
       )
-
         }
-
         {
           this.state.selected=="key1"?(
             <View style={{flex:1,borderBottomRightRadius:5,borderTopRightRadius:5,flexDirection:"row",alignItems:"center",backgroundColor:"#F5A623",justifyContent:"center"}}>
