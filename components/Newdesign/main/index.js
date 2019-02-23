@@ -11,19 +11,22 @@ import styles from "./index.style"
 import Search from "./search"
 import Reactangle from "./Reactangle"
 import BlogsReactangle from "./BlogsReactangle"
+import LatestReactangle from "./LatestReactangle"
 
 
 export default class newHome  extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={{flex:1}}   >
+        <ScrollView style={{flex:1}}>
         <View style={{height:80}}>
         <Search/>
         </View>
         <Reactangle />
         <View style={{height:50}}/>
         <BlogsReactangle />
+        <View style={{height:50}}/>
+        <LatestReactangle />
 
 
       </ScrollView>
