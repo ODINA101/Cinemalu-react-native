@@ -5,23 +5,11 @@ import {
   View,
   Text,
   StyleSheet,
+  TextInput
 } from 'react-native';
 import Title from "./title"
 import Item from "./item"
 
-class SubTitle extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    return (
-      <View style={{justifyContent:'center',backgroundColor:"#E7A842",height:42}}>
-         <Text style={{fontSize:18,fontWeight:'bold',paddingLeft:22,color:"#000"}}>{this.props.text}</Text>
-     </View>
-
-    )
-  }
-}
 
 
 class LoadMore extends Component {
@@ -50,21 +38,24 @@ export default class Reactangle extends Component {
       }}>
 
        <Title  />
-       <SubTitle text="Upcoming Releases" />
-        <Item followed={true}/>
-        <Item followed={true}/>
-        <Item followed={true}/>
-        <Item followed={false}/>
+       <View style={{paddingLeft:10,paddingRight:10}}>
+       <View style={{borderRadius:4,flexDirection:'row',paddingLeft :8,borderWidth:1,borderColor:"#858585",alignItems: 'center',height:50}}>
+      <TextInput placeholder="Your E-Mail Address" style={{color:"#FFF"}} placeholderTextColor="#858585" />
+     </View>
+     </View>
 
-       <SubTitle text="Released" />
 
-        <Item followed={true}/>
-        <Item followed={true}/>
-        <Item followed={true}/>
-        <Item followed={false}/>
-        <Item followed={true}/>
-        <Item followed={true}/>
-        <Item followed={true}/>
+     <View style={{paddingLeft:10,paddingRight:10,paddingTop:20}}>
+     <View style={{borderRadius:4,flexDirection:'row',justifyContent: 'center',borderWidth:1,borderColor:"#E7A842",alignItems: 'center',height:50}}>
+     <Text style={{color:"#E7A842"}}>Subscribe</Text>
+    </View>
+   </View>
+
+
+<Item />
+
+
+
         <LoadMore />
       </View>
       </View>
