@@ -11,12 +11,13 @@ import {Provider} from "react-redux"
 import {createStore,combineReducers,applyMiddleware} from "redux"
 import Auth from "./components/reducer/Auth"
 import Database from "./components/reducer/Database"
+import nwDatabase from "./components/reducer/nwDatabase"
 import logger from "redux-logger"
 import thunk from "redux-thunk"
 import GlobalFont from 'react-native-global-font'
 
 
-const store = createStore(combineReducers({Auth,Database}),applyMiddleware(logger,thunk))
+const store = createStore(combineReducers({Auth,Database,nwDatabase}),applyMiddleware(logger,thunk))
 
 
 export default class App extends Component {

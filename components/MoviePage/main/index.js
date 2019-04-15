@@ -14,7 +14,7 @@ import BlogsReactangle from "./BlogsReactangle"
 import LatestReactangle from "./LatestReactangle"
 
 
-export default class newHome extends Component {
+export default class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>

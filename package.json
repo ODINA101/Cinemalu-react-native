@@ -45,7 +45,7 @@
     "react-native-textarea": "^1.0.2",
     "react-native-triangle": "https://github.com/Jpoliachik/react-native-triangle",
     "react-native-vector-icons": "^5.0.0",
-    "react-native-view-overflow": "^0.0.3",
+    "react-native-view-overflow": "^0.0.4",
     "react-redux": "^5.0.7",
     "react-select-country-list": "^1.0.7",
     "react-twitter-widgets": "^1.7.1",

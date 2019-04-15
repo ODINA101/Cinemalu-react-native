@@ -8,11 +8,11 @@ import {
   Image,
   ImageBackground
 } from 'react-native';
-import verified from "../../../assets/verified.png"
-import grayheart from "../../../assets/grayheart.png"
-import plus from "../../../assets/plus.png"
-import Comments from "../../../assets/Comments.png"
-import testCover from "../../../assets/testCover.png"
+import verified from "../assets/verified.png"
+import grayheart from "../assets/grayheart.png"
+import plus from "../assets/plus.png"
+import Comments from "../assets/Comments.png"
+import testCover from "../assets/testCover.png"
 import Touchable from 'react-native-platform-touchable';
 
 export default class Item extends Component {

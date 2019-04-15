@@ -8,9 +8,9 @@ import NewHome from "./Newdesign/main"
 export default createStackNavigator(
   {
 
-    newDesign: {
-      screen:NewHome
-    },
+    // newDesign: {
+    //   screen:NewHome
+    // },
     Home: {
       screen:HomeScreen,
     },

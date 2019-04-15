@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import TabNav from './TabNav';
-import MainScreen from './MainScreen';
+import MainScreen from './main';
 import CalendarPage from './CalendarComponents';
 import Account from './Account';
 import MyAccount from './MyAccount';

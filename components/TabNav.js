@@ -69,7 +69,7 @@ unReadNots() {
    })
    //console.log(vwd)
 this.setState({badge:vwd})
-  
+
   }
 }
 
@@ -78,9 +78,7 @@ rend(icon,iconName) {
     if(iconName !== "notifications-none") {
       return(
   <MaterialIcons size={30} color="#9B9B9B" name={iconName}/>
-
     )
-
     }else{
       return(
         <IconBadge
@@ -113,7 +111,7 @@ rend(icon,iconName) {
 
   render() {
     return (
-      <View style={{height:80,padding:10,backgroundColor: "#303030",flexDirection:'row',elevation:5}}>
+      <View style={{height:70,padding:10,backgroundColor: "#303030",flexDirection:'row',elevation:5}}>
  {
      this.state.tabs.map(item => {
        if(Platform.OS == "android") {

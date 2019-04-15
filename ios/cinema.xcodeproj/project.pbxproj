@@ -42,7 +42,6 @@
 		48281619FEF2474497379237 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270DF35486A945C1B3B85134 /* libRNSVG.a */; };
 		2A64A460D595454FB00B11CF /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE210C7CFA442B9A42FC978 /* libRNSVG-tvOS.a */; };
 		C123BDAF06064DB1AD0E63F8 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 068D784A8DD7402A939E4973 /* libRNVectorIcons.a */; };
-		84635E18ED9F4D05BB8F950E /* libRNViewOverflow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2ABC4020B94A86A95DCC62 /* libRNViewOverflow.a */; };
 		88B04364A82C4E4BB030BDA9 /* icomoon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 740164E9CE9C4EB8B6970854 /* icomoon.svg */; };
 		519C694040614F1AA9EE0C0D /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0721231CC7B469E8B850080 /* icomoon.ttf */; };
 		94F87FC33918488EB7CF2D3A /* icomoon.woff in Resources */ = {isa = PBXBuildFile; fileRef = 78FDE8B1F0334E45AA8D9A51 /* icomoon.woff */; };
@@ -392,8 +391,6 @@
 		CAE210C7CFA442B9A42FC978 /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; name = "libRNSVG-tvOS.a"; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		A3A02FCB110C49B29D34E2A2 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; name = "RNVectorIcons.xcodeproj"; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		068D784A8DD7402A939E4973 /* libRNVectorIcons.a */ = {isa = PBXFileReference; name = "libRNVectorIcons.a"; path = "libRNVectorIcons.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		F1E6402F23184CA0A3E207FD /* RNViewOverflow.xcodeproj */ = {isa = PBXFileReference; name = "RNViewOverflow.xcodeproj"; path = "../node_modules/react-native-view-overflow/ios/RNViewOverflow.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		6F2ABC4020B94A86A95DCC62 /* libRNViewOverflow.a */ = {isa = PBXFileReference; name = "libRNViewOverflow.a"; path = "libRNViewOverflow.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		740164E9CE9C4EB8B6970854 /* icomoon.svg */ = {isa = PBXFileReference; name = "icomoon.svg"; path = "../resources/fonts/icomoon.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		A0721231CC7B469E8B850080 /* icomoon.ttf */ = {isa = PBXFileReference; name = "icomoon.ttf"; path = "../resources/fonts/icomoon.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		78FDE8B1F0334E45AA8D9A51 /* icomoon.woff */ = {isa = PBXFileReference; name = "icomoon.woff"; path = "../resources/fonts/icomoon.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
@@ -460,7 +457,6 @@
 				27B1984FEFC64C12A73DC5F7 /* libRNSnackbar.a in Frameworks */,
 				48281619FEF2474497379237 /* libRNSVG.a in Frameworks */,
 				C123BDAF06064DB1AD0E63F8 /* libRNVectorIcons.a in Frameworks */,
-				84635E18ED9F4D05BB8F950E /* libRNViewOverflow.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +648,6 @@
 				EADC3DF3324E4E3991C4CFF5 /* RNSnackbar.xcodeproj */,
 				67BEE6518A604109832C3E59 /* RNSVG.xcodeproj */,
 				A3A02FCB110C49B29D34E2A2 /* RNVectorIcons.xcodeproj */,
-				F1E6402F23184CA0A3E207FD /* RNViewOverflow.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1359,12 +1354,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cinema.app/cinema";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1372,7 +1361,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Debug;
@@ -1394,12 +1382,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cinema.app/cinema";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1407,7 +1389,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Release;
@@ -1434,7 +1415,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Debug;
@@ -1460,7 +1440,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Release;
@@ -1490,12 +1469,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1503,7 +1476,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Debug;
@@ -1533,12 +1505,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1546,7 +1512,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Release;
@@ -1575,12 +1540,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1588,7 +1547,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Debug;
@@ -1617,12 +1575,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1630,7 +1582,6 @@
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
-					"$(SRCROOT)/../node_modules/react-native-view-overflow/ios",
 				);
 			};
 			name = Release;
