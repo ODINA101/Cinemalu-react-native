@@ -28,7 +28,7 @@ export default class Item extends Component {
        </View>
 
        <View style={{flex:5,justifyContent: 'center'}}>
-       <Text style={{color:"#FFF",fontSize:14}}>{this.props.info.shortName}</Text>
+       <Text style={{color:"#FFF",fontSize:14}}>{this.props.info.name}</Text>
        </View>
 
        <View style={{felx:1,justifyContent: 'center',alignItems: 'center',flexDirection: 'row'}}>

@@ -29,6 +29,11 @@ class LoadMore extends Component {
 
 
 export default class Reactangle extends Component {
+  constructor(props) {
+    super(props);
+
+
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -43,16 +48,20 @@ export default class Reactangle extends Component {
       <TextInput placeholder="Your E-Mail Address" style={{color:"#FFF"}} placeholderTextColor="#858585" />
      </View>
      </View>
-
-
      <View style={{paddingLeft:10,paddingRight:10,paddingTop:20}}>
      <View style={{borderRadius:4,flexDirection:'row',justifyContent: 'center',borderWidth:1,borderColor:"#E7A842",alignItems: 'center',height:50}}>
      <Text style={{color:"#E7A842"}}>Subscribe</Text>
     </View>
    </View>
 
+ {
+   this.props.posts.map(item => {
+  return (
+    <Item info={item}/>
+  )
+   })
+ }
 
-<Item />
 
 
 

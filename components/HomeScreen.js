@@ -5,6 +5,7 @@ import MainScreen from './main';
 import CalendarPage from './CalendarComponents';
 import Account from './Account';
 import MyAccount from './MyAccount';
+import Blogs from './Blogs';
 import Notifications from "./Notifications"
 import {connect} from 'react-redux';
 import * as Actions from './Actions';
@@ -19,7 +20,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      page: 'Movies',
+      page: 'Blogs',
       loggedIn:false,
       notifications:[],
       notRead:0,
@@ -39,7 +40,6 @@ class HomeScreen extends Component {
         p.setState({loggedIn:true})
         p.props.actions.getProfileData(p.props.redux.Auth.token)
         setInterval(()=>{
-
           p.props.actions.getNotifications(p.props.redux.Auth.token,function(notdata,err) {
             //alert(notdata[0])
             if(err) {
@@ -75,6 +75,8 @@ class HomeScreen extends Component {
          }} loggedIn={this.state.loggedIn} nav={this.props.navigation} />;
       case 'Calendar':
         return <CalendarPage nav={this.props.navigation} />;
+      case 'Blogs':
+        return <Blogs nav={this.props.navigation} />;
       case 'Notification':
         return <Notifications onRef={(ref)=> this.notComp = ref} nots={this.state.notifications} nav={this.props.navigation}/>
       case 'Account':

@@ -10,7 +10,7 @@ import MaterialCommunityIcons
   from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import IconBadge from 'react-native-icon-badge';
-
+import Ionicons from "react-native-vector-icons/Ionicons"
 console.disableYellowBox = true;
 
 
@@ -33,6 +33,11 @@ constructor(props) {
         iconName:"calendar-today"
       },
 
+      {
+        name:'Blogs',
+        icon:"Ionicons",
+        iconName:"ios-chatboxes"
+      },
 
       {
         name:'Notification',
@@ -102,10 +107,19 @@ rend(icon,iconName) {
 )
     }
   }else{
+    if(icon !== "Ionicons") {
+
   return(
     <MaterialCommunityIcons size={30} color="#9B9B9B" name={iconName}/>
 
   )
+}else{
+  return(
+  <Ionicons size={30} color="#9B9B9B" name={iconName}/>
+
+)
+
+}
 }
 }
 

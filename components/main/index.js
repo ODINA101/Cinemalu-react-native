@@ -21,11 +21,8 @@ class MainScreen extends Component {
     super(props)
 
 
-this.props.actions.getTrendingMovies(()=> {
-
-})
-
-
+this.props.actions.getTrendingMovies()
+this.props.actions.getBlogPosts()
 
   }
   render() {
@@ -37,7 +34,7 @@ this.props.actions.getTrendingMovies(()=> {
         </View>
         <Reactangle upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
         <View style={{height:50}}/>
-        <BlogsReactangle />
+        <BlogsReactangle posts={this.props.redux.nwDatabase.blogPosts} />
         <View style={{height:50}}/>
         <LatestReactangle />
       </ScrollView>

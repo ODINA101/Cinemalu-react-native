@@ -18,6 +18,26 @@ import Touchable from 'react-native-platform-touchable';
 export default class Item extends Component {
   constructor(props) {
     super(props)
+ this.state = {
+   date:""
+ }
+    date = new Date(this.props.info.created);
+year = date.getFullYear();
+month = date.getMonth()+1;
+dt = date.getDate();
+
+if (dt < 10) {
+  dt = '0' + dt;
+}
+if (month < 10) {
+  month = '0' + month;
+}
+
+
+this.state.date = year+'.' + month + '.'+dt;
+
+
+
   }
   render() {
     return (
@@ -32,14 +52,14 @@ export default class Item extends Component {
         <Text style={{paddingLeft:8,color:"#BABABA",fontSize:12,fontFamily:"Lato",fontWeight:"bold"}}>Opinions: 81</Text>
           </View>
           <View style={{paddingLeft:10}}>
-               <Text style={{color:"#BABABA",fontSize:12,fontFamily:"Lato",fontWeight:"bold"}}>Thugs of Hindostan movie review..</Text>
+               <Text style={{color:"#BABABA",fontSize:12,fontFamily:"Lato",fontWeight:"bold"}}>{this.props.info.title}</Text>
           </View>
           <View style={{padding:10}}>
           <View style={{color:"#BABABA",width:17,height:0,borderWidth:1,borderColor:"#D2D2D2"}}/>
           </View>
         </View>
          <View style={{flex:1,paddingLeft:10,paddingRight:10}}>
-         <Text style={{color:"#AEABAB",fontSize:10,fontFamily:"Lato",fontWeight:"bold"}}>Posted by -  11.10.2018 by Andy Bernard</Text>
+         <Text style={{color:"#AEABAB",fontSize:10,fontFamily:"Lato",fontWeight:"bold"}}>Posted by -  {this.state.date} by {this.props.info.author.displayName}</Text>
 
            <Touchable style={{marginTop:10, height:40,justifyContent: 'center',alignItems: 'center',borderWidth:1,borderColor:"#AEABAB",borderRadius:4}}>
                  <Text style={{color:"#AEABAB"}}>READ MORE</Text>
