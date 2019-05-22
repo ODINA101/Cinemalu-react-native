@@ -11,6 +11,7 @@ import verified from "../assets/verified.png"
 import grayheart from "../assets/grayheart.png"
 import plus from "../assets/plus.png"
 import Comments from "../assets/Comments.png"
+import PlatformTouchable from 'react-native-platform-touchable';
 export default class Item extends Component {
   constructor(props) {
     super(props)
@@ -27,9 +28,11 @@ export default class Item extends Component {
        <Image source={this.props.followed?(verified):(plus)} style={{resizeMode:"contain",width:30}}/>
        </View>
 
-       <View style={{flex:5,justifyContent: 'center'}}>
+       <PlatformTouchable onPress={() => {
+           this.props.nav.push("MoviePage",{info:this.props.info,followed:false })
+       }} style={{flex:5,justifyContent: 'center'}}>
        <Text style={{color:"#FFF",fontSize:14}}>{this.props.info.name}</Text>
-       </View>
+       </PlatformTouchable>
 
        <View style={{felx:1,justifyContent: 'center',alignItems: 'center',flexDirection: 'row'}}>
        <Image source={grayheart} style={{resizeMode:"contain",width:15}}/>

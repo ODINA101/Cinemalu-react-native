@@ -21,7 +21,9 @@ export default class Item extends Component {
  this.state = {
    date:""
  }
-    date = new Date(this.props.info.created);
+
+
+date = new Date(this.props.info.created);
 year = date.getFullYear();
 month = date.getMonth()+1;
 dt = date.getDate();
@@ -60,11 +62,11 @@ this.state.date = year+'.' + month + '.'+dt;
         </View>
          <View style={{flex:1,paddingLeft:10,paddingRight:10}}>
          <Text style={{color:"#AEABAB",fontSize:10,fontFamily:"Lato",fontWeight:"bold"}}>Posted by -  {this.state.date} by {this.props.info.author.displayName}</Text>
-
-           <Touchable style={{marginTop:10, height:40,justifyContent: 'center',alignItems: 'center',borderWidth:1,borderColor:"#AEABAB",borderRadius:4}}>
+           <Touchable onPress={() => {
+             this.props.nav.push("SingleBlog",{info:this.props.info,date:this.state.date})
+           }} style={{marginTop:10, height:40,justifyContent: 'center',alignItems: 'center',borderWidth:1,borderColor:"#AEABAB",borderRadius:4}}>
                  <Text style={{color:"#AEABAB"}}>READ MORE</Text>
            </Touchable>
-
         </View>
         </View>
         </View>

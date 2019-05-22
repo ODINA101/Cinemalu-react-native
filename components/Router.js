@@ -5,14 +5,17 @@ import Profile from './Profile';
 import Details from "./MoviePage/Details"
 import Cast from "./MoviePage/Details/Cast"
 import NewHome from "./Newdesign/main"
+import SingleBlog from "./SingleBlog"
+
+
+
 export default createStackNavigator(
   {
-
-    // newDesign: {
-    //   screen:NewHome
-    // },
-    Home: {
+      Home: {
       screen:HomeScreen,
+    },
+  SingleBlog: {
+       screen:SingleBlog
     },
     MovieDetails:{
       screen:Details

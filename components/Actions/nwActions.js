@@ -1,6 +1,7 @@
 import {TEST,
 GET_TRENDING_MOVIES,
-GET_BLOG_POSTS
+GET_BLOG_POSTS,
+GET_FEATURED_DATA
 } from "../Constants"
 import axios from 'axios';
 
@@ -18,6 +19,22 @@ export function getTrendingMovies() {
 
 	}
 }
+
+export function getFeaturedData(cb) {
+	return function (dispatch) {
+	axios.get(" http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/blog/load/featured-data")
+        .then((res) => {
+					console.log(res)
+					dispatch({type:GET_FEATURED_DATA,payload:res.data})
+					cb()
+        })
+        .catch((err) => {
+					alert(err)
+        })
+
+	}
+}
+
 
 
 

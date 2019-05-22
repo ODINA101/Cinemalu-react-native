@@ -23,6 +23,7 @@ class MainScreen extends Component {
 
 this.props.actions.getTrendingMovies()
 this.props.actions.getBlogPosts()
+this.props.actions.getFeaturedData(() => {})
 
   }
   render() {
@@ -32,9 +33,9 @@ this.props.actions.getBlogPosts()
         <View style={{height:80}}>
         <Search/>
         </View>
-        <Reactangle upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
+        <Reactangle nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
         <View style={{height:50}}/>
-        <BlogsReactangle posts={this.props.redux.nwDatabase.blogPosts} />
+        <BlogsReactangle nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
         <View style={{height:50}}/>
         <LatestReactangle />
       </ScrollView>

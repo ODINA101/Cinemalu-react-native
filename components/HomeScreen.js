@@ -20,7 +20,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      page: 'Blogs',
+      page: 'Movies',
       loggedIn:false,
       notifications:[],
       notRead:0,

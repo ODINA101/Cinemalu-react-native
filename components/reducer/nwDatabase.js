@@ -1,9 +1,10 @@
-import {TEST,GET_TRENDING_MOVIES,GET_BLOG_POSTS} from "../Constants"
+import {TEST,GET_TRENDING_MOVIES,GET_BLOG_POSTS,GET_FEATURED_DATA} from "../Constants"
 
 const InitialState = {
  upcomingMovies:[],
  releasedMovies:[],
- blogPosts:[]
+ blogPosts:[],
+ featuredData:{}
 
 }
 
@@ -12,7 +13,11 @@ const InitialState = {
 export default (state=InitialState,action) => {
   console.log(action)
  switch (action.type) {
-
+ case GET_FEATURED_DATA:
+    return {
+      ...state,
+      featuredData:action.payload
+    }
  case GET_TRENDING_MOVIES:
    return {
      ...state,
