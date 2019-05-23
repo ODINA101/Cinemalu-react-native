@@ -57,7 +57,6 @@ export default class Details extends Component {
           this.state.ActiveTab=="Reviews"?(<Review info={this.props.navigation.state.params.info.reviews}/>):(<View />)
     }
 
-
     {
           this.state.ActiveTab=="Awards"?(<Awards info={{}}/>):(<View />)
         }

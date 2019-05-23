@@ -11,6 +11,7 @@ import verified from "../assets/verified.png"
 import grayheart from "../assets/grayheart.png"
 import testUser from "../assets/testUser.png"
 import Comments from "../assets/Comments.png"
+import ProfilePic from "../../_GLOBAL/profilePic"
 export default class Item extends Component {
   constructor(props) {
     super(props)
@@ -19,19 +20,22 @@ export default class Item extends Component {
     return (
       <View style={{
         paddingLeft:20,
-        paddingRight:20
+        paddingRight:20,
+        marginTop:10
       }}>
       <View style={styles.container}>
 
       <View style={{flexDirection: 'row'}}>
-     <Image source={testUser} style={{width:34,height:34}}/>
+
+     <ProfilePic  item={this.props.item} style={{width:34,height:34}}/>
+
      <Text style={{color:"#787777",paddingLeft:10,fontSize:14,fontWeight:"bold",fontFamily:"Lato"}}>In</Text>
-     <Text style={{color:"#B9B9B9",fontSize:14,paddingLeft:4,fontWeight:"bold",fontFamily:"Lato"}}>BIG BOSS</Text>
+     <Text style={{color:"#B9B9B9",fontSize:14,paddingLeft:4,fontWeight:"bold",fontFamily:"Lato"}}>{this.props.item.movie.name}</Text>
      </View>
      <View style={{paddingLeft:44}}>
-     <Text style={{color:"#B9B9B9",fontSize:14,fontWeight:"bold",fontFamily:"Lato"}}>John Doe</Text>
+     <Text style={{color:"#B9B9B9",fontSize:14,fontWeight:"bold",fontFamily:"Lato"}}>{this.props.item.createdBy.firstName + " " + this.props.item.createdBy.lastName}</Text>
      <Text style={{color:"#B9B9B9",fontSize:14,fontFamily:"Lato"}}>
-    Meanwhile, they have lost their customer who is now buying Third Love and Aeire. Still running the "angels" campaign in MeToo era.
+     {this.props.item.text}
      </Text>
      <View style={{flexDirection: 'row',alignItems: 'center'}}>
      <Image source={Comments} style={{resizeMode:"contain",width:15}}/>

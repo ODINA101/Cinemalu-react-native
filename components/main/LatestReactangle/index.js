@@ -41,6 +41,9 @@ class LoadMore extends Component {
 
 
 export default class Reactangle extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -50,7 +53,13 @@ export default class Reactangle extends Component {
       }}>
 
        <Title  />
-        <Item />
+       {
+         this.props.data.map(item => {
+           return (
+              <Item item={item} />
+           )
+         })
+       }
         <LoadMore />
       </View>
       </View>

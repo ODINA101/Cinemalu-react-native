@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import {connect} from 'react-redux';
 import Touchable from 'react-native-platform-touchable';
@@ -20,8 +21,7 @@ import In from "../assets/In.png"
 import leftSide from "../assets/left.png"
 import  * as Actions  from "../Actions/nwActions"
 import {bindActionCreators} from 'redux';
-
-
+ import HTML from 'react-native-render-html';
 
   class SingleBlog extends Component {
     constructor(props) {
@@ -89,8 +89,7 @@ import {bindActionCreators} from 'redux';
 
 
 
-
-<Text style={{fontSize:30,color:"#FFF"}}>I couldn’t bealive with my own eyes</Text>
+           <HTML html={info.content} imagesMaxWidth={Dimensions.get('window').width} />
 
 
       </ScrollView>

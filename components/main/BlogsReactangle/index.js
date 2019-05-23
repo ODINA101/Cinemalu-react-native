@@ -57,7 +57,7 @@ export default class Reactangle extends Component {
  {
    this.props.posts.map(item => {
   return (
-    <Item  nav={this.props.nav} info={item}/>
+    <Item  gotoLoginPage={() => {this.props.gotoLoginPage() }} gotoRegPage={()=> {this.props.gotoRegPage()}} nav={this.props.nav} info={item}/>
   )
    })
  }

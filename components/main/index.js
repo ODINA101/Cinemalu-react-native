@@ -23,6 +23,8 @@ class MainScreen extends Component {
 
 this.props.actions.getTrendingMovies()
 this.props.actions.getBlogPosts()
+this.props.actions.getTrendingPosts()
+
 this.props.actions.getFeaturedData(() => {})
 
   }
@@ -33,11 +35,11 @@ this.props.actions.getFeaturedData(() => {})
         <View style={{height:80}}>
         <Search/>
         </View>
-        <Reactangle nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
+        <Reactangle  gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
         <View style={{height:50}}/>
-        <BlogsReactangle nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
+        <BlogsReactangle gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}} nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
         <View style={{height:50}}/>
-        <LatestReactangle />
+        <LatestReactangle data={this.props.redux.nwDatabase.trendingPosts} />
       </ScrollView>
       </View>
     );

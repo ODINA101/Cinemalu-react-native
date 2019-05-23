@@ -4,6 +4,9 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 
 export default class ProfilePic extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     if(this.props.item.createdBy) {
     if (this.props.item.createdBy.profilePictureUrl) {

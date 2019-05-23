@@ -84,7 +84,7 @@ import {bindActionCreators} from 'redux';
               <DropMe  value="List of Blog posts" data={this.props.featuredData.featuredBlog}/>
 
          <Text style={{fontSize:25,color:"#FFF",marginTop:15}}>Latest Blog Posts</Text>
-          <BlogsReactangle posts={this.props.blogs} />
+          <BlogsReactangle nav={this.props.nav} posts={this.props.blogs} />
           </View>
         ):(
 

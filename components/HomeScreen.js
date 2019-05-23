@@ -76,7 +76,7 @@ class HomeScreen extends Component {
       case 'Calendar':
         return <CalendarPage nav={this.props.navigation} />;
       case 'Blogs':
-        return <Blogs nav={this.props.navigation} />;
+        return <Blogs nav={this.props.navigation}  />;
       case 'Notification':
         return <Notifications onRef={(ref)=> this.notComp = ref} nots={this.state.notifications} nav={this.props.navigation}/>
       case 'Account':

@@ -426,6 +426,7 @@ this.setState({visible:!this.state.visible})
              ):(<View />)
            }
             {this.state.data.map(item => {
+              if(item) {
               if(!item.displayDevice) {
              return (
              <View  onLayout={(event) =>{
@@ -471,6 +472,10 @@ this.setState({visible:!this.state.visible})
              <Ad item={item} />
            )
          }
+}
+
+
+
          })}
 
          {this.state.data == []

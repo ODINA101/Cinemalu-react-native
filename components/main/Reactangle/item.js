@@ -29,7 +29,7 @@ export default class Item extends Component {
        </View>
 
        <PlatformTouchable onPress={() => {
-           this.props.nav.push("MoviePage",{info:this.props.info,followed:false })
+           this.props.nav.push("MoviePage",{info:this.props.info,followed:false,gotoRegPage:this.props.gotoRegPage,gotoLoginPage:this.props.gotoLoginPage })
        }} style={{flex:5,justifyContent: 'center'}}>
        <Text style={{color:"#FFF",fontSize:14}}>{this.props.info.name}</Text>
        </PlatformTouchable>

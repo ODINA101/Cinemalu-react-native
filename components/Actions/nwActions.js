@@ -1,9 +1,28 @@
 import {TEST,
 GET_TRENDING_MOVIES,
+GET_TRENDING_POSTS,
 GET_BLOG_POSTS,
 GET_FEATURED_DATA
 } from "../Constants"
 import axios from 'axios';
+
+
+
+
+export function getTrendingPosts() {
+	return function (dispatch) {
+	axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/load/trending-posts/0/10")
+        .then((res) => {
+					console.log(res)
+					dispatch({type:GET_TRENDING_POSTS,payload:res.data})
+        })
+        .catch((err) => {
+					alert(err)
+        })
+
+	}
+}
+
 
 
 export function getTrendingMovies() {
