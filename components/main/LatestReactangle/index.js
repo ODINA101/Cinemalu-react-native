@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Title from "./title"
 import Item from "./item"
-
+import PlatformTouchable from 'react-native-platform-touchable';
 class SubTitle extends Component {
   constructor(props) {
     super(props)
@@ -30,9 +30,9 @@ class LoadMore extends Component {
   }
   render() {
     return (
-      <View style={{justifyContent:'center',alignItems: 'center',height:50}}>
+      <PlatformTouchable onPress={() => this.props.onPress()} style={{justifyContent:'center',alignItems: 'center',height:50}}>
          <Text style={{fontSize:14,fontWeight:'bold', color:"#E7A842"}}>Load More</Text>
-     </View>
+     </PlatformTouchable>
 
     )
   }
@@ -43,6 +43,9 @@ class LoadMore extends Component {
 export default class Reactangle extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      visible:true
+    }
   }
   render() {
     return (
@@ -52,7 +55,10 @@ export default class Reactangle extends Component {
         borderRadius:4,
       }}>
 
-       <Title  />
+       <Title toggle={() => {this.setState({visible:!this.state.visible})}}  />
+       {
+         this.state.visible?(
+       <View>
        {
          this.props.data.map(item => {
            return (
@@ -60,7 +66,13 @@ export default class Reactangle extends Component {
            )
          })
        }
-        <LoadMore />
+        <LoadMore onPress={() => this.props.onLoadMore()}/>
+        </View>
+         ):(<View />)
+       }
+
+
+
       </View>
       </View>
     );

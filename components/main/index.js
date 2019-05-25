@@ -20,15 +20,17 @@ class MainScreen extends Component {
   constructor(props) {
     super(props)
 
-
+this.state = {
+  blogsY:2,
+  postsY:3
+}
 this.props.actions.getTrendingMovies()
-this.props.actions.getBlogPosts()
-this.props.actions.getTrendingPosts()
-
+this.props.actions.getBlogPosts(this.state.blogsY)
+this.props.actions.getTrendingPosts(this.state.postsY)
 this.props.actions.getFeaturedData(() => {})
 
   }
-  render() {
+  render()  {
     return (
       <View style={styles.container}>
         <ScrollView style={{flex:1}}>
@@ -37,9 +39,23 @@ this.props.actions.getFeaturedData(() => {})
         </View>
         <Reactangle  gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
         <View style={{height:50}}/>
-        <BlogsReactangle gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}} nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
+        <BlogsReactangle
+        onLoadMore={() => {
+          this.setState({blogsY:this.state.blogsY + 2},() => {
+            this.props.actions.getBlogPosts(this.state.blogsY)
+          });
+
+        }}
+        gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}} nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
         <View style={{height:50}}/>
-        <LatestReactangle data={this.props.redux.nwDatabase.trendingPosts} />
+        <LatestReactangle
+
+        onLoadMore={() => {
+          this.setState({postsY:this.state.postsY + 2},() => {
+            this.props.actions.getTrendingPosts(this.state.postsY)
+          });
+        }}
+        data={this.props.redux.nwDatabase.trendingPosts} />
       </ScrollView>
       </View>
     );

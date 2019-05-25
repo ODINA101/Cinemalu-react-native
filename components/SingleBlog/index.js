@@ -22,6 +22,7 @@ import leftSide from "../assets/left.png"
 import  * as Actions  from "../Actions/nwActions"
 import {bindActionCreators} from 'redux';
  import HTML from 'react-native-render-html';
+import PlatformTouchable from 'react-native-platform-touchable';
 
   class SingleBlog extends Component {
     constructor(props) {
@@ -41,8 +42,10 @@ import {bindActionCreators} from 'redux';
 
 <View style={{height:100,justifyContent: 'center',alignItems:'center' }}>
 <View style={{flexDirection: 'row',alignItems: 'center'}}>
+<PlatformTouchable style={{width:50,height:50,justifyContent:'center',alignItems:'center'}} onPress={() => this.props.navigation.pop()}>
       <Image source={leftSide} style={{resizeMode:"contain",width:15}}/>
-      <Text style={{color:"#E7A842",marginLeft:15}}>Thugs of Hindostan</Text>
+      </PlatformTouchable>
+      <Text style={{color:"#E7A842",marginLeft:5}}>Thugs of Hindostan</Text>
  </View>
 </View>
 <View style={{paddingHorizontal:20}}>

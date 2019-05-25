@@ -9,9 +9,9 @@ import axios from 'axios';
 
 
 
-export function getTrendingPosts() {
+export function getTrendingPosts(y) {
 	return function (dispatch) {
-	axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/load/trending-posts/0/10")
+	axios.post("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/posts/load/trending-posts/0/" + y)
         .then((res) => {
 					console.log(res)
 					dispatch({type:GET_TRENDING_POSTS,payload:res.data})
@@ -58,9 +58,9 @@ export function getFeaturedData(cb) {
 
 
 
-export function getBlogPosts() {
+export function getBlogPosts(y) {
 	return function (dispatch) {
-	axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/blog/load/0/9")
+	axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/blog/load/0/" + y)
         .then((res) => {
 					console.log(res)
 					dispatch({type:GET_BLOG_POSTS,payload:res.data})

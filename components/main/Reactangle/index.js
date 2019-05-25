@@ -43,6 +43,9 @@ class LoadMore extends Component {
 export default class Reactangle extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      visible:true
+    }
   }
   render() {
     return (
@@ -52,7 +55,11 @@ export default class Reactangle extends Component {
         borderRadius:4,
       }}>
 
-       <Title  />
+       <Title toggle={() => {this.setState({visible:!this.state.visible})}} />
+
+       {
+         this.state.visible?(
+<View>
        <SubTitle text="Upcoming Releases" />
             {
               this.props.upcomingMovies.map(item => {
@@ -69,7 +76,13 @@ export default class Reactangle extends Component {
                 )
               })
             }
+
+
         <LoadMore />
+        </View>
+
+         ):(<View />)
+       }
       </View>
       </View>
     );

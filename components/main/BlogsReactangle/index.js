@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Title from "./title"
 import Item from "./item"
-
+import PlatformTouchable from 'react-native-platform-touchable';
 
 
 class LoadMore extends Component {
@@ -18,9 +18,9 @@ class LoadMore extends Component {
   }
   render() {
     return (
-      <View style={{justifyContent:'center',alignItems: 'center',height:50}}>
+      <PlatformTouchable onPress={() => this.props.loadMore()} style={{justifyContent:'center',alignItems: 'center',height:50}}>
          <Text style={{fontSize:14,fontWeight:'bold', color:"#E7A842"}}>Load More</Text>
-     </View>
+     </PlatformTouchable>
 
     )
   }
@@ -32,6 +32,9 @@ export default class Reactangle extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      visible:true
+    }
 
   }
   render() {
@@ -42,7 +45,7 @@ export default class Reactangle extends Component {
         borderRadius:4,
       }}>
 
-       <Title  />
+       <Title  toggle={() => {this.setState({visible:!this.state.visible})}} />
        <View style={{paddingLeft:10,paddingRight:10}}>
        <View style={{borderRadius:4,flexDirection:'row',paddingLeft :8,borderWidth:1,borderColor:"#858585",alignItems: 'center',height:50}}>
       <TextInput placeholder="Your E-Mail Address" style={{color:"#FFF"}} placeholderTextColor="#858585" />
@@ -54,6 +57,10 @@ export default class Reactangle extends Component {
     </View>
    </View>
 
+{
+  this.state.visible?(
+
+ <View>
  {
    this.props.posts.map(item => {
   return (
@@ -62,10 +69,11 @@ export default class Reactangle extends Component {
    })
  }
 
+        <LoadMore loadMore={() => this.props.onLoadMore()} />
 
-
-
-        <LoadMore />
+    </View>
+  ):(<View />)
+}
       </View>
       </View>
     );
