@@ -37,7 +37,9 @@ this.props.actions.getFeaturedData(() => {})
         <View style={{height:80}}>
         <Search/>
         </View>
-        <Reactangle  gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
+        <Reactangle
+        MovieFollow={(itemid,data) => this.props.actions.MovieFollow(itemid, data,this.props.redux.Auth.token)}
+        gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  nav={this.props.nav} upcomingMovies={this.props.redux.nwDatabase.upcomingMovies} releasedMovies={this.props.redux.nwDatabase.releasedMovies}/>
         <View style={{height:50}}/>
         <BlogsReactangle
         onLoadMore={() => {
@@ -49,7 +51,6 @@ this.props.actions.getFeaturedData(() => {})
         gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}} nav={this.props.nav} posts={this.props.redux.nwDatabase.blogPosts} />
         <View style={{height:50}}/>
         <LatestReactangle
-
         onLoadMore={() => {
           this.setState({postsY:this.state.postsY + 2},() => {
             this.props.actions.getTrendingPosts(this.state.postsY)

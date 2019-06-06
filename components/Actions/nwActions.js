@@ -23,8 +23,6 @@ export function getTrendingPosts(y) {
 	}
 }
 
-
-
 export function getTrendingMovies() {
 	return function (dispatch) {
 	axios.get("http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/load/trending-movies")
@@ -38,6 +36,36 @@ export function getTrendingMovies() {
 
 	}
 }
+
+
+export function MovieFollow(MovieId, followed,token) {
+  console.log(MovieId);
+	console.log(followed);
+	console.log(token)
+  return function(dispatch) {
+    return axios
+      .put(
+        'http://cinemaluapi-test.us-east-1.elasticbeanstalk.com/api/movies/interested/' +
+          MovieId,
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' +
+              token,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+	      getTrendingMovies()
+
+      })
+      .catch(error => alert(error.response));
+  };
+}
+
+
+
 
 export function getFeaturedData(cb) {
 	return function (dispatch) {

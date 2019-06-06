@@ -49,11 +49,11 @@ import Touchable from "react-native-platform-touchable"
            <Touchable onPress={() => {
                if(this.state.loggedIn) {
                  this.props.onFollow(this.props.item.followedByCurrentUser)
-   this.setState({followed:!this.state.followed})
+                 this.setState({followed:!this.state.followed})
 
- }else{
-   alert("your aren" + "'" + "t logged In!")
- }
+               }else{
+                   alert("your aren" + "'" + "t logged In!")
+                       }
            }}>
            {
              this.state.followed?(

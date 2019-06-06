@@ -12,9 +12,24 @@ import grayheart from "../assets/grayheart.png"
 import plus from "../assets/plus.png"
 import Comments from "../assets/Comments.png"
 import PlatformTouchable from 'react-native-platform-touchable';
-export default class Item extends Component {
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as Actions from '../../Actions';
+
+
+
+class Item extends Component {
   constructor(props) {
     super(props)
+    console.log(props.info)
+
+    this.state = {
+       followed:props.info.followedByCurrentUser,
+       loggedIn:props.redux.Auth.loggedInUser?(true):(false)
+    }
+    console.log(props.info)
+    //alert(this.state.loggedIn)
   }
   render() {
     return (
@@ -25,7 +40,25 @@ export default class Item extends Component {
       }}>
       <View style={styles.container}>
        <View style={{flex:1,justifyContent: 'center'}}>
-       <Image source={this.props.followed?(verified):(plus)} style={{resizeMode:"contain",width:30}}/>
+     {
+         typeof(this.props.info.followedByCurrentUser)==undefined?(<View />):(
+       <PlatformTouchable onPress={() => {
+           if(this.state.loggedIn) {
+             this.props.onFollow(false)
+             this.setState({followed:!this.state.followed})
+           }else{
+               alert("your aren`t logged In!")
+                   }
+       }}>
+       <Image source={this.state.followed?(verified):(plus)} style={{resizeMode:"contain",width:30}}/>
+       </PlatformTouchable>
+)
+
+}
+
+
+
+
        </View>
 
        <PlatformTouchable onPress={() => {
@@ -58,3 +91,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+
+function mapStateToProps(state) {
+  return {
+    redux: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

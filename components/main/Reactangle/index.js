@@ -64,7 +64,7 @@ export default class Reactangle extends Component {
             {
               this.props.upcomingMovies.map(item => {
                 return (
-           <Item   gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  info={item} nav={this.props.nav} followed={false}/>
+           <Item  gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  info={item} nav={this.props.nav} followed={false}/>
                 )
               })
             }
@@ -72,7 +72,11 @@ export default class Reactangle extends Component {
             {
               this.props.releasedMovies.map(item => {
                 return (
-        <Item  gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  info={item} nav={this.props.nav} followed={false}/>
+        <Item
+        onFollow={data =>  {
+           //alert(data);
+          this.props.MovieFollow(item._id, data) }}
+        gotoLoginPage={() => {this.props.gotoLoginPage()}} gotoRegPage={() => {this.props.gotoRegPage()}}  info={item} nav={this.props.nav} followed={false}/>
                 )
               })
             }
